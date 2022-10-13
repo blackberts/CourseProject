@@ -48,6 +48,17 @@ namespace CourseProject.Application.Service
                                 Result = true
                             };
                         }
+                        if (existingUser.Status == "Active")
+                        {
+                            existingUser.Status = "Unactive";
+
+                            await _userManager.UpdateAsync(existingUser);
+                            return new AuthResult()
+                            {
+                                Result = false,
+                                Error = "You are already active, please login one more time"
+                            };
+                        }
                         if(existingUser.Status == "Banned")
                         {
                             return new AuthResult()
@@ -76,7 +87,7 @@ namespace CourseProject.Application.Service
             };
         }
 
-        public async void LogOut()
+        public async Task<AuthResult> LogOut()
         {
             var activeUser = await _context.Users.Where(x => x.Status == "Active").ToListAsync(); // error
 
@@ -87,6 +98,10 @@ namespace CourseProject.Application.Service
             }
 
             await _signInManager.SignOutAsync();
+            return new AuthResult()
+            {
+                Result = true
+            };
         }
 
         public async Task<AuthResult> Register(UserRegisterDto registerRequest)
@@ -105,14 +120,23 @@ namespace CourseProject.Application.Service
             {
                 UserName = registerRequest.UserName,
                 Email = registerRequest.Email,
-                Created_At = DateTime.Now,
+                Created_At = DateTime.UtcNow,
                 Status = "Unactive"
             };
-            await _userManager.CreateAsync(newUser, registerRequest.Password);
+            var newUserResponse = await _userManager.CreateAsync(newUser, registerRequest.Password);
+
+            if (newUserResponse.Succeeded)
+            {
+                return new AuthResult()
+                {
+                    Result = true
+                };
+            }
 
             return new AuthResult()
             {
-                Result = true
+                Result = false,
+                Error = "Something wrong"
             };
         }
     }

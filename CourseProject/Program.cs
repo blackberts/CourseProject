@@ -6,6 +6,7 @@ using MediatR;
 using CourseProject.Application.Service;
 using CourseProject.DataContext.Repositories;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using CourseProject.Application.CQRS.Commands;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,6 +20,7 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFramework
 
 // add DI
 builder.Services.AddTransient<IAuthRepository, AuthRepository>();
+builder.Services.AddTransient<IUsersRepository, UsersRepository>();
 
 // add AutoMapper
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());

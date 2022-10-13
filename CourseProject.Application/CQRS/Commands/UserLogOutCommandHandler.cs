@@ -1,4 +1,5 @@
 ﻿using CourseProject.DataContext.Repositories;
+using CourseProject.Domain.Entities;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace CourseProject.Application.CQRS.Commands
 {
-    public class UserLogOutCommandHandler : IRequestHandler<UserLogOutCommand>
+    public class UserLogOutCommandHandler : IRequestHandler<UserLogOutCommand, AuthResult>
     {
         private readonly IAuthRepository _IAuth;
 
@@ -17,10 +18,10 @@ namespace CourseProject.Application.CQRS.Commands
             _IAuth = iAuth;
         }
 
-        public Task<Unit> Handle(UserLogOutCommand request, CancellationToken cancellationToken)
+        public async Task<AuthResult> Handle(UserLogOutCommand request, CancellationToken cancellationToken)
         {
-            _IAuth.LogOut();
-            return Task.FromResult(Unit.Value);
+            var logoutUser = await _IAuth.LogOut();
+            return logoutUser;
         }
     }
 }

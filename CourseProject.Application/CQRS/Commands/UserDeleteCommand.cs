@@ -8,7 +8,8 @@ using System.Threading.Tasks;
 
 namespace CourseProject.Application.CQRS.Commands
 {
-    public class UserLogOutCommand : IRequest<AuthResult>
+    public class UserDeleteCommand : IRequest<AuthResult>
     {
+        public string? Id { get; set; }
     }
 }
