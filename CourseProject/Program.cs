@@ -8,15 +8,29 @@ using CourseProject.DataContext.Repositories;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using CourseProject.Application.CQRS.Commands;
 
-var builder = WebApplication.CreateBuilder(args);
+var webApplication = WebApplication.CreateBuilder(args);
+
+// add identitybuilder and configure password settings
+IdentityBuilder builder = webApplication.Services.AddIdentity<ApplicationUser, IdentityRole>(opt =>
+{
+    opt.Password.RequireDigit = false;
+    opt.Password.RequireLowercase = false;
+    opt.Password.RequireNonAlphanumeric = false;
+    opt.Password.RequireUppercase = false;
+    opt.Password.RequiredLength = 4;
+});
+
+// add identity settings
+builder = new IdentityBuilder(builder.UserType, typeof(IdentityRole), builder.Services);
+builder.AddEntityFrameworkStores<ApplicationDbContext>();
+builder.AddRoleManager<RoleManager<IdentityRole>>();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-// add database + identity
+// add database
 AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
-builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
-builder.Services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>();
+builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseNpgsql(webApplication.Configuration.GetConnectionString("DefaultConnection")));
 
 // add DI
 builder.Services.AddTransient<IAuthRepository, AuthRepository>();
@@ -34,7 +48,7 @@ builder.Services.AddAuthentication(options => options.DefaultScheme = CookieAuth
 builder.Services.AddMemoryCache();
 builder.Services.AddSession();
 
-var app = builder.Build();
+var app = webApplication.Build();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

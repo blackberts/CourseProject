@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.2.32630.192
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CourseProject", "CourseProject\CourseProject.csproj", "{0E0C7BF3-B948-4F54-9431-96D6D07ECB1E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CourseProject.Web", "CourseProject\CourseProject.Web.csproj", "{0E0C7BF3-B948-4F54-9431-96D6D07ECB1E}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CourseProject.DataContext", "DataContext\CourseProject.DataContext.csproj", "{D943C3D5-654E-40CF-9750-86CAA8EE181F}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CourseProject.Domain", "Domain\CourseProject.Domain.csproj", "{BA34A49C-5E15-4230-85AF-924E5CED024B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CourseProject.Application", "CourseProject.Application\CourseProject.Application.csproj", "{1F6CA71B-4ABC-4286-AA12-BE15A58FA8CC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CourseProject.Application", "CourseProject.Application\CourseProject.Application.csproj", "{1F6CA71B-4ABC-4286-AA12-BE15A58FA8CC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -17,12 +17,15 @@ namespace CourseProject.Application.Service
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
         private readonly ApplicationDbContext _context;
 
-        public AuthRepository(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, ApplicationDbContext context)
+        public AuthRepository(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, 
+            RoleManager<IdentityRole> roleManager, ApplicationDbContext context)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _roleManager = roleManager;
             _context = context;
         }
 
@@ -34,6 +37,26 @@ namespace CourseProject.Application.Service
                 var isCorrect = await _userManager.CheckPasswordAsync(existingUser, loginRequest.Password);
                 if (isCorrect)
                 {
+                    if (existingUser.Status == "Active")
+                    {
+                        existingUser.Status = "Unactive";
+
+                        await _userManager.UpdateAsync(existingUser);
+                        return new AuthResult()
+                        {
+                            Result = false,
+                            Error = "You are already active, please login one more time"
+                        };
+                    }
+                    if (existingUser.Status == "Banned")
+                    {
+                        return new AuthResult()
+                        {
+                            Result = false,
+                            Error = "You are banned"
+                        };
+                    }
+
                     var result = await _signInManager.PasswordSignInAsync(existingUser, loginRequest.Password, false, false);
                     if (result.Succeeded)
                     {
@@ -46,25 +69,6 @@ namespace CourseProject.Application.Service
                             return new AuthResult()
                             {
                                 Result = true
-                            };
-                        }
-                        if (existingUser.Status == "Active")
-                        {
-                            existingUser.Status = "Unactive";
-
-                            await _userManager.UpdateAsync(existingUser);
-                            return new AuthResult()
-                            {
-                                Result = false,
-                                Error = "You are already active, please login one more time"
-                            };
-                        }
-                        if(existingUser.Status == "Banned")
-                        {
-                            return new AuthResult()
-                            {
-                                Result = false,
-                                Error = "You are banned"
                             };
                         }
                     }
@@ -89,7 +93,7 @@ namespace CourseProject.Application.Service
 
         public async Task<AuthResult> LogOut()
         {
-            var activeUser = await _context.Users.Where(x => x.Status == "Active").ToListAsync(); // error
+            var activeUser = await _context.Users.Where(x => x.Status == "Active").ToListAsync();
 
             foreach (var user in activeUser)
             {
@@ -106,6 +110,13 @@ namespace CourseProject.Application.Service
 
         public async Task<AuthResult> Register(UserRegisterDto registerRequest)
         {
+            // add roles
+            if (!(await _roleManager.RoleExistsAsync("User")) && !(await _roleManager.RoleExistsAsync("Admin")))
+            {
+                await _roleManager.CreateAsync(new IdentityRole("User"));
+                await _roleManager.CreateAsync(new IdentityRole("Admin"));
+            }
+
             var existingUser = await _userManager.FindByEmailAsync(registerRequest.Email);
             if(existingUser != null)
             {
@@ -124,6 +135,9 @@ namespace CourseProject.Application.Service
                 Status = "Unactive"
             };
             var newUserResponse = await _userManager.CreateAsync(newUser, registerRequest.Password);
+
+            var userFromDb = await _userManager.FindByNameAsync(newUser.UserName);
+            await _userManager.AddToRoleAsync(userFromDb, "User");
 
             if (newUserResponse.Succeeded)
             {

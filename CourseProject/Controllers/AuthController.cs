@@ -19,7 +19,6 @@ namespace CourseProject.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(UserLoginCommand command)
         {
-            var test = command;
             var result = await Mediator.Send(command);
             if (!result.Result)
             {
