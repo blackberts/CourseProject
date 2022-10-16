@@ -14,11 +14,13 @@
 }
 else
 {
-
-    @*User profile section*@
-    <a class="btn btn-outline-success my-2 my-sm-0" asp-controller="Users" asp-action="Index">
-        <i class="bi bi-people"></i> List of Users
-    </a>
+    if (User.IsInRole("Admin"))
+    {
+        @*User profile section*@
+        <a class="btn btn-outline-success my-2 my-sm-0" asp-controller="Users" asp-action="Index">
+            <i class="bi bi-people"></i> List of Users
+        </a>
+    }
     <span style="padding: 5px"></span>
     <form asp-controller="Auth" asp-action="Logout">
         <button class="btn btn-outline-danger my-2 my-sm-0">

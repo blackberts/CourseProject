@@ -15,13 +15,16 @@ namespace CourseProject.Application.Service
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
         private readonly ApplicationDbContext _context;
 
-        public UsersRepository(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, ApplicationDbContext context)
+        public UsersRepository(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager,
+            ApplicationDbContext context, RoleManager<IdentityRole> roleManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _context = context;
+            _roleManager = roleManager;
         }
 
         public async Task<AuthResult> DeleteUser(string userToDelete)
@@ -55,11 +58,52 @@ namespace CourseProject.Application.Service
                 user.Status = "Unactive";
                 await _userManager.UpdateAsync(user);
             }                
+            
             await _context.SaveChangesAsync();
 
             return new AuthResult()
             {
                 Result = true
+            };
+        }
+
+        public async Task<AuthResult> ChangeRoleUser(string userToChangeRole)
+        {
+            var user = await _userManager.FindByIdAsync(userToChangeRole);
+
+            if(user.Role == "User")
+            {
+                user.Role = "Admin";
+                await _userManager.RemoveFromRoleAsync(user, "User");
+                await _userManager.AddToRoleAsync(user, "Admin");
+                await _userManager.UpdateAsync(user);
+
+                await _context.SaveChangesAsync();
+
+                return new AuthResult()
+                {
+                    Result = true
+                };
+            }
+            if (user.Role == "Admin")
+            {
+                user.Role = "User";
+                await _userManager.RemoveFromRoleAsync(user, "Admin");
+                await _userManager.AddToRoleAsync(user, "User");
+                await _userManager.UpdateAsync(user);
+
+                await _context.SaveChangesAsync();
+
+                return new AuthResult()
+                {
+                    Result = true
+                };
+            }
+
+            return new AuthResult()
+            {
+                Result = false,
+                Error = "Something wrong in change role"
             };
         }
     }

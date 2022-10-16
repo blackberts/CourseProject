@@ -19,6 +19,7 @@
                     <th>Created at</th>
                     <th>Last login</th>
                     <th>Status</th>
+                    <th>Role</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -32,6 +33,7 @@
                     <td>@item.Created_At</td>
                     <td>@item.Last_login</td>
                     <td>@item.Status</td>
+                    <td>@item.Role</td>
                     <td>
                         <div class="w-75 btn-group" role="group">
                             @using (Html.BeginForm("BanUnban", "Users", FormMethod.Post))
@@ -46,6 +48,13 @@
                                 <button class="btn btn-danger btn-sm mx-1" type="submit" name="userId" id="userId" value="@item.Id">
                                     <i class="bi bi-trash-fill"></i>
                                     Delete
+                                </button>
+                            }
+                            @using (Html.BeginForm("ChangeRole", "Users", FormMethod.Post))
+                            {
+                                <button class="btn btn-primary btn-sm mx-1" type="submit" name="userId" id="userId" value="@item.Id">
+                                    <i class="bi bi-pencil-square"></i>
+                                    Change Role
                                 </button>
                             }
                         </div>

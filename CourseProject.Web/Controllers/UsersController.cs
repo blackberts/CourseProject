@@ -39,5 +39,13 @@ namespace CourseProject.Controllers
             await Mediator.Send(command);
             return RedirectToAction("Index", "Users");
         }
+
+        [HttpPost]
+        public async Task<IActionResult> ChangeRole(string userId)
+        {
+            UserChangeRoleCommand command = new() { Id = userId };
+            await Mediator.Send(command);
+            return RedirectToAction("Index", "Users");
+        }
     }
 }

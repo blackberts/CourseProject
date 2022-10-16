@@ -10,6 +10,7 @@ namespace CourseProject.DataContext.Repositories
     public interface IUsersRepository
     {
         Task<AuthResult> DeleteUser(string userToDelete);
-        Task<AuthResult> BanUnbanUser(string userToBanUnban); 
+        Task<AuthResult> BanUnbanUser(string userToBanUnban);
+        Task<AuthResult> ChangeRoleUser(string userToChangeRole);
     }
 }

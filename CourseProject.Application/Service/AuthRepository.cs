@@ -132,7 +132,8 @@ namespace CourseProject.Application.Service
                 UserName = registerRequest.UserName,
                 Email = registerRequest.Email,
                 Created_At = DateTime.UtcNow,
-                Status = "Unactive"
+                Status = "Unactive",
+                Role = "User"
             };
             var newUserResponse = await _userManager.CreateAsync(newUser, registerRequest.Password);
 
