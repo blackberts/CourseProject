@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\CourseProject.DataContext\CourseProject.DataContext.csproj" />
     <ProjectReference Include="..\DataContext\CourseProject.DataContext.csproj" />
   </ItemGroup>
 
