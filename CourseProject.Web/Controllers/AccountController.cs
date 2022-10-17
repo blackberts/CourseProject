@@ -1,49 +1,49 @@
-﻿using CourseProject.Application.CQRS.Commands;
+﻿using CourseProject.Application.CQRS.Commands.Account;
 using CourseProject.Domain.Entities.DTOs;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CourseProject.Controllers
 {
-    public class AuthController : Controller
+    public class AccountController : Controller
     {
         private readonly IMediator Mediator;
 
-        public AuthController(IMediator mediator)
+        public AccountController(IMediator mediator)
         {
             Mediator = mediator;
         }
 
-        public IActionResult Login() => View(new UserLoginDto());
+        public IActionResult Login() => View(new AccountLoginDto());
 
         [HttpPost]
-        public async Task<IActionResult> Login(UserLoginCommand command)
+        public async Task<IActionResult> Login(AccountLoginCommand command)
         {
             var result = await Mediator.Send(command);
             if (!result.Result)
             {
                 TempData["Error"] = result.Error;
-                return View(new UserLoginDto());
+                return View(new AccountLoginDto());
             };
             return RedirectToAction("Index", "Home");
         }
 
-        public IActionResult Register() => View(new UserRegisterDto());
+        public IActionResult Register() => View(new AccountRegisterDto());
 
         [HttpPost]
-        public async Task<IActionResult> Register(UserRegisterCommand command)
+        public async Task<IActionResult> Register(AccountRegisterCommand command)
         {
             var result = await Mediator.Send(command);
             if (result.Result == false)
             {
                 TempData["Error"] = result.Error;
-                return View(new UserRegisterDto());
+                return View(new AccountRegisterDto());
             }
             return View("RegisterCompleted");
         }
 
         [HttpPost]
-        public async Task<IActionResult> LogOut(UserLogOutCommand command)
+        public async Task<IActionResult> LogOut(AccountLogOutCommand command)
         {
             await Mediator.Send(command);
             return RedirectToAction("Index", "Home");

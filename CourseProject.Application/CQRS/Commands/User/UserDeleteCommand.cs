@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CourseProject.Application.CQRS.Commands
+namespace CourseProject.Application.CQRS.Commands.User
 {
     public class UserDeleteCommand : IRequest<AuthResult>
     {

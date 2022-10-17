@@ -14,17 +14,13 @@ namespace CourseProject.Application.Service
     public class UsersRepository : IUsersRepository
     {
         private readonly UserManager<ApplicationUser> _userManager;
-        private readonly SignInManager<ApplicationUser> _signInManager;
-        private readonly RoleManager<IdentityRole> _roleManager;
         private readonly ApplicationDbContext _context;
 
-        public UsersRepository(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager,
-            ApplicationDbContext context, RoleManager<IdentityRole> roleManager)
+        public UsersRepository(UserManager<ApplicationUser> userManager,
+            ApplicationDbContext context)
         {
             _userManager = userManager;
-            _signInManager = signInManager;
             _context = context;
-            _roleManager = roleManager;
         }
 
         public async Task<AuthResult> DeleteUser(string userToDelete)
@@ -39,9 +35,27 @@ namespace CourseProject.Application.Service
             };
         }
 
-        public async Task<AuthResult> BanUnbanUser(string userToBanUnban)
+        public async Task<AuthResult> UnbanUser(string userToUnban)
         {
-            var user = await _userManager.FindByIdAsync(userToBanUnban);
+            var user = await _userManager.FindByIdAsync(userToUnban);
+
+            if(user.Status == "Banned")
+            {
+                user.Status = "Unactive";
+                await _userManager.UpdateAsync(user);
+            }
+
+            await _context.SaveChangesAsync();
+
+            return new AuthResult()
+            {
+                Result = true
+            };
+        }
+
+        public async Task<AuthResult> BanUser(string userToBan)
+        {
+            var user = await _userManager.FindByIdAsync(userToBan);
 
             if (user.Status == "Unactive")
             {
@@ -52,12 +66,7 @@ namespace CourseProject.Application.Service
             {
                 user.Status = "Banned";
                 await _userManager.UpdateAsync(user);
-            }
-            else if (user.Status == "Banned")
-            {
-                user.Status = "Unactive";
-                await _userManager.UpdateAsync(user);
-            }                
+            }               
             
             await _context.SaveChangesAsync();
 

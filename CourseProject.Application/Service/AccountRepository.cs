@@ -13,14 +13,14 @@ using System.Threading.Tasks;
 
 namespace CourseProject.Application.Service
 {
-    public class AuthRepository : IAuthRepository
+    public class AccountRepository : IAccountRepository
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly ApplicationDbContext _context;
 
-        public AuthRepository(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, 
+        public AccountRepository(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, 
             RoleManager<IdentityRole> roleManager, ApplicationDbContext context)
         {
             _userManager = userManager;
@@ -29,7 +29,7 @@ namespace CourseProject.Application.Service
             _context = context;
         }
 
-        public async Task<AuthResult> Login(UserLoginDto loginRequest)
+        public async Task<AuthResult> Login(AccountLoginDto loginRequest)
         {
             var existingUser = await _userManager.FindByEmailAsync(loginRequest.Email);
             if (existingUser != null)
@@ -108,7 +108,7 @@ namespace CourseProject.Application.Service
             };
         }
 
-        public async Task<AuthResult> Register(UserRegisterDto registerRequest)
+        public async Task<AuthResult> Register(AccountRegisterDto registerRequest)
         {
             // add roles
             if (!(await _roleManager.RoleExistsAsync("User")) && !(await _roleManager.RoleExistsAsync("Admin")))

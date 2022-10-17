@@ -7,6 +7,7 @@ using CourseProject.Application.Service;
 using CourseProject.DataContext.Repositories;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using CourseProject.Application.CQRS.Commands;
+using CourseProject.Application.UoW;
 
 var webApplication = WebApplication.CreateBuilder(args);
 
@@ -33,8 +34,11 @@ AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseNpgsql(webApplication.Configuration.GetConnectionString("DefaultConnection")));
 
 // add DI
-builder.Services.AddTransient<IAuthRepository, AuthRepository>();
+builder.Services.AddTransient<IAccountRepository, AccountRepository>();
 builder.Services.AddTransient<IUsersRepository, UsersRepository>();
+builder.Services.AddTransient<IItemsRepository, ItemsRepository>();
+builder.Services.AddTransient<ITagsRepository, TagsRepository>();
+builder.Services.AddTransient<IUnitOfWork, UnitOfWork>();
 
 // add AutoMapper
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());

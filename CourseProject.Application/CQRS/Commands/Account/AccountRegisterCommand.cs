@@ -7,9 +7,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CourseProject.Application.CQRS.Commands
+namespace CourseProject.Application.CQRS.Commands.Account
 {
-    public class UserRegisterCommand : IRequest<AuthResult>
+    public class AccountRegisterCommand : IRequest<AuthResult>
     {
         [Required]
         public string? UserName { get; set; }

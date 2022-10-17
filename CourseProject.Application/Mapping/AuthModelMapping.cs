@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using CourseProject.Application.CQRS.Commands;
+using CourseProject.Application.CQRS.Commands.Account;
 using CourseProject.Domain.Entities.DTOs;
 using System;
 using System.Collections.Generic;
@@ -13,8 +13,8 @@ namespace CourseProject.Application.Mapping
     {
         public AuthModelMapping()
         {
-            CreateMap<UserLoginCommand, UserLoginDto>().ReverseMap();
-            CreateMap<UserRegisterCommand, UserRegisterDto>().ReverseMap();
+            CreateMap<AccountLoginCommand, AccountLoginDto>().ReverseMap();
+            CreateMap<AccountRegisterCommand, AccountRegisterDto>().ReverseMap();
         }
     }
 }

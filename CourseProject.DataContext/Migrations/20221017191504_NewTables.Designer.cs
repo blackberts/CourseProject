@@ -3,6 +3,7 @@ using System;
 using CourseProject.DataContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace CourseProject.DataContext.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221017191504_NewTables")]
+    partial class NewTables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -118,27 +120,17 @@ namespace CourseProject.DataContext.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
+                    b.Property<Guid>("ItemId")
+                        .HasColumnType("uuid");
+
                     b.Property<string>("Name")
                         .HasColumnType("text");
 
                     b.HasKey("TagId");
 
+                    b.HasIndex("ItemId");
+
                     b.ToTable("Tags");
-                });
-
-            modelBuilder.Entity("ItemTag", b =>
-                {
-                    b.Property<Guid>("ItemsItemId")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("TagsTagId")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("ItemsItemId", "TagsTagId");
-
-                    b.HasIndex("TagsTagId");
-
-                    b.ToTable("ItemTag");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -273,19 +265,15 @@ namespace CourseProject.DataContext.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("ItemTag", b =>
+            modelBuilder.Entity("CourseProject.Domain.Entities.Tag", b =>
                 {
-                    b.HasOne("CourseProject.Domain.Entities.Item", null)
-                        .WithMany()
-                        .HasForeignKey("ItemsItemId")
+                    b.HasOne("CourseProject.Domain.Entities.Item", "Item")
+                        .WithMany("Tags")
+                        .HasForeignKey("ItemId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("CourseProject.Domain.Entities.Tag", null)
-                        .WithMany()
-                        .HasForeignKey("TagsTagId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Navigation("Item");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -337,6 +325,11 @@ namespace CourseProject.DataContext.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("CourseProject.Domain.Entities.Item", b =>
+                {
+                    b.Navigation("Tags");
                 });
 #pragma warning restore 612, 618
         }

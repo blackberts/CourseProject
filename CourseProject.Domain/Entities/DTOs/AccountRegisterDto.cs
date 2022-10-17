@@ -7,8 +7,12 @@ using System.Threading.Tasks;
 
 namespace CourseProject.Domain.Entities.DTOs
 {
-    public class UserLoginDto
+    public class AccountRegisterDto
     {
+        [Display(Name = "User name")]
+        [Required(ErrorMessage = "User name is required")]
+        public string? UserName { get; set; }
+
         [Display(Name = "Email address")]
         [Required(ErrorMessage = "Email address is required")]
         public string? Email { get; set; }

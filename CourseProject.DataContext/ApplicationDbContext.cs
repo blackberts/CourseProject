@@ -11,6 +11,8 @@ namespace CourseProject.DataContext
 {
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
+        public DbSet<Tag> Tags { get; set; }
+        public DbSet<Item> Items { get; set; }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
     }
 }

@@ -1,4 +1,4 @@
-﻿using CourseProject.Application.CQRS.Commands;
+﻿using CourseProject.Application.CQRS.Commands.User;
 using CourseProject.DataContext;
 using CourseProject.DataContext.Repositories;
 using MediatR;
@@ -33,9 +33,17 @@ namespace CourseProject.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> BanUnban(string userId)
+        public async Task<IActionResult> Ban(string userId)
         {
-            UserBanUnbanCommand command = new() { Id = userId }; // i found only 1 bastard way to transmit id to command
+            UserBanCommand command = new() { Id = userId }; // i found only 1 bastard way to transmit id to command
+            await Mediator.Send(command);
+            return RedirectToAction("Index", "Users");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Unban(string userId)
+        {
+            UserUnbanCommand command = new() { Id = userId };
             await Mediator.Send(command);
             return RedirectToAction("Index", "Users");
         }

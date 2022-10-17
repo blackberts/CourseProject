@@ -6,9 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CourseProject.Application.CQRS.Commands
+namespace CourseProject.Application.CQRS.Commands.Account
 {
-    public class UserLogOutCommand : IRequest<AuthResult>
+    public class AccountLogOutCommand : IRequest<AuthResult>
     {
     }
 }

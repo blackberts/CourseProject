@@ -9,10 +9,10 @@ using System.Threading.Tasks;
 
 namespace CourseProject.DataContext.Repositories
 {
-    public interface IAuthRepository
+    public interface IAccountRepository
     {
-        Task<AuthResult> Register(UserRegisterDto registerRequest);
-        Task<AuthResult> Login(UserLoginDto loginRequest);
+        Task<AuthResult> Register(AccountRegisterDto registerRequest);
+        Task<AuthResult> Login(AccountLoginDto loginRequest);
         Task<AuthResult> LogOut();
     }
 }

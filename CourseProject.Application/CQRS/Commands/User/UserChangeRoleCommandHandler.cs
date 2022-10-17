@@ -7,20 +7,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CourseProject.Application.CQRS.Commands
+namespace CourseProject.Application.CQRS.Commands.User
 {
     public class UserChangeRoleCommandHandler : IRequestHandler<UserChangeRoleCommand, AuthResult>
     {
-        private readonly IUsersRepository _IUsers;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public UserChangeRoleCommandHandler(IUsersRepository iUsers)
+        public UserChangeRoleCommandHandler(IUnitOfWork unitOfWork)
         {
-            _IUsers = iUsers;
+            _unitOfWork = unitOfWork;
         }
 
         public async Task<AuthResult> Handle(UserChangeRoleCommand request, CancellationToken cancellationToken)
         {
-            var result = await _IUsers.ChangeRoleUser(request.Id);
+            var result = await _unitOfWork.Users.ChangeRoleUser(request.Id);
             return result;
         }
     }
