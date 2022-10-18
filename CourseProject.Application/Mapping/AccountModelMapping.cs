@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace CourseProject.Application.Mapping
 {
-    public class AuthModelMapping : Profile
+    public class AccountModelMapping : Profile
     {
-        public AuthModelMapping()
+        public AccountModelMapping()
         {
             CreateMap<AccountLoginCommand, AccountLoginDto>().ReverseMap();
             CreateMap<AccountRegisterCommand, AccountRegisterDto>().ReverseMap();
