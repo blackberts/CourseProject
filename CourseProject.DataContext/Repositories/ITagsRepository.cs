@@ -12,7 +12,7 @@ namespace CourseProject.DataContext.Repositories
         Task<List<Tag>> GetAll();
         Task<Tag> GetTagById(Guid id);
         Task<Tag> AddTag(Tag tag);
-        Task<Tag> UpdateTag(Tag tag);
+        Task<Tag> EditTag(Tag tag);
         void DeleteTagById(Guid id);
     }
 }

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace CourseProject.Application.CQRS.Commands.Tags
 {
-    public class UpdateTagCommand : IRequest<Tag>
+    public class EditTagCommand : IRequest<Tag>
     {
         public Guid TagId { get; set; }
         public string? Name { get; set; }

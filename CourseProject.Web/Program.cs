@@ -6,8 +6,9 @@ using MediatR;
 using CourseProject.Application.Service;
 using CourseProject.DataContext.Repositories;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using CourseProject.Application.CQRS.Commands;
 using CourseProject.Application.UoW;
+using CourseProject.Application.CQRS.Commands.Tags;
+using System.Reflection;
 
 var webApplication = WebApplication.CreateBuilder(args);
 

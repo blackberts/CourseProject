@@ -61,7 +61,7 @@ namespace CourseProject.Application.Service
             }
         }
 
-        public async Task<Item> UpdateItem(Item item)
+        public async Task<Item> EditItem(Item item)
         {
             var updateItem = await _context.Items.FindAsync(item.ItemId);
 

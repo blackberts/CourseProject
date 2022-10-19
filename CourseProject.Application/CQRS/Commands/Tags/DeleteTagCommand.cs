@@ -10,10 +10,5 @@ namespace CourseProject.Application.CQRS.Commands.Tags
     public class DeleteTagCommand : IRequest
     {
         public Guid Id { get; set; }
-
-        public DeleteTagCommand(Guid id)
-        {
-            Id = id;
-        }
     }
 }

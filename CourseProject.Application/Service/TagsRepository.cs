@@ -61,7 +61,7 @@ namespace CourseProject.Application.Service
             }
         }
 
-        public async Task<Tag> UpdateTag(Tag tag)
+        public async Task<Tag> EditTag(Tag tag)
         {
             var updateTag = await _context.Tags.FindAsync(tag.TagId);
 

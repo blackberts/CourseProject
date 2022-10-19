@@ -8,9 +8,10 @@ using System.Threading.Tasks;
 
 namespace CourseProject.Application.CQRS.Commands.Items
 {
-    public class UpdateItemCommand : IRequest<Item>
+    public class EditItemCommand : IRequest<Item>
     {
         public Guid ItemId { get; set; }
         public string? Name { get; set; }
+
     }
 }

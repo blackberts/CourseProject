@@ -14,7 +14,7 @@ namespace CourseProject.Application.Mapping
         public TagModelMapping()
         {
             CreateMap<CreateTagCommand, Tag>().ReverseMap();
-            CreateMap<UpdateTagCommand, Tag>().ReverseMap();
+            CreateMap<EditTagCommand, Tag>().ReverseMap();
         }
     }
 }

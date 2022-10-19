@@ -18,12 +18,15 @@ namespace CourseProject.Web.Controllers
             _context = context;
         }
 
+        // GET
         public async Task<IActionResult> Index()
         {
-            var items = await _context.Items.ToListAsync();
-            return View(items);
+            var query = new GetAllItemsQuery();
+            var result = await Mediator.Send(query);
+            return View(result);
         }
 
+        // POST
         [HttpPost]
         public async Task<IActionResult> GetById(Guid id)
         {
@@ -32,19 +35,13 @@ namespace CourseProject.Web.Controllers
             return View(result);
         }
 
-        [HttpGet]
-        public async Task<IActionResult> GetAll()
-        {
-            var query = new GetAllItemsQuery();
-            var result = await Mediator.Send(query);
-            return View(result);
-        }
-
+        // GET
         public IActionResult Create()
         {
             return View();
         }
 
+        // POST
         [HttpPost]
         public async Task<IActionResult> Create(CreateItemCommand command)
         {
@@ -52,13 +49,53 @@ namespace CourseProject.Web.Controllers
             return RedirectToAction("Index", "Items");
         }
 
+        // GET
+        public IActionResult Edit(Guid id)
+        {
+            if (id == Guid.Empty)
+            {
+                return NotFound();
+            }
+
+            var itemFromDb = _context.Items.Find(id);
+
+            if (itemFromDb == null)
+            {
+                return NotFound();
+            }
+
+            return View(itemFromDb);
+        }
+
+        // POST
         [HttpPost]
-        public async Task<IActionResult> Update(UpdateItemCommand command)
+        public async Task<IActionResult> Edit(EditItemCommand command)
         {
             await Mediator.Send(command);
             return RedirectToAction("Index", "Items");
         }
 
+
+        // GET
+        public IActionResult Delete(Guid id)
+        {
+            if (id == Guid.Empty)
+            {
+                return NotFound();
+            }
+
+            var itemFromDb = _context.Items.Find(id);
+
+            if (itemFromDb == null)
+            {
+                return NotFound();
+            }
+
+            return View(itemFromDb);
+        }
+
+
+        // POST
         [HttpPost]
         public async Task<IActionResult> Delete(DeleteItemCommand command)
         {

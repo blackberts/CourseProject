@@ -1,0 +1,28 @@
+﻿@model Tag
+
+<form method="post">
+<div class="row">
+    <div class="col-md-5 offset-4">
+			<h2 class="text-primary">Create Tag</h2>
+			<hr />
+		</div>
+		@*<div asp-validation-summary="All"></div>*@
+		<div class="col-md-5 offset-4">
+			<label asp-for="Name"></label>
+			<input asp-for="Name" class="form-control" />
+			<span asp-validation-for="Name" class="text-danger"></span>
+		</div>
+		<div class="col-md-5 offset-4">
+		<button type="submit" class="btn btn-primary" style="width:150px">Create</button>
+		<a asp-controller="Tags" asp-action="Index" class="btn btn-secondary" style="width:150px">
+			Back to List
+		</a>
+		</div>
+	</div>
+</form>
+
+@section Scripts{
+	@{
+		<partial name="_ValidationScriptsPartial" />
+	}
+}

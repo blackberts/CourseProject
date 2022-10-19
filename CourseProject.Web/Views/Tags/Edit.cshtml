@@ -1,10 +1,10 @@
-﻿@model Item
+﻿@model Tag
 
 <form method="post" asp-action="Edit">
-	<input asp-for="ItemId" hidden />
+	<input asp-for="TagId" hidden />
 	<div class="row">
         <div class="col-md-5 offset-4">
-			<h2 class="text-primary">Edit Item</h2>
+			<h2 class="text-primary">Edit Tag</h2>
 			<hr />
 		</div>
 		@*<div asp-validation-summary="All"></div>*@
@@ -15,7 +15,7 @@
 		</div>
 		<div class="col-md-5 offset-4">
 		    <button type="submit" class="btn btn-primary" style="width:150px">Edit</button>
-		    <a asp-controller="Items" asp-action="Index" class="btn btn-secondary" style="width:150px">
+		    <a asp-controller="Tags" asp-action="Index" class="btn btn-secondary" style="width:150px">
 		    	Back to List
 		    </a>
 	    </div>

@@ -14,7 +14,7 @@ namespace CourseProject.Application.Mapping
         public ItemModelMapping()
         {
             CreateMap<CreateItemCommand, Item>().ReverseMap();
-            CreateMap<UpdateItemCommand, Item>().ReverseMap();
+            CreateMap<EditItemCommand, Item>().ReverseMap();
         }
     }
 }

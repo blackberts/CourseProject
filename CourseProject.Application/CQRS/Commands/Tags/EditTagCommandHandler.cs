@@ -10,21 +10,21 @@ using System.Threading.Tasks;
 
 namespace CourseProject.Application.CQRS.Commands.Tags
 {
-    public class UpdateTagCommandHandler : IRequestHandler<UpdateTagCommand, Tag>
+    public class EditTagCommandHandler : IRequestHandler<EditTagCommand, Tag>
     {
         private readonly IMapper _Mapper;
         private readonly IUnitOfWork _unitOfWork;
 
-        public UpdateTagCommandHandler(IMapper mapper, IUnitOfWork unitOfWork)
+        public EditTagCommandHandler(IMapper mapper, IUnitOfWork unitOfWork)
         {
             _Mapper = mapper;
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<Tag> Handle(UpdateTagCommand request, CancellationToken cancellationToken)
+        public async Task<Tag> Handle(EditTagCommand request, CancellationToken cancellationToken)
         {
             var tag = _Mapper.Map<Tag>(request);
-            var updateTag = await _unitOfWork.Tags.UpdateTag(tag);
+            var updateTag = await _unitOfWork.Tags.EditTag(tag);
             return updateTag;
         }
     }

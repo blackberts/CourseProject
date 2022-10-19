@@ -12,7 +12,7 @@ namespace CourseProject.DataContext.Repositories
         Task<List<Item>> GetAll();
         Task<Item> GetItemById(Guid id);
         Task<Item> AddItem(Item item);
-        Task<Item> UpdateItem(Item item);
+        Task<Item> EditItem(Item item);
         void DeleteItemById(Guid id);
     }
 }

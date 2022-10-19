@@ -10,10 +10,5 @@ namespace CourseProject.Application.CQRS.Commands.Items
     public class DeleteItemCommand : IRequest
     {
         public Guid Id { get; set; }
-
-        public DeleteItemCommand(Guid id)
-        {
-            Id = id;
-        }
     }
 }

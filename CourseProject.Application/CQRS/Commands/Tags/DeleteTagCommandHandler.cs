@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace CourseProject.Application.CQRS.Commands.Tags
 {
-    public class DeleteTagCommandHandler : IRequest<DeleteTagCommand>
+    public class DeleteTagCommandHandler : IRequestHandler<DeleteTagCommand>
     {
         private readonly IUnitOfWork _unitOfWork;
 
