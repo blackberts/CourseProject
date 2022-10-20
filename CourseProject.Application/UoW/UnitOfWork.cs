@@ -2,6 +2,7 @@
 using CourseProject.DataContext;
 using CourseProject.DataContext.Repositories;
 using CourseProject.Domain.Entities;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
@@ -18,19 +19,30 @@ namespace CourseProject.Application.UoW
         private ITagsRepository _tagsRepository;
         private IUsersRepository _usersRepository;
         private IAccountRepository _accountRepository;
+        private ICollectionsRepository _collectionsRepository;
         private UserManager<ApplicationUser> _userManager;
         private SignInManager<ApplicationUser> _signInManager;
         private RoleManager<IdentityRole> _roleManager;
+        private IWebHostEnvironment _appEnvironment;
 
         public UnitOfWork(ApplicationDbContext context, UserManager<ApplicationUser> userManager,
-            SignInManager<ApplicationUser> signInManager, RoleManager<IdentityRole> roleManager)
+            SignInManager<ApplicationUser> signInManager, RoleManager<IdentityRole> roleManager,
+            IWebHostEnvironment appEnvironment)
         {
             _context = context;
             _userManager = userManager;
             _signInManager = signInManager;
             _roleManager = roleManager;
+            _appEnvironment = appEnvironment;
         }
 
+        public ICollectionsRepository Collections
+        {
+            get
+            {
+                return _collectionsRepository = _collectionsRepository ?? new CollectionsRepository(_context, _appEnvironment);
+            }
+        }
 
         public IAccountRepository Account
         {

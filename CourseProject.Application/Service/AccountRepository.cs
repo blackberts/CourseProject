@@ -108,6 +108,11 @@ namespace CourseProject.Application.Service
             };
         }
 
+        //public Task<AuthResult> Profile()
+        //{
+            
+        //}
+
         public async Task<AuthResult> Register(AccountRegisterDto registerRequest)
         {
             // add roles

@@ -21,6 +21,12 @@ else
             <i class="bi bi-people"></i> List of Users
         </a>
     }
+    else
+    {
+        <a class="btn btn-outline-success my-2 my-sm-0" asp-controller="Account" asp-action="Index">
+            <i class="bi bi-people"></i> Hello @User.Identity.Name
+        </a>
+    }
     <span style="padding: 5px"></span>
     <form asp-controller="Account" asp-action="Logout">
         <button class="btn btn-outline-danger my-2 my-sm-0">

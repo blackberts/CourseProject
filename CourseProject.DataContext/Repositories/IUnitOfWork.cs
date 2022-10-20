@@ -12,6 +12,7 @@ namespace CourseProject.DataContext.Repositories
         IItemsRepository Items { get; }
         ITagsRepository Tags { get; }
         IUsersRepository Users { get; }
+        ICollectionsRepository Collections { get; }
         void Save();
     }
 }

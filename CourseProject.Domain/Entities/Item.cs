@@ -11,6 +11,6 @@ namespace CourseProject.Domain.Entities
         public Guid ItemId { get; set; }
         public string? Name { get; set; }
         
-        public List<Tag> Tags { get; set; }
+        public List<Tag>? Tags { get; set; }
     }
 }
