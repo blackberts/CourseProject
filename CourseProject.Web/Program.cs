@@ -39,6 +39,7 @@ builder.Services.AddTransient<IAccountRepository, AccountRepository>();
 builder.Services.AddTransient<IUsersRepository, UsersRepository>();
 builder.Services.AddTransient<IItemsRepository, ItemsRepository>();
 builder.Services.AddTransient<ITagsRepository, TagsRepository>();
+builder.Services.AddTransient<ICollectionsRepository, CollectionsRepository>();
 builder.Services.AddTransient<IUnitOfWork, UnitOfWork>();
 
 // add AutoMapper

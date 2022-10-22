@@ -3,6 +3,7 @@ using System;
 using CourseProject.DataContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace CourseProject.DataContext.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221021103601_AddCollectionTable")]
+    partial class AddCollectionTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -107,9 +109,6 @@ namespace CourseProject.DataContext.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("text");
 
-                    b.Property<byte[]>("ImageData")
-                        .HasColumnType("bytea");
-
                     b.Property<string>("ImageName")
                         .HasColumnType("text");
 
@@ -127,7 +126,7 @@ namespace CourseProject.DataContext.Migrations
 
                     b.HasKey("CollectionId");
 
-                    b.ToTable("Collections", (string)null);
+                    b.ToTable("Collections");
                 });
 
             modelBuilder.Entity("CourseProject.Domain.Entities.Item", b =>
@@ -146,7 +145,7 @@ namespace CourseProject.DataContext.Migrations
 
                     b.HasIndex("CollectionId");
 
-                    b.ToTable("Items", (string)null);
+                    b.ToTable("Items");
                 });
 
             modelBuilder.Entity("CourseProject.Domain.Entities.Tag", b =>
@@ -160,7 +159,7 @@ namespace CourseProject.DataContext.Migrations
 
                     b.HasKey("TagId");
 
-                    b.ToTable("Tags", (string)null);
+                    b.ToTable("Tags");
                 });
 
             modelBuilder.Entity("ItemTag", b =>
@@ -175,7 +174,7 @@ namespace CourseProject.DataContext.Migrations
 
                     b.HasIndex("TagsTagId");
 
-                    b.ToTable("ItemTag", (string)null);
+                    b.ToTable("ItemTag");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>

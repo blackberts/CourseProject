@@ -1,4 +1,5 @@
 ﻿using CourseProject.Domain.Entities;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,8 +12,8 @@ namespace CourseProject.DataContext.Repositories
     {
         Task<List<Collection>> GetAll();
         Task<Collection> GetCollectionById(Guid id);
-        Task<Collection> AddCollection(Collection item);
-        Task<Collection> EditCollection(Collection item);
+        Task<Collection> AddCollection(Collection collection);
+        Task<Collection> EditCollection(Collection collection);
         void DeleteCollectionById(Guid id);
     }
 }

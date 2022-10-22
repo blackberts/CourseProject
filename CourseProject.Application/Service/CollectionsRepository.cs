@@ -3,6 +3,7 @@ using CourseProject.DataContext.Repositories;
 using CourseProject.Domain.Entities;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -27,20 +28,40 @@ namespace CourseProject.Application.Service
         {
             if(collection.Image != null)
             {
-                string path = "/Images/Collections/" + collection.ImageName;
-
-                using (var fileStream = new FileStream(_appEnvironment.WebRootPath + path, FileMode.Create))
+                byte[] imageData = null;
+                using(var binaryReader = new BinaryReader(collection.Image.OpenReadStream()))
                 {
-                    await collection.Image.CopyToAsync(fileStream);
+                    imageData = binaryReader.ReadBytes((int)collection.Image.Length);
                 }
+                collection.ImageData = imageData;
+
                 Collection newCollection = new Collection()
                 {
+                    CollectionId = Guid.NewGuid(),
                     Name = collection.Name,
                     Owner = collection.Owner,
                     Description = collection.Description,
                     Theme = collection.Theme,
-                    ImageName = collection.ImageName,
-                    ImagePath = path
+                    Image = collection.Image,
+                    ImageData = collection.ImageData,
+                };
+                await _context.Collections.AddAsync(newCollection);
+                await _context.SaveChangesAsync();
+            }
+            else
+            {
+                string path = "/images/Collections/Empty.png";
+
+                Collection newCollection = new Collection()
+                {
+                    CollectionId = Guid.NewGuid(),
+                    Name = collection.Name,
+                    Owner = collection.Owner,
+                    Description = collection.Description,
+                    Theme = collection.Theme,
+                    Image = null,
+                    ImageName = "Empty.png",
+                    ImagePath = path,
                 };
                 await _context.Collections.AddAsync(newCollection);
                 await _context.SaveChangesAsync();
@@ -85,13 +106,21 @@ namespace CourseProject.Application.Service
 
         public async Task<Collection> EditCollection(Collection collection)
         {
-            var updateCollection = await _context.Collections.FindAsync(collection.CollectionId);
+            string path = "/images/Collections/" + collection.Image.FileName;
 
+            using(var fileStream = new FileStream(_appEnvironment.WebRootPath + path, FileMode.Create))
+            {
+                await collection.Image.CopyToAsync(fileStream);
+            }
+
+            var updateCollection = await _context.Collections.FindAsync(collection.CollectionId);
             if (updateCollection != null)
             {
                 updateCollection.Name = collection.Name;
                 updateCollection.Theme = collection.Theme;
-                //updateCollection.Image = collection.Image;
+                updateCollection.Image = collection.Image;
+                updateCollection.ImageName = collection.Image.FileName;
+                updateCollection.ImagePath = path;
                 updateCollection.Description = collection.Description;
                 updateCollection.Owner = collection.Owner;
 

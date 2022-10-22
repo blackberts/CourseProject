@@ -29,7 +29,7 @@
 
   <ItemGroup>
     <Folder Include="Controllers\Base\" />
-    <Folder Include="wwwroot\Images\Collections\" />
+    <Folder Include="wwwroot\images\Collections\ByDefault\" />
   </ItemGroup>
 
 </Project>

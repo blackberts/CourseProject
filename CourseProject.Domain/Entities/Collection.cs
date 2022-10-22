@@ -15,6 +15,7 @@ namespace CourseProject.Domain.Entities
         public string? Owner { get; set; }
         public string? Description { get; set; }
         public string? Theme { get; set; }
+        public byte[]? ImageData { get; set; }
 
         // Navigation
         public List<Item>? Items { get; set; }

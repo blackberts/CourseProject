@@ -12,5 +12,6 @@ namespace CourseProject.Domain.Entities
         public string? Name { get; set; }
         
         public List<Tag>? Tags { get; set; }
+        public List<Collection>? Collections { get; set; }
     }
 }

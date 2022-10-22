@@ -1,0 +1,48 @@
+﻿@model Collection
+
+<form method="post" asp-action="Edit" asp-controller="Collections" enctype="multipart/form-data">
+	<input asp-for="CollectionId" hidden />
+	<div class="row">
+        <div class="col-md-5 offset-4">
+			<h2 class="text-primary">Edit Item</h2>
+			<hr />
+		</div>
+		<div class="form-group">
+		    <label asp-for="Name"></label>
+		    <input asp-for="Name" class="form-control" />
+		    <span asp-validation-for="Name" class="text-danger"></span>
+	    </div>
+	    <div class="form-group">
+		    <label asp-for="Theme"></label>
+		    <select asp-for="Theme" class="form-control">
+			    <option value="Books">Books</option>
+			    <option value="Alcohol">Alcohol</option>
+			    <option value="Guns">Guns</option>
+			    <option value="Music">Music</option>
+			    <option value="Games">Games</option>
+		    </select>
+	    </div>
+	    <div class="from-group">
+		    <label asp-for="Description"></label>
+		    <textarea class="form-control" rows="3" asp-for="Description"></textarea>
+		    <span asp-validation-for="Description"></span>
+	    </div>
+	    <div class="form-group">
+		    <label asp-for="Image" class="control-label"></label>
+		    <input type="file" asp-for="Image" class="form-control"/>
+		    <span asp-validation-for="Image" class="text-danger"></span>
+	    </div>
+		<div class="col-md-5 offset-4">
+		    <button type="submit" class="btn btn-primary" style="width:150px">Edit</button>
+		    <a asp-controller="Collections" asp-action="Index" class="btn btn-secondary" style="width:150px">
+		    	Back to List
+		    </a>
+	    </div>
+	</div>
+</form>
+
+@section Scripts{
+	@{
+		<partial name="_ValidationScriptsPartial" />
+	}
+}
