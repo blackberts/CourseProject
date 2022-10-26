@@ -1,4 +1,5 @@
-﻿using CourseProject.Application.CQRS.Commands.Items;
+﻿using CourseProject.Application.CQRS.Commands.Collections;
+using CourseProject.Application.CQRS.Commands.Items;
 using CourseProject.Application.CQRS.Queries.Items;
 using CourseProject.DataContext;
 using MediatR;
@@ -58,6 +59,11 @@ namespace CourseProject.Web.Controllers
             }
 
             var itemFromDb = _context.Items.Find(id);
+            var collectionFromDb = _context.Collections
+                .Where(c => c.Items
+                .Contains(itemFromDb))
+                .FirstOrDefault();
+            TempData["collection"] = collectionFromDb.CollectionId;
 
             if (itemFromDb == null)
             {
@@ -71,8 +77,15 @@ namespace CourseProject.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(EditItemCommand command)
         {
-            await Mediator.Send(command);
-            return RedirectToAction("Index", "Items");
+            var item = await Mediator.Send(command);
+            
+            var collection = _context.Collections
+                .Where(c => c.Items
+                .Contains(item))
+                .FirstOrDefault();
+            TempData["collection"] = collection.CollectionId;
+
+            return RedirectToAction("Get", "Collections");
         }
 
 

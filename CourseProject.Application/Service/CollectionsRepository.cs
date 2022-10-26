@@ -44,9 +44,24 @@ namespace CourseProject.Application.Service
                     Theme = collection.Theme,
                     Image = collection.Image,
                     ImageData = collection.ImageData,
-                };
+                    Tags = _context.Tags.ToList(),
+                };       
+
                 await _context.Collections.AddAsync(newCollection);
                 await _context.SaveChangesAsync();
+
+                var tagFromDb = _context.Tags.ToList();
+
+                foreach(var tag in tagFromDb)
+				{
+                    var collectionFromDb = _context.Collections
+                        .Where(c => c.Tags
+                        .Contains(tag))
+                        .FirstOrDefault();
+
+                    tag.Collections.Add(collectionFromDb);
+                    collectionFromDb.Tags.Add(tag);
+                }
             }
             else
             {
@@ -62,6 +77,7 @@ namespace CourseProject.Application.Service
                     Image = null,
                     ImageName = "Empty.png",
                     ImagePath = path,
+                    Tags = _context.Tags.ToList(),
                 };
                 await _context.Collections.AddAsync(newCollection);
                 await _context.SaveChangesAsync();
@@ -132,6 +148,99 @@ namespace CourseProject.Application.Service
             {
                 throw new ArgumentNullException();
             }
+        }
+
+        public async Task<Collection> AddItemToCollection(Collection collection, Item item, List<string> tags)
+        {
+            var collectionFromDb = _context.Collections
+                .Where(c => c.CollectionId == collection.CollectionId)
+                .Include(c => c.Items)
+                .Include(c => c.Tags)
+                .FirstOrDefault();
+
+            var search = _context.Items
+                .Where(s => s.Name == item.Name)
+                .Any();
+
+            if (search)
+            {
+                var itemFromDb = _context.Items
+                    .Where(i => i.Name == item.Name)
+                    .Include(i => i.Collections)
+                    .Include(i => i.Tags)
+                    .FirstOrDefault();
+
+                itemFromDb.Collections.Add(collectionFromDb);
+                foreach(var tag in tags)
+                {   
+                    var tagFromDb = _context.Tags
+                        .Where(t => t.Name == tag)
+                        .Include(t => t.Collections)
+                        .Include(t => t.Items)
+                        .FirstOrDefault();
+
+                    if (!collectionFromDb.Tags.Contains(tagFromDb))
+                    {
+                        collectionFromDb.Tags.Add(tagFromDb);
+                    }
+                    itemFromDb.Tags.Add(tagFromDb);
+                }
+                collectionFromDb.Items.Add(itemFromDb);
+            }
+            else
+            {
+                var newItem = new Item() { ItemId = Guid.NewGuid(), Name = item.Name };
+                await _context.Items.AddAsync(newItem);
+                await _context.SaveChangesAsync();
+
+                var itemFromDb = _context.Items
+                    .Where(i => i.Name == item.Name)
+                    .Include(i => i.Collections)
+                    .Include(i => i.Tags)
+                    .FirstOrDefault();
+
+                foreach (var tag in tags)
+                {
+                    var tagFromDb = _context.Tags
+                        .Where(t => t.Name == tag)
+                        .Include(t => t.Collections)
+                        .Include(t => t.Items)
+                        .FirstOrDefault();
+
+                    if (!collectionFromDb.Tags.Contains(tagFromDb))
+                    {
+                        collectionFromDb.Tags.Add(tagFromDb);
+                    }
+                    itemFromDb.Tags.Add(tagFromDb);
+                }
+
+                itemFromDb.Collections.Add(collectionFromDb);
+                collectionFromDb.Items.Add(itemFromDb);
+            }
+
+            await _context.SaveChangesAsync();
+
+            return collectionFromDb;
+        }
+
+        public async Task<Collection> RemoveItemFromCollection(Item item)
+        {
+            var itemFromDb = _context.Items
+                .Where(i => i.ItemId == item.ItemId)
+                .Include(i => i.Collections)
+                .FirstOrDefault();
+
+            var collectionFromDb = _context.Collections
+                .Where(c => c.Items
+                .Contains(itemFromDb))
+                .FirstOrDefault();
+
+            itemFromDb.Collections.Remove(collectionFromDb);
+            collectionFromDb.Items.Remove(itemFromDb);
+
+            await _context.SaveChangesAsync();
+
+            return collectionFromDb;
         }
     }
 }

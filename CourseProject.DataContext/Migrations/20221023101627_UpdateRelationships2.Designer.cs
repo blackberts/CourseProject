@@ -3,6 +3,7 @@ using System;
 using CourseProject.DataContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace CourseProject.DataContext.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221023101627_UpdateRelationships2")]
+    partial class UpdateRelationships2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -35,21 +37,6 @@ namespace CourseProject.DataContext.Migrations
                     b.HasIndex("ItemsItemId");
 
                     b.ToTable("CollectionItem");
-                });
-
-            modelBuilder.Entity("CollectionTag", b =>
-                {
-                    b.Property<Guid>("CollectionsCollectionId")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("TagsTagId")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("CollectionsCollectionId", "TagsTagId");
-
-                    b.HasIndex("TagsTagId");
-
-                    b.ToTable("CollectionTag");
                 });
 
             modelBuilder.Entity("CourseProject.Domain.Entities.ApplicationUser", b =>
@@ -346,21 +333,6 @@ namespace CourseProject.DataContext.Migrations
                     b.HasOne("CourseProject.Domain.Entities.Item", null)
                         .WithMany()
                         .HasForeignKey("ItemsItemId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("CollectionTag", b =>
-                {
-                    b.HasOne("CourseProject.Domain.Entities.Collection", null)
-                        .WithMany()
-                        .HasForeignKey("CollectionsCollectionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("CourseProject.Domain.Entities.Tag", null)
-                        .WithMany()
-                        .HasForeignKey("TagsTagId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

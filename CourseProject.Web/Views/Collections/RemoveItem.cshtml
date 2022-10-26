@@ -1,0 +1,34 @@
+﻿@model Item
+@using CourseProject.DataContext
+@using Microsoft.EntityFrameworkCore
+@inject ApplicationDbContext _context
+
+<form method="post" asp-action="RemoveItem" asp-controller="Collections">
+<input asp-for="ItemId" hidden />
+<div class="row">
+    <div class="col-md-5 offset-4">
+			<h2 class="text-primary">Remove Item</h2>
+			<hr />
+		</div>
+		<div class="col-md-5 offset-4">
+		    <label asp-for="Name"></label>
+		    <input asp-for="Name" disabled class="form-control" />
+		</div>
+		<div class="col-md-5 offset-4">
+		@foreach(var collection in _context.Collections.Where(c=> c.Items.Contains(Model)).Include(i => i.Items))
+        {
+			<button type="submit" class="btn btn-primary" style="width:150px">Remove</button>
+		     <a asp-controller="Collections" asp-action="Get" class="btn btn-secondary"
+			 asp-route-id="@collection.CollectionId" style="width:150px">
+		     	  Back to Collection
+		     </a>
+		}
+		</div>
+	</div>
+</form>
+
+@section Scripts{
+	@{
+	<partial name="_ValidationScriptsPartial" />
+	}
+}

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using CourseProject.Application.CQRS.Commands.Collections;
 using CourseProject.Application.CQRS.Commands.Items;
 using CourseProject.Domain.Entities;
 using System;
@@ -15,6 +16,8 @@ namespace CourseProject.Application.Mapping
         {
             CreateMap<CreateItemCommand, Item>().ReverseMap();
             CreateMap<EditItemCommand, Item>().ReverseMap();
+            CreateMap<AddItemToCollectionCommand, Item>().ReverseMap();
+            CreateMap<RemoveItemFromCollectionCommand, Item>().ReverseMap();
         }
     }
 }

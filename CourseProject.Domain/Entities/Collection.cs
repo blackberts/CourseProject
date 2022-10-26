@@ -19,6 +19,7 @@ namespace CourseProject.Domain.Entities
 
         // Navigation
         public List<Item>? Items { get; set; }
+        public List<Tag>? Tags { get; set; }
 
         [NotMapped]
         public IFormFile? Image { get; set; }

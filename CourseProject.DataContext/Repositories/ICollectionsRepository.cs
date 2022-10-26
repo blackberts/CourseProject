@@ -14,6 +14,8 @@ namespace CourseProject.DataContext.Repositories
         Task<Collection> GetCollectionById(Guid id);
         Task<Collection> AddCollection(Collection collection);
         Task<Collection> EditCollection(Collection collection);
+        Task<Collection> AddItemToCollection(Collection collection, Item item, List<string> tags);
+        Task<Collection> RemoveItemFromCollection(Item item);
         void DeleteCollectionById(Guid id);
     }
 }

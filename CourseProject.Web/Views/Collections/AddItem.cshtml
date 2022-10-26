@@ -1,39 +1,37 @@
-﻿@model Item
+﻿@model Collection
 @using CourseProject.DataContext
 @using Microsoft.EntityFrameworkCore
 @inject ApplicationDbContext _context
 
-<form method="post" asp-action="Edit">
-	<input asp-for="ItemId" hidden />
-	<div class="row">
-        <div class="col-md-5 offset-4">
-			<h2 class="text-primary">Edit Item</h2>
+<form method="post" asp-action="AddItem" asp-controller="Collections">
+<input asp-for="CollectionId" hidden />
+<div class="row">
+    <div class="col-md-5 offset-4">
+			<h2 class="text-primary">Add Item</h2>
 			<hr />
 		</div>
-		@*<div asp-validation-summary="All"></div>*@
 		<div class="col-md-5 offset-4">
 			<label asp-for="Name"></label>
-			<input asp-for="Name" class="form-control" />
+			<input asp-for="Name" class="form-control" value=""/>
 			<span asp-validation-for="Name" class="text-danger"></span>
 		</div>
 		<div class="col-md-5 offset-4">
 			<label asp-for="Tags"></label>
             <select asp-for="Tags" class="form-select" multiple>
-				@foreach(var collections in _context.Collections.Where(c => c.Items.Contains(Model)).Include(c => c.Items).Include(c => c.Tags))
+				@foreach(var tags in _context.Tags.Where(c=> c.Collections.Contains(Model)).Include(i => i.Items))
 				{
-					@foreach(var tags in collections.Tags)
-					{
+
 						<option value="@tags.Name">@tags.Name</option>
-					}
 				}
 		    </select>
 			<span asp-validation-for="Tags" class="text-danger"></span>
 		</div>
 		<div class="col-md-5 offset-4">
-		<button type="submit" class="btn btn-primary" style="width:150px">Edit</button>
+		<button type="submit" class="btn btn-primary" style="width:150px">Create</button>
 		<a asp-controller="Collections" asp-action="Get" class="btn btn-secondary" style="width:150px">
 			Back to List
 		</a>
+		</div>
 	</div>
 </form>
 

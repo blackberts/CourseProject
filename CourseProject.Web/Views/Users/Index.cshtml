@@ -36,7 +36,7 @@
                     <td>@item.Role</td>
                     <td>
                         <div class="w-75 btn-group" role="group">
-                            @if (@item.Status == "Banned")
+                            @if (item.Status == "Banned")
                             {
                                 @using (Html.BeginForm("Unban", "Users", FormMethod.Post))
                                 {

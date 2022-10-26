@@ -6,10 +6,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CourseProject.Application.CQRS.Queries.Collections
+namespace CourseProject.Application.CQRS.Commands.Collections
 {
-    public class GetCollectionByIdQuery : IRequest<Collection>
+    public class RemoveItemFromCollectionCommand : IRequest<Collection>
     {
-        public Guid Id { get; set; }
+        public Guid ItemId { get; set; }
     }
 }

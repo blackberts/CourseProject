@@ -15,6 +15,10 @@ namespace CourseProject.DataContext.Configurations
         {
             builder.ToTable(nameof(Tag));
             builder.HasKey(tag => tag.TagId);
+            builder.HasMany(tags => tags.Items)
+                .WithMany(items => items.Tags);
+            builder.HasMany(tags => tags.Collections)
+                .WithMany(collections => collections.Tags);
         }
     }
 }

@@ -13,6 +13,11 @@
 			<span asp-validation-for="Name" class="text-danger"></span>
 		</div>
 		<div class="col-md-5 offset-4">
+			<label asp-for="Tags"></label>
+			<input asp-for="Tags" class="form-control" />
+			<span asp-validation-for="Tags" class="text-danger"></span>
+		</div>
+		<div class="col-md-5 offset-4">
 		<button type="submit" class="btn btn-primary" style="width:150px">Create</button>
 		<a asp-controller="Items" asp-action="Index" class="btn btn-secondary" style="width:150px">
 			Back to List

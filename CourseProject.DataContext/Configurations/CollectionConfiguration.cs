@@ -17,6 +17,8 @@ namespace CourseProject.DataContext.Configurations
             builder.HasKey(collection => collection.CollectionId);
             builder.HasMany(collection => collection.Items)
                 .WithMany(items => items.Collections);
+            builder.HasMany(collection => collection.Tags)
+                .WithMany(tags => tags.Collections);
         }
     }
 }

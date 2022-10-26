@@ -15,6 +15,7 @@ namespace CourseProject.Application.Mapping
         {
             CreateMap<CreateCollectionCommand, Collection>().ReverseMap();
             CreateMap<EditCollectionCommand, Collection>().ReverseMap();
+            CreateMap<AddItemToCollectionCommand, Collection>().ReverseMap();
         }
     }
 }
