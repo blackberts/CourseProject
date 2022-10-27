@@ -17,7 +17,7 @@ namespace CourseProject.Web.Controllers
             _context = context;
         }
 
-        // GET
+        [HttpGet]
         public async Task<IActionResult> Index()
         {
             var query = new GetAllTagsQuery();
@@ -25,7 +25,6 @@ namespace CourseProject.Web.Controllers
             return View(result);
         }
 
-        // POST
         [HttpPost]
         public async Task<IActionResult> GetById(Guid id)
         {
@@ -34,13 +33,12 @@ namespace CourseProject.Web.Controllers
             return View(result);
         }
 
-        // GET
+        [HttpGet]
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST
         [HttpPost]
         public async Task<IActionResult> Create(CreateTagCommand command)
         {
@@ -48,7 +46,7 @@ namespace CourseProject.Web.Controllers
             return RedirectToAction("Index", "Tags");
         }
 
-        // GET
+        [HttpGet]
         public IActionResult Edit(Guid id)
         {
             if (id == Guid.Empty)
@@ -66,7 +64,6 @@ namespace CourseProject.Web.Controllers
             return View(tagFromDb);
         }
 
-        // POST
         [HttpPost]
         public async Task<IActionResult> Edit(EditTagCommand command)
         {
@@ -75,8 +72,8 @@ namespace CourseProject.Web.Controllers
         }
 
 
-        // GET
-       public IActionResult Delete(Guid id)
+        [HttpGet]
+        public IActionResult Delete(Guid id)
         {
             if (id == Guid.Empty)
             {

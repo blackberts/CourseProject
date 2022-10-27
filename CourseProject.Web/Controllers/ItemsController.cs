@@ -19,7 +19,7 @@ namespace CourseProject.Web.Controllers
             _context = context;
         }
 
-        // GET
+        [HttpGet]
         public async Task<IActionResult> Index()
         {
             var query = new GetAllItemsQuery();
@@ -27,7 +27,6 @@ namespace CourseProject.Web.Controllers
             return View(result);
         }
 
-        // POST
         [HttpPost]
         public async Task<IActionResult> GetById(Guid id)
         {
@@ -36,13 +35,12 @@ namespace CourseProject.Web.Controllers
             return View(result);
         }
 
-        // GET
+        [HttpGet]
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST
         [HttpPost]
         public async Task<IActionResult> Create(CreateItemCommand command)
         {
@@ -50,7 +48,7 @@ namespace CourseProject.Web.Controllers
             return RedirectToAction("Index", "Items");
         }
 
-        // GET
+        [HttpGet]
         public IActionResult Edit(Guid id)
         {
             if (id == Guid.Empty)
@@ -73,7 +71,6 @@ namespace CourseProject.Web.Controllers
             return View(itemFromDb);
         }
 
-        // POST
         [HttpPost]
         public async Task<IActionResult> Edit(EditItemCommand command)
         {
@@ -89,7 +86,7 @@ namespace CourseProject.Web.Controllers
         }
 
 
-        // GET
+        [HttpGet]
         public IActionResult Delete(Guid id)
         {
             if (id == Guid.Empty)
@@ -107,8 +104,6 @@ namespace CourseProject.Web.Controllers
             return View(itemFromDb);
         }
 
-
-        // POST
         [HttpPost]
         public async Task<IActionResult> Delete(DeleteItemCommand command)
         {

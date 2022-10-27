@@ -12,7 +12,7 @@ namespace CourseProject.Application.CQRS.Commands.Collections
     public class CreateCollectionCommand : IRequest<Collection>
     {
         public string? Name { get; set; }
-        public string? Owner { get; set; } = Environment.UserName;
+        public string? Owner { get; set; }
         public string? Description { get; set; }
         public string? Theme { get; set; }
         public IFormFile? Image { get; set; }

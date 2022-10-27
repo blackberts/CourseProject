@@ -3,6 +3,7 @@ using CourseProject.DataContext.Repositories;
 using CourseProject.Domain.Entities;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -50,18 +51,30 @@ namespace CourseProject.Application.Service
                 await _context.Collections.AddAsync(newCollection);
                 await _context.SaveChangesAsync();
 
+
                 var tagFromDb = _context.Tags.ToList();
 
-                foreach(var tag in tagFromDb)
+                foreach (var tag in tagFromDb)
 				{
                     var collectionFromDb = _context.Collections
                         .Where(c => c.Tags
                         .Contains(tag))
+                        .Include(c => c.Tags)
                         .FirstOrDefault();
 
                     tag.Collections.Add(collectionFromDb);
-                    collectionFromDb.Tags.Add(tag);
+                    //collectionFromDb.Tags.Add(tag);
                 }
+
+                var user = _context.Users
+                    .Where(c => c.UserName == collection.Owner)
+                    .Include(c => c.Collections)
+                    .FirstOrDefault();
+
+                user.Collections.Add(newCollection);
+                newCollection.Users.Add(user);
+
+                return newCollection;
             }
             else
             {
@@ -78,12 +91,36 @@ namespace CourseProject.Application.Service
                     ImageName = "Empty.png",
                     ImagePath = path,
                     Tags = _context.Tags.ToList(),
+                    Users = new List<ApplicationUser>(),
                 };
                 await _context.Collections.AddAsync(newCollection);
                 await _context.SaveChangesAsync();
-            }
 
-            return collection;
+                var tagFromDb = _context.Tags.ToList();
+
+                foreach (var tag in tagFromDb)
+                {
+                    var collectionFromDb = _context.Collections
+                        .Where(c => c.Tags
+                        .Contains(tag))
+                        .Include(c => c.Tags)
+                        .Include(c => c.Users)
+                        .FirstOrDefault();
+
+                    tag.Collections.Add(collectionFromDb);
+                    //collectionFromDb.Tags.Add(tag);
+                }
+
+                var user = _context.Users
+                    .Where(c => c.UserName == collection.Owner)
+                    .Include(c => c.Collections)
+                    .FirstOrDefault();
+
+                user.Collections.Add(newCollection);
+                newCollection.Users.Add(user);
+
+                return newCollection;
+            }
         }
 
         public void DeleteCollectionById(Guid id)
@@ -101,9 +138,10 @@ namespace CourseProject.Application.Service
             }
         }
 
-        public async Task<List<Collection>> GetAll()
+        public async Task<ApplicationUser> GetAll(string name)
         {
-            return await _context.Collections.ToListAsync();
+            var user = _context.Users.Where(c => c.UserName == name).FirstOrDefault();
+            return user;
         }
 
         public async Task<Collection> GetCollectionById(Guid id)
@@ -122,31 +160,52 @@ namespace CourseProject.Application.Service
 
         public async Task<Collection> EditCollection(Collection collection)
         {
-            string path = "/images/Collections/" + collection.Image.FileName;
-
-            using(var fileStream = new FileStream(_appEnvironment.WebRootPath + path, FileMode.Create))
-            {
-                await collection.Image.CopyToAsync(fileStream);
-            }
-
             var updateCollection = await _context.Collections.FindAsync(collection.CollectionId);
-            if (updateCollection != null)
+
+            if (collection.Image != null)
             {
-                updateCollection.Name = collection.Name;
-                updateCollection.Theme = collection.Theme;
-                updateCollection.Image = collection.Image;
-                updateCollection.ImageName = collection.Image.FileName;
-                updateCollection.ImagePath = path;
-                updateCollection.Description = collection.Description;
-                updateCollection.Owner = collection.Owner;
+                byte[] imageData = null;
+                using (var binaryReader = new BinaryReader(collection.Image.OpenReadStream()))
+                {
+                    imageData = binaryReader.ReadBytes((int)collection.Image.Length);
+                }
+                collection.ImageData = imageData;
 
-                await _context.SaveChangesAsync();
+                if (updateCollection != null)
+                {
+                    updateCollection.Name = collection.Name;
+                    updateCollection.Theme = collection.Theme;
+                    updateCollection.Image = collection.Image;
+                    updateCollection.ImageName = collection.Image.FileName;
+                    updateCollection.Description = collection.Description;
+                    updateCollection.Owner = collection.Owner;
+                    updateCollection.ImageData = collection.ImageData;
 
-                return collection;
+                    await _context.SaveChangesAsync();
+
+                    return updateCollection;
+                }
+                else
+                {
+                    throw new ArgumentNullException();
+                }
             }
             else
             {
-                throw new ArgumentNullException();
+                string path = "/images/Collections/Empty.png";
+
+                updateCollection.Name = collection.Name;
+                updateCollection.Theme = collection.Theme;
+                updateCollection.Image = null;
+                updateCollection.ImageName = "Empty.png";
+                updateCollection.ImageData = null;
+                updateCollection.ImagePath = path;
+                updateCollection.Owner = collection.Owner;
+                updateCollection.Description = collection.Description;
+
+                await _context.SaveChangesAsync();
+
+                return updateCollection;
             }
         }
 

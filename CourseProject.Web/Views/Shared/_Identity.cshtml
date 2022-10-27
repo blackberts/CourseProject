@@ -1,6 +1,5 @@
 ﻿@inject UserManager<ApplicationUser> UserManager;
 
-
 @if (!User.Identity.IsAuthenticated)
 {
     <a class="btn btn-outline-success my-2 my-sm-0" asp-controller="Account" asp-action="Login">
@@ -16,16 +15,39 @@ else
 {
     if (User.IsInRole("Admin"))
     {
-        @*User profile section*@
-        <a class="btn btn-outline-success my-2 my-sm-0" asp-controller="Users" asp-action="Index">
-            <i class="bi bi-people"></i> List of Users
-        </a>
+        <div class="dropdown">
+            <a class="btn btn-outline-success my-2 my-sm-0 dropdown-toggle" role="button" id="dropdownMenuLink" 
+            data-bs-toggle="dropdown" aria-expanded="false">
+                Hello @User.Identity.Name
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                <li><a class="dropdown-item" asp-controller="" asp-action="" asp-route-name="@User.Identity.Name">
+                <i class="bi bi-people"></i> Account(not working)</a></li>
+                <li><a class="dropdown-item" asp-controller="" asp-action="">
+                <i class="bi bi-people"></i> Settings(not working)</a></li>
+                <li><a class="dropdown-item" asp-controller="Collections" asp-action="Index" asp-route-name="@User.Identity.Name">
+                <i class="bi bi-people"></i> Collections</a></li>
+                <li><a class="dropdown-item" asp-controller="Users" asp-action="Index">
+                <i class="bi bi-people"></i> List of Users</a></li>
+            </ul>
+        </div>
     }
     else
     {
-        <a class="btn btn-outline-success my-2 my-sm-0" asp-controller="Account" asp-action="Index">
-            <i class="bi bi-people"></i> Hello @User.Identity.Name
-        </a>
+        <div class="dropdown">
+            <a class="btn btn-outline-success my-2 my-sm-0 dropdown-toggle" role="button" id="dropdownMenuLink" 
+            data-bs-toggle="dropdown" aria-expanded="false">
+                Hello @User.Identity.Name
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                <li><a class="dropdown-item" asp-controller="" asp-action="">
+                <i class="bi bi-people"></i> Account(not working)</a></li>
+                <li><a class="dropdown-item" asp-controller="" asp-action="">
+                <i class="bi bi-people"></i> Settings(not working)</a></li>
+                <li><a class="dropdown-item" asp-controller="Account" asp-action="Index" asp-route-name="@User.Identity.Name">
+                <i class="bi bi-people"></i> Collections</a></li>
+            </ul>
+        </div>
     }
     <span style="padding: 5px"></span>
     <form asp-controller="Account" asp-action="Logout">

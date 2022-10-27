@@ -10,7 +10,7 @@ namespace CourseProject.DataContext.Repositories
 {
     public interface ICollectionsRepository
     {
-        Task<List<Collection>> GetAll();
+        Task<ApplicationUser> GetAll(string name);
         Task<Collection> GetCollectionById(Guid id);
         Task<Collection> AddCollection(Collection collection);
         Task<Collection> EditCollection(Collection collection);

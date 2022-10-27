@@ -8,7 +8,8 @@ using System.Threading.Tasks;
 
 namespace CourseProject.Application.CQRS.Queries.Collections
 {
-    public class GetAllCollectionsQuery : IRequest<List<Collection>>
+    public class GetAllCollectionsQuery : IRequest<ApplicationUser>
     {
+        public string? Name { get;set; }
     }
 }

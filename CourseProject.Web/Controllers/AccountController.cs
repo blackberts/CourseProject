@@ -14,6 +14,7 @@ namespace CourseProject.Controllers
             Mediator = mediator;
         }
 
+        [HttpGet]
         public IActionResult Login() => View(new AccountLoginDto());
 
         [HttpPost]
@@ -28,6 +29,7 @@ namespace CourseProject.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        [HttpGet]
         public IActionResult Register() => View(new AccountRegisterDto());
 
         [HttpPost]
@@ -49,9 +51,10 @@ namespace CourseProject.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        [HttpGet]
         public IActionResult Index()
         {
-            return RedirectToAction("Index", "Collections");
+            return View();
         }
     }
 }

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace CourseProject.Application.CQRS.Queries.Collections
 {
-    public class GetAllCollectionsQueryHandler : IRequestHandler<GetAllCollectionsQuery, List<Collection>>
+    public class GetAllCollectionsQueryHandler : IRequestHandler<GetAllCollectionsQuery, ApplicationUser>
     {
         private readonly IUnitOfWork _unitOfWork;
 
@@ -18,9 +18,9 @@ namespace CourseProject.Application.CQRS.Queries.Collections
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<List<Collection>> Handle(GetAllCollectionsQuery request, CancellationToken cancellationToken)
+        public async Task<ApplicationUser> Handle(GetAllCollectionsQuery request, CancellationToken cancellationToken)
         {
-            var collections = await _unitOfWork.Collections.GetAll();
+            var collections = await _unitOfWork.Collections.GetAll(request.Name);
             _unitOfWork.Save();
             return collections;
         }

@@ -20,7 +20,8 @@ namespace CourseProject.Domain.Entities
         // Navigation
         public List<Item>? Items { get; set; }
         public List<Tag>? Tags { get; set; }
-
+        public List<ApplicationUser>? Users { get; set; }
+  
         [NotMapped]
         public IFormFile? Image { get; set; }
         public string? ImageName { get; set; }

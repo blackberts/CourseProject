@@ -34,7 +34,8 @@
 	    </div>
 		<div class="col-md-5 offset-4">
 		    <button type="submit" class="btn btn-primary" style="width:150px">Edit</button>
-		    <a asp-controller="Collections" asp-action="Get" class="btn btn-secondary" style="width:150px">
+		    <a asp-controller="Collections" asp-action="Get" asp-route-id="@Model.CollectionId"
+			class="btn btn-secondary" style="width:150px">
 		    	Back to List
 		    </a>
 	    </div>

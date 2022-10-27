@@ -34,7 +34,7 @@ namespace CourseProject.DataContext.Migrations
 
                     b.HasIndex("ItemsItemId");
 
-                    b.ToTable("CollectionItem");
+                    b.ToTable("CollectionItem", (string)null);
                 });
 
             modelBuilder.Entity("CollectionTag", b =>
@@ -49,7 +49,7 @@ namespace CourseProject.DataContext.Migrations
 
                     b.HasIndex("TagsTagId");
 
-                    b.ToTable("CollectionTag");
+                    b.ToTable("CollectionTag", (string)null);
                 });
 
             modelBuilder.Entity("CourseProject.Domain.Entities.ApplicationUser", b =>
@@ -157,7 +157,7 @@ namespace CourseProject.DataContext.Migrations
 
                     b.HasKey("CollectionId");
 
-                    b.ToTable("Collections");
+                    b.ToTable("Collections", (string)null);
                 });
 
             modelBuilder.Entity("CourseProject.Domain.Entities.Item", b =>
@@ -171,7 +171,7 @@ namespace CourseProject.DataContext.Migrations
 
                     b.HasKey("ItemId");
 
-                    b.ToTable("Items");
+                    b.ToTable("Items", (string)null);
                 });
 
             modelBuilder.Entity("CourseProject.Domain.Entities.Tag", b =>
@@ -185,7 +185,7 @@ namespace CourseProject.DataContext.Migrations
 
                     b.HasKey("TagId");
 
-                    b.ToTable("Tags");
+                    b.ToTable("Tags", (string)null);
                 });
 
             modelBuilder.Entity("ItemTag", b =>
@@ -200,7 +200,7 @@ namespace CourseProject.DataContext.Migrations
 
                     b.HasIndex("TagsTagId");
 
-                    b.ToTable("ItemTag");
+                    b.ToTable("ItemTag", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
