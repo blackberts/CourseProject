@@ -27,6 +27,12 @@ namespace CourseProject.Web.Controllers
             return View(result);
         }
 
+        [HttpGet]
+        public IActionResult GetById()
+        {
+            return View();
+        }
+
         [HttpPost]
         public async Task<IActionResult> GetById(Guid id)
         {

@@ -12,6 +12,7 @@ namespace CourseProject.DataContext.Repositories
     {
         Task<ApplicationUser> GetAll(string name);
         Task<Collection> GetCollectionById(Guid id);
+        Task<List<Collection>> GetTheBiggestCollections();
         Task<Collection> AddCollection(Collection collection);
         Task<Collection> EditCollection(Collection collection);
         Task<Collection> AddItemToCollection(Collection collection, Item item, List<string> tags);

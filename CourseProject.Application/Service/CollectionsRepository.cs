@@ -46,6 +46,7 @@ namespace CourseProject.Application.Service
                     Image = collection.Image,
                     ImageData = collection.ImageData,
                     Tags = _context.Tags.ToList(),
+                    Users = new List<ApplicationUser>(),
                 };       
 
                 await _context.Collections.AddAsync(newCollection);
@@ -142,6 +143,16 @@ namespace CourseProject.Application.Service
         {
             var user = _context.Users.Where(c => c.UserName == name).FirstOrDefault();
             return user;
+        }
+
+        public async Task<List<Collection>> GetTheBiggestCollections()
+        {
+            var collections = _context.Collections
+                .Include(c => c.Items)
+                .OrderByDescending(c => c.Items.Count())
+                .Take(6)
+                .ToList();
+            return collections;
         }
 
         public async Task<Collection> GetCollectionById(Guid id)

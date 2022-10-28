@@ -139,7 +139,14 @@ namespace CourseProject.Web.Controllers
                 .Where(c => c.Collections
                 .Contains(collectionFromDb))
                 .FirstOrDefault();
-            TempData["user"] = user.UserName;
+            if(user == null)
+            {
+                TempData["user"] = collectionFromDb.Owner;
+            }
+            else
+            {
+                TempData["user"] = user.UserName;
+            }
             TempData["collection"] = collectionFromDb.CollectionId;
 
             if (collectionFromDb == null)
@@ -158,7 +165,14 @@ namespace CourseProject.Web.Controllers
                 .Where(c => c.Collections
                 .Contains(collection))
                 .FirstOrDefault();
-            TempData["user"] = user.UserName;
+            if(user == null)
+            {
+                TempData["user"] = collection.Owner;
+            }
+            else
+            {
+                TempData["user"] = user.UserName;
+            }
 
             await Mediator.Send(command);
             return RedirectToAction("Index", "Collections");
