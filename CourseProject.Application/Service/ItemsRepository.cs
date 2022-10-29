@@ -79,5 +79,52 @@ namespace CourseProject.Application.Service
                 throw new ArgumentNullException();
             }
         }
+
+        public async Task<Item> AddComment(ApplicationUser user, Item item, Comment comment)
+        {
+            await _context.Comments.AddAsync(comment);
+            await _context.SaveChangesAsync();
+
+            var userFromDb = await _context.Users
+                .Where(u => u.Id == user.Id)
+                .Include(u => u.Comments)
+                .FirstOrDefaultAsync();
+
+            var itemFromDb = await _context.Items
+                .Where(i => i.ItemId == item.ItemId)
+                .Include(i => i.Comments)
+                .Include(i => i.Collections)
+                .Include(i => i.Tags)
+                .FirstOrDefaultAsync();
+
+            if(userFromDb != null && itemFromDb != null)
+            {
+                userFromDb.Comments.Add(comment);
+                itemFromDb.Comments.Add(comment);
+                
+                comment.Item = itemFromDb;
+                comment.User = userFromDb;
+            }
+            await _context.SaveChangesAsync();
+
+            return itemFromDb;
+        }
+
+        public async Task<Item> DeleteComment(Guid id)
+        {
+            var comment = await _context.Comments.FindAsync(id);
+            var itemFromDb = await _context.Items
+                .Where(i => i.Comments.Contains(comment))
+                .Include(i => i.Comments)
+                .FirstOrDefaultAsync();
+
+            if (comment != null)
+            {
+                _context.Comments.Remove(comment);
+                await _context.SaveChangesAsync();
+            }
+
+            return itemFromDb;
+        }
     }
 }

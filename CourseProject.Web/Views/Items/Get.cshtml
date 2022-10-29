@@ -1,0 +1,105 @@
+﻿@model Item
+@using CourseProject.DataContext
+@using Microsoft.EntityFrameworkCore
+@inject ApplicationDbContext _context
+@inject UserManager<ApplicationUser> UserManager;
+
+ <link rel="stylesheet" href="~/css/style.css">
+ <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+
+<form method="get" asp-action="Get" asp-controller="Items">
+<div style="padding: 10px;"></div>
+    <div class="row">
+        <center>
+            <div class="center row-cols-0 col-md-4 text-center">
+                <div class="col" style="padding: 10px;">
+                    <div class="card">
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">Name: @Model.Name</li>
+                            <li class="list-group-item">Tags: 
+                            @foreach(var tag in _context.Tags.Where(t => t.Items.Contains(Model)).Include(t => t.Items))
+                            {
+                                @tag.Name<a>,</a>
+                            }
+                            </li>
+                            <li class="list-group-item" style="height:80px">
+                                                            <div class="heart-btn">
+                                <div class="content">
+                                    <span class="heart"></span>
+                                    <span class="text">Like</span>
+                                    <span class="numb"></span>
+                                </div>
+                            </div>
+                            <script>
+                                $(document).ready(function(){
+                                    $('.content').click(function(){
+                                        $('.content').toggleClass("heart-active")
+                                        $('.text').toggleClass("heart-active")
+                                        $('.numb').toggleClass("heart-active")
+                                        $('.heart').toggleClass("heart-active")
+                                    });
+                                });
+                            </script>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </center>
+    </div>
+</form>
+<form method="post" asp-action="AddComment" asp-controller="Items">
+    <div class="row d-flex justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card shadow-0 border" style="background-color: #f0f2f5;">
+                <div class="card-body p-4">
+                    <div class="form-outline mb-4"> 
+                        <label asp-for="Name"></label>
+		                <input asp-for="Name" class="form-control" value="" placeholder="Type comment..."/>
+		                <span asp-validation-for="Name" class="text-danger"></span>
+                        <button type="submit" class="btn btn-primary" style="width:150px">Add comment</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+<form method="post" asp-action="DeleteComment" asp-controller="Items">
+    <div class="row d-flex justify-content-center">
+        <div class="col-md-8 col-lg-6">
+             <div class="card shadow-0 border" style="background-color: #f0f2f5;">
+                 <div class="card-body p-4">
+                    @foreach(var comment in _context.Comments.Where(c => c.Item == Model).Include(c => c.User).Include(c => c.Item))
+                    {
+                        @if (User.IsInRole("Admin") || User.Identity.Name == comment.User.UserName)
+                        {
+                            <div class="card mb-4">
+                                <div class="card-body">
+                                    <p>@comment.Text</p>
+                                    <div class="text-end">
+                                        <input asp-for="@comment.CommentId" hidden />
+                                        <span asp-validation-for="@comment.CommentId"></span>
+                                        <button type="submit" class="btn btn-danger" value="@comment.CommentId" name="id" id="id"
+                                            style="width:100px">Delete</button>
+                                    </div>
+                                    <div class="d-flex justify-content-between">
+                                        <div class="d-flex flex-row align-items-center">
+                                            <p class="small mb-0 ms-2">@comment.User.UserName</p>
+                                            <p class="small mb-0 ms-2">- @comment.CreatedDate</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+@section Scripts{
+	@{
+		<partial name="_ValidationScriptsPartial" />
+	}
+}

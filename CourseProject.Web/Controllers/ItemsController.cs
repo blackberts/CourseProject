@@ -28,17 +28,20 @@ namespace CourseProject.Web.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetById()
+        public async Task<IActionResult> Get(GetItemByIdQuery query)
         {
-            return View();
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> GetById(Guid id)
-        {
-            var query = new GetItemByIdQuery(id);
-            var result = await Mediator.Send(query);
-            return View(result);
+            if(query.Id == Guid.Empty)
+            {
+                query.Id = (Guid)TempData["itemId"];
+                var result = await Mediator.Send(query);
+                return View(result);
+            }
+            else
+            {
+                var result = await Mediator.Send(query);
+                TempData["itemId"] = result.ItemId;
+                return View(result);
+            }
         }
 
         [HttpGet]
@@ -115,6 +118,24 @@ namespace CourseProject.Web.Controllers
         {
             await Mediator.Send(command);
             return RedirectToAction("Index", "Items");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddComment(AddCommentToItemCommand command)
+        {
+            command.ItemId = (Guid)TempData["itemId"];
+            command.UserId = (Guid)TempData["userId"];
+            await Mediator.Send(command);
+            return RedirectToAction("Get", "Items");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteComment(Guid id)
+        {
+            DeleteCommentFromItemCommand command = new() { Id = id };
+            var item = await Mediator.Send(command);
+            TempData["itemId"] = item.ItemId;
+            return RedirectToAction("Get", "Items");
         }
     }
 }

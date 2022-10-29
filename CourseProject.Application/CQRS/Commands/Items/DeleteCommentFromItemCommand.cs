@@ -6,9 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CourseProject.Application.CQRS.Queries.Items
+namespace CourseProject.Application.CQRS.Commands.Items
 {
-    public class GetItemByIdQuery : IRequest<Item>
+    public class DeleteCommentFromItemCommand : IRequest<Item>
     {
         public Guid Id { get; set; }
     }

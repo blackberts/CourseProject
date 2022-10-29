@@ -6,12 +6,12 @@
 	    <h2 class="text-primary">Create Collection</h2>
 	      <hr />
     </div>
-	<div class="form-group">
+	<div class="col-md-5 offset-4">
 		<label asp-for="Name"></label>
 		<input asp-for="Name" class="form-control" />
 		<span asp-validation-for="Name" class="text-danger"></span>
 	</div>
-	<div class="form-group">
+	<div class="col-md-5 offset-4">
 		<label asp-for="Theme"></label>
 		<select asp-for="Theme" class="form-control">
 			<option value="Books">Books</option>
@@ -21,12 +21,12 @@
 			<option value="Games">Games</option>
 		</select>
 	</div>
-	<div class="from-group">
+	<div class="col-md-5 offset-4">
 		<label asp-for="Description"></label>
 		<textarea class="form-control" rows="3" asp-for="Description"></textarea>
 		<span asp-validation-for="Description"></span>
 	</div>
-	<div class="form-group">
+	<div class="col-md-5 offset-4">
 		<label asp-for="Image" class="control-label"></label>
 		<input type="file" asp-for="Image" class="form-control"/>
 		<span asp-validation-for="Image" class="text-danger"></span>

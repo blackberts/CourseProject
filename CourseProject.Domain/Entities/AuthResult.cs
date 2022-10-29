@@ -10,5 +10,6 @@ namespace CourseProject.Domain.Entities
     {
         public bool Result { get; set; }
         public string? Error { get; set; }
+        public string? UserId { get; set; }
     }
 }

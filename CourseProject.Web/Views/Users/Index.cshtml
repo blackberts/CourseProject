@@ -40,7 +40,8 @@
                             {
                                 @using (Html.BeginForm("Unban", "Users", FormMethod.Post))
                                 {
-                                    <button class="btn btn-success btn-sm mx-1" type="submit" name="userId" id="userId" value="@user.Id">
+                                    <button class="btn btn-success btn-sm mx-1" type="submit" name="userId" id="userId" value="@user.Id"
+                                    style="width:75px; height:50px">
                                         <i class="bi bi-pencil-square"></i>
                                         Unban
                                     </button>
@@ -50,7 +51,8 @@
                             {
                                 @using(Html.BeginForm("Ban", "Users", FormMethod.Post))
                                 {
-                                    <button class="btn btn-primary btn-sm mx-1" type="submit" name="userId" id="userId" value="@user.Id">
+                                    <button class="btn btn-primary btn-sm mx-1" type="submit" name="userId" id="userId" value="@user.Id"
+                                    style="width:75px; height:50px">
                                         <i class="bi bi-pencil-square"></i>
                                         Ban
                                     </button>
@@ -58,22 +60,25 @@
                             }
                                 @using (Html.BeginForm("Delete", "Users", FormMethod.Post))
                             {
-                                <button class="btn btn-danger btn-sm mx-1" type="submit" name="userId" id="userId" value="@user.Id">
+                                <button class="btn btn-danger btn-sm mx-1" type="submit" name="userId" id="userId" value="@user.Id"
+                                style="width:75px; height:50px">
                                     <i class="bi bi-trash-fill"></i>
                                     Delete
                                 </button>
                             }
                             @using (Html.BeginForm("ChangeRole", "Users", FormMethod.Post))
                             {
-                                <button class="btn btn-primary btn-sm mx-1" type="submit" name="userId" id="userId" value="@user.Id">
-                                    <i class="bi bi-pencil-square"></i>
+                                <button class="btn btn-primary btn-sm mx-1" type="submit" name="userId" id="userId" value="@user.Id"
+                                style="width:100px; height:50px">
+                                    <i class="bi bi-file-person"></i>
                                     Change Role
                                 </button>
                             }
                             @using (Html.BeginForm("Index", "Collections", FormMethod.Get))
                             {
-                                <button class="btn btn-primary btn-sm mx-1" type="submit" name="query" id="query" value="@user.UserName">
-                                    <i class="bi bi-pencil-square"></i>
+                                <button class="btn btn-primary btn-sm mx-1" type="submit" name="name" id="name" value="@user.UserName"
+                                style="width:100px; height:50px">
+                                    <i class="bi bi-collection"></i>
                                     Open collections
                                 </button>
                             }

@@ -68,7 +68,8 @@ namespace CourseProject.Application.Service
                             await _userManager.UpdateAsync(existingUser);
                             return new AuthResult()
                             {
-                                Result = true
+                                Result = true,
+                                UserId = existingUser.Id.ToString(),
                             };
                         }
                     }

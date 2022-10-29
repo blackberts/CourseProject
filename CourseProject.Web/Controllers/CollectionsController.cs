@@ -23,8 +23,8 @@ namespace CourseProject.Web.Controllers
         {
             if(query.Name == null)
             {
-                GetAllCollectionsQuery newQuery = new() { Name = (string)TempData["user"] };
-                var resultQuery = await Mediator.Send(newQuery);
+                query.Name = (string)TempData["user"];
+                var resultQuery = await Mediator.Send(query);
 
                 return View(resultQuery);
             }
@@ -65,27 +65,17 @@ namespace CourseProject.Web.Controllers
         {
             var user = _context.Users.Find(id);
             TempData["owner"] = user.UserName;
+            TempData["user"] = user.UserName;
             return View();
         }
 
         [HttpPost]
         public async Task<IActionResult> Create(CreateCollectionCommand command)
         {
-            CreateCollectionCommand updateCommand = new()
-            {
-                Owner = (string)TempData["owner"],
-                Description = command.Description,
-                Theme = command.Theme,
-                Image = command.Image,
-                Name = command.Name
-            };
+            command.Owner = (string)TempData["owner"];
 
-            var collection = await Mediator.Send(updateCommand);
-            var user = _context.Users
-                .Where(c => c.Collections
-                .Contains(collection))
-                .FirstOrDefault();
-            TempData["user"] = user.UserName;
+            var collection = await Mediator.Send(command);
+            TempData["user"] = collection.Owner;
             return RedirectToAction("Index", "Collections");
         }
 

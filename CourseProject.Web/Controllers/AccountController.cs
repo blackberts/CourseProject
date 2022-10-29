@@ -21,6 +21,7 @@ namespace CourseProject.Controllers
         public async Task<IActionResult> Login(AccountLoginCommand command)
         {
             var result = await Mediator.Send(command);
+            TempData["userId"] = result.UserId;
             if (!result.Result)
             {
                 TempData["Error"] = result.Error;

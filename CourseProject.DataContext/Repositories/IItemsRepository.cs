@@ -13,6 +13,8 @@ namespace CourseProject.DataContext.Repositories
         Task<Item> GetItemById(Guid id);
         Task<Item> AddItem(Item item);
         Task<Item> EditItem(Item item);
+        Task<Item> AddComment(ApplicationUser user, Item item, Comment comment);
+        Task<Item> DeleteComment(Guid id);
         void DeleteItemById(Guid id);
     }
 }

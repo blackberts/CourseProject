@@ -22,11 +22,11 @@ else
             </a>
             <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                 <li><a class="dropdown-item" asp-controller="" asp-action="" asp-route-name="@User.Identity.Name">
-                <i class="bi bi-people"></i> Account(not working)</a></li>
+                <i class="bi bi-person-circle"></i> Account(not working)</a></li>
                 <li><a class="dropdown-item" asp-controller="" asp-action="">
-                <i class="bi bi-people"></i> Settings(not working)</a></li>
+                <i class="bi bi-gear"></i> Settings(not working)</a></li>
                 <li><a class="dropdown-item" asp-controller="Collections" asp-action="Index" asp-route-name="@User.Identity.Name">
-                <i class="bi bi-people"></i> Collections</a></li>
+                <i class="bi bi-folder"></i> Collections</a></li>
                 <li><a class="dropdown-item" asp-controller="Users" asp-action="Index">
                 <i class="bi bi-people"></i> List of Users</a></li>
             </ul>
@@ -52,7 +52,7 @@ else
     <span style="padding: 5px"></span>
     <form asp-controller="Account" asp-action="Logout">
         <button class="btn btn-outline-danger my-2 my-sm-0">
-            <i class="bi bi-person-plus"></i> Log out
+            <i class="bi bi-door-open"></i> Log out
         </button>
     </form>
 }
