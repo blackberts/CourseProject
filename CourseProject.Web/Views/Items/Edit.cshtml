@@ -1,7 +1,7 @@
 ﻿@model Item
-@using CourseProject.DataContext
+@using CourseProject.DataContext.Repositories
 @using Microsoft.EntityFrameworkCore
-@inject ApplicationDbContext _context
+@inject IUnitOfWork _unitOfWork
 
 <form method="post" asp-action="Edit">
 	<input asp-for="ItemId" hidden />
@@ -19,7 +19,7 @@
 		<div class="col-md-5 offset-4">
 			<label asp-for="Tags"></label>
             <select asp-for="Tags" class="form-select" multiple>
-				@foreach(var collections in _context.Collections.Where(c => c.Items.Contains(Model)).Include(c => c.Items).Include(c => c.Tags))
+				@foreach(var collections in await _unitOfWork.Collections.GetCollectionForParticularItem(Model))
 				{
 					@foreach(var tags in collections.Tags)
 					{

@@ -169,6 +169,25 @@ namespace CourseProject.Application.Service
             }
         }
 
+        public async Task<List<Collection>> GetCollectionsForParticularUser(ApplicationUser user)
+        {
+            return await _context.Collections
+                .Where(c => c.Users
+                .Contains(user))
+                .Include(c => c.Users)
+                .ToListAsync();
+        }
+
+        public async Task<List<Collection>> GetCollectionForParticularItem(Item item)
+        {
+            return await _context.Collections
+                .Where(c => c.Items
+                .Contains(item))
+                .Include(i => i.Items)
+                .Include(i => i.Tags)
+                .ToListAsync();
+        }
+
         public async Task<Collection> EditCollection(Collection collection)
         {
             var updateCollection = await _context.Collections.FindAsync(collection.CollectionId);

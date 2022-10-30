@@ -10,7 +10,7 @@
             <h4>List of all users</h4>
         </p>
         
-            <table class="table">
+            <table class="table sortable" >
             <thead>
                 <tr>
                     <th>Id</th>
@@ -90,3 +90,9 @@
         </table>
     </div>
 </div>
+
+@section Scripts{
+	@{
+		<partial name="_ValidationScriptsPartial" />
+	}
+}

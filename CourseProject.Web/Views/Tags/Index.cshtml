@@ -17,7 +17,7 @@
 	</div>
     <br /><br />
 
-<table class="table table-bordered table-striped" style="width:100%">
+<table class="table table-bordered table-striped sortable" style="width:100%">
     <thead>
         <tr>
             <th>
@@ -53,3 +53,9 @@
 
 </table>
 </div>
+
+@section Scripts{
+	@{
+		<partial name="_ValidationScriptsPartial" />
+	}
+}

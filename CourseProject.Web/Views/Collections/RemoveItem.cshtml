@@ -1,7 +1,7 @@
 ﻿@model Item
-@using CourseProject.DataContext
+@using CourseProject.DataContext.Repositories
 @using Microsoft.EntityFrameworkCore
-@inject ApplicationDbContext _context
+@inject IUnitOfWork _unitOfWork
 
 <form method="post" asp-action="RemoveItem" asp-controller="Collections">
 <input asp-for="ItemId" hidden />
@@ -15,7 +15,7 @@
 		    <input asp-for="Name" disabled class="form-control" />
 		</div>
 		<div class="col-md-5 offset-4">
-		@foreach(var collection in _context.Collections.Where(c=> c.Items.Contains(Model)).Include(i => i.Items))
+		@foreach(var collection in await _unitOfWork.Collections.GetCollectionForParticularItem(Model))
         {
 			<button type="submit" class="btn btn-primary" style="width:150px">Remove</button>
 		     <a asp-controller="Collections" asp-action="Get" class="btn btn-secondary"

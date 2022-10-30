@@ -61,6 +61,16 @@ namespace CourseProject.Application.Service
             }
         }
 
+        public async Task<List<Item>> GetItemsForParticularCollection(Collection collection)
+        {
+            return await _context.Items
+                .Where(c => c.Collections
+                .Contains(collection))
+                .Include(i => i.Collections)
+                .Include(i => i.Tags)
+                .ToListAsync();
+        }
+
         public async Task<Item> EditItem(Item item)
         {
             var updateItem = await _context.Items.FindAsync(item.ItemId);
@@ -125,6 +135,35 @@ namespace CourseProject.Application.Service
             }
 
             return itemFromDb;
+        }
+
+        public async Task<Item> AddLike(Guid itemId, Guid userId)
+        {
+            var item = await _context.Items.FindAsync(itemId);
+            if(item.Likes == null && item.UsersWhoLiked == null)
+            {
+                item.Likes = 0;
+                item.UsersWhoLiked = new();
+                _context.Items.Update(item);
+                await _context.SaveChangesAsync();
+            }
+            var user = await _context.Users.FindAsync(userId.ToString());
+
+            if (item.UsersWhoLiked.Contains(user.Id))
+            {
+                item.UsersWhoLiked.Remove(user.Id);
+                item.Likes -= 1;
+
+            }
+            else
+            {
+                item.UsersWhoLiked.Add(user.Id);
+                item.Likes += 1;
+            }
+
+            await _context.SaveChangesAsync();
+
+            return item;
         }
     }
 }

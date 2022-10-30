@@ -20,9 +20,8 @@ namespace CourseProject.Web.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(GetAllItemsQuery query)
         {
-            var query = new GetAllItemsQuery();
             var result = await Mediator.Send(query);
             return View(result);
         }
@@ -33,14 +32,15 @@ namespace CourseProject.Web.Controllers
             if(query.Id == Guid.Empty)
             {
                 query.Id = (Guid)TempData["itemId"];
-                var result = await Mediator.Send(query);
-                return View(result);
+                var item = await Mediator.Send(query);
+                TempData["itemId"] = item.ItemId;
+                return View(item);
             }
             else
             {
-                var result = await Mediator.Send(query);
-                TempData["itemId"] = result.ItemId;
-                return View(result);
+                var item = await Mediator.Send(query);
+                TempData["itemId"] = item.ItemId;
+                return View(item);
             }
         }
 
@@ -135,6 +135,15 @@ namespace CourseProject.Web.Controllers
             DeleteCommentFromItemCommand command = new() { Id = id };
             var item = await Mediator.Send(command);
             TempData["itemId"] = item.ItemId;
+            return RedirectToAction("Get", "Items");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddLike(AddLikeToItemCommand command)
+        {
+            command.ItemId = (Guid)TempData["itemId"];
+            command.UserId = (Guid)TempData["userId"];
+            var item = await Mediator.Send(command);
             return RedirectToAction("Get", "Items");
         }
     }

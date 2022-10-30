@@ -20,6 +20,7 @@ namespace CourseProject.Application.UoW
         private IUsersRepository _usersRepository;
         private IAccountRepository _accountRepository;
         private ICollectionsRepository _collectionsRepository;
+        private ICommentsRepository _commentsRepository;
         private UserManager<ApplicationUser> _userManager;
         private SignInManager<ApplicationUser> _signInManager;
         private RoleManager<IdentityRole> _roleManager;
@@ -34,6 +35,14 @@ namespace CourseProject.Application.UoW
             _signInManager = signInManager;
             _roleManager = roleManager;
             _appEnvironment = appEnvironment;
+        }
+
+        public ICommentsRepository Comments
+        {
+            get
+            {
+                return _commentsRepository = _commentsRepository ?? new CommentsRepository(_context);
+            }
         }
 
         public ICollectionsRepository Collections

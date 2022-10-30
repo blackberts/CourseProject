@@ -1,11 +1,8 @@
 ﻿@model Item
-@using CourseProject.DataContext
+@using CourseProject.DataContext.Repositories
 @using Microsoft.EntityFrameworkCore
-@inject ApplicationDbContext _context
+@inject IUnitOfWork _unitOfWork
 @inject UserManager<ApplicationUser> UserManager;
-
- <link rel="stylesheet" href="~/css/style.css">
- <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
 
 <form method="get" asp-action="Get" asp-controller="Items">
 <div style="padding: 10px;"></div>
@@ -17,32 +14,24 @@
                         <ul class="list-group list-group-flush">
                             <li class="list-group-item">Name: @Model.Name</li>
                             <li class="list-group-item">Tags: 
-                            @foreach(var tag in _context.Tags.Where(t => t.Items.Contains(Model)).Include(t => t.Items))
+                            @foreach(var tag in await _unitOfWork.Tags.GetTagsForParticularItem(Model))
                             {
                                 @tag.Name<a>,</a>
                             }
-                            </li>
-                            <li class="list-group-item" style="height:80px">
-                                                            <div class="heart-btn">
-                                <div class="content">
-                                    <span class="heart"></span>
-                                    <span class="text">Like</span>
-                                    <span class="numb"></span>
-                                </div>
-                            </div>
-                            <script>
-                                $(document).ready(function(){
-                                    $('.content').click(function(){
-                                        $('.content').toggleClass("heart-active")
-                                        $('.text').toggleClass("heart-active")
-                                        $('.numb').toggleClass("heart-active")
-                                        $('.heart').toggleClass("heart-active")
-                                    });
-                                });
-                            </script>
-                            </li>
                         </ul>
                     </div>
+                </div>
+            </div>
+        </center>
+    </div>
+</form>
+<form method="post" asp-action="AddLike" asp-controller="Items">
+    <div class="row">
+        <center>
+            <div class="center row-cols-0 col-md-4 text-center">
+                <div class="form-outline mb-4">
+                    <button type="submit" class="btn btn-primary" style="width:150px">
+                    <i class="bi bi-heart-fill"></i> Like: @Model.Likes</button>                  
                 </div>
             </div>
         </center>
@@ -69,7 +58,7 @@
         <div class="col-md-8 col-lg-6">
              <div class="card shadow-0 border" style="background-color: #f0f2f5;">
                  <div class="card-body p-4">
-                    @foreach(var comment in _context.Comments.Where(c => c.Item == Model).Include(c => c.User).Include(c => c.Item))
+                    @foreach(var comment in await _unitOfWork.Comments.GetCommentsForParticularItem(Model))
                     {
                         @if (User.IsInRole("Admin") || User.Identity.Name == comment.User.UserName)
                         {
@@ -100,6 +89,6 @@
 
 @section Scripts{
 	@{
-		<partial name="_ValidationScriptsPartial" />
+    <partial name="_ValidationScriptsPartial" />
 	}
 }

@@ -1,7 +1,7 @@
 ﻿@model ApplicationUser
-@using CourseProject.DataContext
+@using CourseProject.DataContext.Repositories
 @using Microsoft.EntityFrameworkCore
-@inject ApplicationDbContext _context
+@inject IUnitOfWork _unitOfWork
 
 
 
@@ -16,15 +16,15 @@
 
 <div style="padding: 10px;"></div>
     <div class="row">
-        @foreach (var obj in _context.Collections.Where(c => c.Users.Contains(Model)).Include(c => c.Users).ToList())
+        @foreach (var collection in await _unitOfWork.Collections.GetCollectionsForParticularUser(Model))
         {
             <div class="row row-cols-0 col-md-4 text-center">
                 <div class="col" style="padding: 10px;">
                     <div class="card">
-                        @if(obj.ImageData != null)
+                        @if(collection.ImageData != null)
                          {
                              <img style="width:400px; height:300px; margin-left:auto; margin-right:auto;"
-                             src="data:image/jpeg;base64,@(Convert.ToBase64String(obj.ImageData))" />
+                             src="data:image/jpeg;base64,@(Convert.ToBase64String(collection.ImageData))" />
                          }
                          else
                          {
@@ -32,19 +32,19 @@
                              style="width:400px; height:300px; margin-left:auto; margin-right:auto;">
                          }
                         <div class="card-body">
-                            <h5 class="card-title">@obj.Name</h5>
+                            <h5 class="card-title">@collection.Name</h5>
                         </div>
                         <ul class="list-group list-group-flush">
-                            <li class="list-group-item">Theme: @obj.Theme</li>
-                            <li class="list-group-item">Description: @obj.Description</li>
-                            <li class="list-group-item">Owner: @obj.Owner</li>
+                            <li class="list-group-item">Theme: @collection.Theme</li>
+                            <li class="list-group-item">Description: @collection.Description</li>
+                            <li class="list-group-item">Owner: @collection.Owner</li>
                         </ul>
                         <div class="card-body">
-                            <a asp-controller="Collections" asp-action="Get" asp-route-id="@obj.CollectionId"
+                            <a asp-controller="Collections" asp-action="Get" asp-route-id="@collection.CollectionId"
                             class="btn btn-primary mx-2"> <i class="bi bi-folder2-open"></i> Open</a>
-                            <a asp-controller="Collections" asp-action="Edit" asp-route-id="@obj.CollectionId"
+                            <a asp-controller="Collections" asp-action="Edit" asp-route-id="@collection.CollectionId"
                             class="btn btn-primary mx-2"> <i class="bi bi-pencil-square"></i> Edit</a>
-                            <a asp-controller="Collections" asp-action="Delete" asp-route-id="@obj.CollectionId"
+                            <a asp-controller="Collections" asp-action="Delete" asp-route-id="@collection.CollectionId"
                             class="btn btn-danger mx-2"> <i class="bi bi-trash-fill"></i> Delete</a>
                         </div>
                     </div>
