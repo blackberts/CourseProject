@@ -1,4 +1,5 @@
 ﻿using CourseProject.Application.CQRS.Commands.User;
+using CourseProject.Application.CQRS.Queries.Users;
 using CourseProject.DataContext;
 using CourseProject.DataContext.Repositories;
 using MediatR;
@@ -19,9 +20,9 @@ namespace CourseProject.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(GetAllUsersQuery query)
         {
-            var users = await _context.Users.ToListAsync();
+            var users = await Mediator.Send(query);
             return View(users);
         }
 

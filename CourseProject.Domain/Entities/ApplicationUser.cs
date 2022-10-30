@@ -13,6 +13,7 @@ namespace CourseProject.Domain.Entities
         public DateTime? Last_login { get; set; }
         public string? Status { get; set; }
         public string? Role { get; set; }
+        public string? Theme { get; set; }
 
         public List<Collection>? Collections { get; set; }
         public List<Comment>? Comments { get; set; }

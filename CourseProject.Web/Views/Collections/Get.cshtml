@@ -4,6 +4,14 @@
 @inject IUnitOfWork _unitOfWork
 @inject UserManager<ApplicationUser> UserManager;
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="~/css/dark-theme.css" />
+</head>
+
 @if (User.IsInRole("Admin") || User.Identity.Name == Model.Owner)
 {
     <div class="card-buttons-group">
@@ -17,7 +25,9 @@
     </div>
 }
 
-<form method="get" asp-action="Get" asp-controller="Collections" enctype="multipart/form-data">
+@if (!User.Identity.IsAuthenticated)
+{
+    <form method="get" asp-action="Get" asp-controller="Collections" enctype="multipart/form-data">
 <div style="padding: 10px;"></div>
     <div class="row">
         <center>
@@ -65,7 +75,7 @@
                         Action
                     </th>
                 }
-            </tr>
+        </tr>
 	</thead>
     <tbody>
         @foreach(var items in await _unitOfWork.Items.GetItemsForParticularCollection(Model))
@@ -102,6 +112,189 @@
 
 </table>
 </form>
+}
+else
+{
+    @foreach(var user in await _unitOfWork.Users.GetParticularUser(TempData["userId"].ToString()))
+    {
+        if(user.Theme == "White")
+        {
+            <form method="get" asp-action="Get" asp-controller="Collections" enctype="multipart/form-data">
+            <div style="padding: 10px;"></div>
+                <div class="row">
+                    <center>
+                        <div class="center row-cols-0 col-md-4 text-center">
+                            <div class="col" style="padding: 10px;">
+                                <div class="card">
+                                    @if(Model.ImageData != null)
+                                     {
+                                         <img style="width:400px; height:300px; margin-left:auto; margin-right:auto;" 
+                                         src="data:image/jpeg;base64,@(Convert.ToBase64String(Model.ImageData))" />
+                                     }
+                                     else
+                                     {
+                                         <img src="/images/Collections/Empty.png" class="card-img-top" alt="" 
+                                         style="width:400px;height:300px; margin-left:auto; margin-right:auto;">
+                                     }
+                                    <div class="card-body">
+                                        <h5 class="card-title">@Model.Name</h5>
+                                    </div>
+                                    <ul class="list-group list-group-flush">
+                                        <li class="list-group-item">Theme: @Model.Theme</li>
+                                        <li class="list-group-item">Description: @Model.Description</li>
+                                        <li class="list-group-item">Owner: @Model.Owner</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </center>
+                </div>
+                <table class="table table-bordered table-striped sortable" id="dtBasicExample" style="width:100%;">
+                <thead>
+                    <tr>
+                        <th>
+                            #
+            			</th>
+                        <th>
+                            Item name
+            			</th>
+                        <th>
+                            Tags
+                        </th>
+                            @if (User.IsInRole("Admin") || User.Identity.Name == Model.Owner)
+                            {
+                                <th>
+                                    Action
+                                </th>
+                            }
+                    </tr>
+            	</thead>
+                <tbody>
+                    @foreach(var items in await _unitOfWork.Items.GetItemsForParticularCollection(Model))
+                    {
+                        <tr>
+                            <td width="10%">
+                                @Model.Items.IndexOf(items)
+            				</td>
+                            <td width="30%">
+                                @items.Name
+            				</td>
+                            <td width="30%">
+                                    @foreach (var tags in items.Tags)
+                                    {
+                                        @tags.Name<a>,</a>
+                                    }
+                                </td>
+                            @if(User.IsInRole("Admin") || User.Identity.Name == Model.Owner)
+                            {
+                                <td width="20%">
+                                    <div class="w-75 btn-group" role="group">
+                                        <a asp-controller="Items" asp-action="Edit" asp-route-id="@items.ItemId"
+                                        class="btn btn-primary mx-2"> <i class="bi bi-pencil-square"></i> Edit</a>
+                                        <a asp-controller="Collections" asp-action="RemoveItem" asp-route-id="@items.ItemId"
+                                        class="btn btn-danger mx-2"> <i class="bi bi-trash-fill"></i> Delete</a>
+                                        <a asp-controller="Items" asp-action="Get" asp-route-id="@items.ItemId"
+                                        class="btn btn-primary mx-2"> <i class="bi bi-box-arrow-in-up-left"></i> Open</a>
+            					    </div>
+            				    </td>
+                            }
+                        </tr>
+                    }
+                </tbody>
+            
+            </table>
+            </form>
+        }
+        else
+        {
+            <form method="get" asp-action="Get" asp-controller="Collections" enctype="multipart/form-data">
+            <div style="padding: 10px;"></div>
+                <div class="row">
+                    <center>
+                        <div class="center row-cols-0 col-md-4 text-center">
+                            <div class="col__dark-theme" style="padding: 10px;">
+                                <div class="card__dark-theme">
+                                    @if(Model.ImageData != null)
+                                     {
+                                         <img style="width:400px; height:300px; margin-left:auto; margin-right:auto;" 
+                                         src="data:image/jpeg;base64,@(Convert.ToBase64String(Model.ImageData))" />
+                                     }
+                                     else
+                                     {
+                                         <img src="/images/Collections/Empty.png" class="card-img-top" alt="" 
+                                         style="width:400px;height:300px; margin-left:auto; margin-right:auto;">
+                                     }
+                                    <div class="card-body__dark-theme">
+                                        <h5 class="card-title">@Model.Name</h5>
+                                    </div>
+                                    <ul class="list-group list-group-flush">
+                                        <li class="list-group-item__dark-theme">Theme: @Model.Theme</li>
+                                        <li class="list-group-item__dark-theme">Description: @Model.Description</li>
+                                        <li class="list-group-item__dark-theme">Owner: @Model.Owner</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </center>
+                </div>
+                <table class="table__dark_theme table-bordered sortable" id="dtBasicExample" style="width:100%;">
+                <thead>
+                    <tr>
+                        <th>
+                            #
+            			</th>
+                        <th>
+                            Item name
+            			</th>
+                        <th>
+                            Tags
+                        </th>
+                            @if (User.IsInRole("Admin") || User.Identity.Name == Model.Owner)
+                            {
+                                <th>
+                                    Action
+                                </th>
+                            }
+                        </tr>
+            	</thead>
+                <tbody>
+                    @foreach(var items in await _unitOfWork.Items.GetItemsForParticularCollection(Model))
+                    {
+                        <tr>
+                            <td width="10%">
+                                @Model.Items.IndexOf(items)
+            				</td>
+                            <td width="30%">
+                                @items.Name
+            				</td>
+                            <td width="30%">
+                                    @foreach (var tags in items.Tags)
+                                    {
+                                        @tags.Name<a>,</a>
+                                    }
+                                </td>
+                            @if(User.IsInRole("Admin") || User.Identity.Name == Model.Owner)
+                            {
+                                <td width="20%">
+                                    <div class="w-75 btn-group" role="group">
+                                        <a asp-controller="Items" asp-action="Edit" asp-route-id="@items.ItemId"
+                                        class="btn btn-primary mx-2"> <i class="bi bi-pencil-square"></i> Edit</a>
+                                        <a asp-controller="Collections" asp-action="RemoveItem" asp-route-id="@items.ItemId"
+                                        class="btn btn-danger mx-2"> <i class="bi bi-trash-fill"></i> Delete</a>
+                                        <a asp-controller="Items" asp-action="Get" asp-route-id="@items.ItemId"
+                                        class="btn btn-primary mx-2"> <i class="bi bi-box-arrow-in-up-left"></i> Open</a>
+            					    </div>
+            				    </td>
+                            }
+                        </tr>
+                    }
+                </tbody>
+            
+            </table>
+            </form>
+        }
+    }
+}
 
 @section Scripts{
 	@{

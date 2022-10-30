@@ -1,95 +1,200 @@
 ﻿@model IEnumerable<ApplicationUser>
+@using CourseProject.DataContext.Repositories
+@using Microsoft.EntityFrameworkCore
+@inject IUnitOfWork _unitOfWork
+@inject UserManager<ApplicationUser> UserManager;
 
-@{
-    ViewData["Title"] = "List of all users";
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="~/css/dark-theme.css" />
+</head>
+
+@foreach(var users in await _unitOfWork.Users.GetParticularUser(TempData["userId"].ToString()))
+{
+    if(users.Theme == "White")
+    {
+            <div class="row">
+            <div class="col-md-6 offset-3">
+                <p>
+                    <h4>List of all users</h4>
+                </p>
+                
+                    <table class="table sortable" >
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Username</th>
+                            <th>Email</th>
+                            <th>Created at</th>
+                            <th>Last login</th>
+                            <th>Status</th>
+                            <th>Role</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var user in Model)
+                        {
+                        <tr>
+                            <td>@user.Id</td>
+                            <td>@user.UserName</td>
+                            <td>@user.Email</td>
+                            <td>@user.Created_At</td>
+                            <td>@user.Last_login</td>
+                            <td>@user.Status</td>
+                            <td>@user.Role</td>
+                            <td>
+                                <div class="w-75 btn-group" role="group">
+                                    @if (user.Status == "Banned")
+                                    {
+                                        @*Замени потом все юзинги на формы, спасибо*@
+                                        @using (Html.BeginForm("Unban", "Users", FormMethod.Post))
+                                        {
+                                            <button class="btn btn-success btn-sm mx-1" type="submit" name="userId" id="userId" value="@user.Id"
+                                            style="width:75px; height:50px">
+                                                <i class="bi bi-pencil-square"></i>
+                                                Unban
+                                            </button>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        @using(Html.BeginForm("Ban", "Users", FormMethod.Post))
+                                        {
+                                            <button class="btn btn-primary btn-sm mx-1" type="submit" name="userId" id="userId" value="@user.Id"
+                                            style="width:75px; height:50px">
+                                                <i class="bi bi-pencil-square"></i>
+                                                Ban
+                                            </button>
+                                        }
+                                    }
+                                        @using (Html.BeginForm("Delete", "Users", FormMethod.Post))
+                                    {
+                                        <button class="btn btn-danger btn-sm mx-1" type="submit" name="userId" id="userId" value="@user.Id"
+                                        style="width:75px; height:50px">
+                                            <i class="bi bi-trash-fill"></i>
+                                            Delete
+                                        </button>
+                                    }
+                                    @using (Html.BeginForm("ChangeRole", "Users", FormMethod.Post))
+                                    {
+                                        <button class="btn btn-primary btn-sm mx-1" type="submit" name="userId" id="userId" value="@user.Id"
+                                        style="width:100px; height:50px">
+                                            <i class="bi bi-file-person"></i>
+                                            Change Role
+                                        </button>
+                                    }
+                                    @using (Html.BeginForm("Index", "Collections", FormMethod.Get))
+                                    {
+                                        <button class="btn btn-primary btn-sm mx-1" type="submit" name="name" id="name" value="@user.UserName"
+                                        style="width:100px; height:50px">
+                                            <i class="bi bi-collection"></i>
+                                            Open collections
+                                        </button>
+                                    }
+                                </div>
+                            </td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    }
+    else
+    {
+            <div class="row">
+            <div class="col__dark-theme col-md-6 offset-3">
+                <p>
+                    <h4>List of all users</h4>
+                </p>
+                
+                    <table class="table__dark-theme table-bordered sortable" >
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Username</th>
+                            <th>Email</th>
+                            <th>Created at</th>
+                            <th>Last login</th>
+                            <th>Status</th>
+                            <th>Role</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var user in Model)
+                        {
+                        <tr>
+                            <td>@user.Id</td>
+                            <td>@user.UserName</td>
+                            <td>@user.Email</td>
+                            <td>@user.Created_At</td>
+                            <td>@user.Last_login</td>
+                            <td>@user.Status</td>
+                            <td>@user.Role</td>
+                            <td>
+                                <div class="w-75 btn-group" role="group">
+                                    @if (user.Status == "Banned")
+                                    {
+                                        @*Замени потом все юзинги на формы, спасибо*@
+                                        @using (Html.BeginForm("Unban", "Users", FormMethod.Post))
+                                        {
+                                            <button class="btn btn-success btn-sm mx-1" type="submit" name="userId" id="userId" value="@user.Id"
+                                            style="width:75px; height:50px">
+                                                <i class="bi bi-pencil-square"></i>
+                                                Unban
+                                            </button>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        @using(Html.BeginForm("Ban", "Users", FormMethod.Post))
+                                        {
+                                            <button class="btn btn-primary btn-sm mx-1" type="submit" name="userId" id="userId" value="@user.Id"
+                                            style="width:75px; height:50px">
+                                                <i class="bi bi-pencil-square"></i>
+                                                Ban
+                                            </button>
+                                        }
+                                    }
+                                        @using (Html.BeginForm("Delete", "Users", FormMethod.Post))
+                                    {
+                                        <button class="btn btn-danger btn-sm mx-1" type="submit" name="userId" id="userId" value="@user.Id"
+                                        style="width:75px; height:50px">
+                                            <i class="bi bi-trash-fill"></i>
+                                            Delete
+                                        </button>
+                                    }
+                                    @using (Html.BeginForm("ChangeRole", "Users", FormMethod.Post))
+                                    {
+                                        <button class="btn btn-primary btn-sm mx-1" type="submit" name="userId" id="userId" value="@user.Id"
+                                        style="width:100px; height:50px">
+                                            <i class="bi bi-file-person"></i>
+                                            Change Role
+                                        </button>
+                                    }
+                                    @using (Html.BeginForm("Index", "Collections", FormMethod.Get))
+                                    {
+                                        <button class="btn btn-primary btn-sm mx-1" type="submit" name="name" id="name" value="@user.UserName"
+                                        style="width:100px; height:50px">
+                                            <i class="bi bi-collection"></i>
+                                            Open collections
+                                        </button>
+                                    }
+                                </div>
+                            </td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    }
 }
-
-<div class="row">
-    <div class="col-md-6 offset-3">
-        <p>
-            <h4>List of all users</h4>
-        </p>
-        
-            <table class="table sortable" >
-            <thead>
-                <tr>
-                    <th>Id</th>
-                    <th>Username</th>
-                    <th>Email</th>
-                    <th>Created at</th>
-                    <th>Last login</th>
-                    <th>Status</th>
-                    <th>Role</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var user in Model)
-                {
-                <tr>
-                    <td>@user.Id</td>
-                    <td>@user.UserName</td>
-                    <td>@user.Email</td>
-                    <td>@user.Created_At</td>
-                    <td>@user.Last_login</td>
-                    <td>@user.Status</td>
-                    <td>@user.Role</td>
-                    <td>
-                        <div class="w-75 btn-group" role="group">
-                            @if (user.Status == "Banned")
-                            {
-                                @using (Html.BeginForm("Unban", "Users", FormMethod.Post))
-                                {
-                                    <button class="btn btn-success btn-sm mx-1" type="submit" name="userId" id="userId" value="@user.Id"
-                                    style="width:75px; height:50px">
-                                        <i class="bi bi-pencil-square"></i>
-                                        Unban
-                                    </button>
-                                }
-                            }
-                            else
-                            {
-                                @using(Html.BeginForm("Ban", "Users", FormMethod.Post))
-                                {
-                                    <button class="btn btn-primary btn-sm mx-1" type="submit" name="userId" id="userId" value="@user.Id"
-                                    style="width:75px; height:50px">
-                                        <i class="bi bi-pencil-square"></i>
-                                        Ban
-                                    </button>
-                                }
-                            }
-                                @using (Html.BeginForm("Delete", "Users", FormMethod.Post))
-                            {
-                                <button class="btn btn-danger btn-sm mx-1" type="submit" name="userId" id="userId" value="@user.Id"
-                                style="width:75px; height:50px">
-                                    <i class="bi bi-trash-fill"></i>
-                                    Delete
-                                </button>
-                            }
-                            @using (Html.BeginForm("ChangeRole", "Users", FormMethod.Post))
-                            {
-                                <button class="btn btn-primary btn-sm mx-1" type="submit" name="userId" id="userId" value="@user.Id"
-                                style="width:100px; height:50px">
-                                    <i class="bi bi-file-person"></i>
-                                    Change Role
-                                </button>
-                            }
-                            @using (Html.BeginForm("Index", "Collections", FormMethod.Get))
-                            {
-                                <button class="btn btn-primary btn-sm mx-1" type="submit" name="name" id="name" value="@user.UserName"
-                                style="width:100px; height:50px">
-                                    <i class="bi bi-collection"></i>
-                                    Open collections
-                                </button>
-                            }
-                        </div>
-                    </td>
-                </tr>
-                }
-            </tbody>
-        </table>
-    </div>
-</div>
 
 @section Scripts{
 	@{

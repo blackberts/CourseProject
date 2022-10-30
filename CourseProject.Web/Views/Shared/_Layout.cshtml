@@ -1,4 +1,7 @@
-﻿<!DOCTYPE html>
+﻿@using CourseProject.DataContext.Repositories
+@inject IUnitOfWork _unitOfWork
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -6,47 +9,141 @@
     <title>@ViewData["Title"] - CourseProject</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/css/dark-theme.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css">
+
 </head>
-<body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+@if (!User.Identity.IsAuthenticated)
+{
+    <body>
+            <header>
+                <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+                    <div class="container-fluid">
+                        <a class="navbar-brand" asp-controller="Home" asp-action="Index">Home</a>    
+                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                                aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                            </button>
+                        <div class="navbar-collapse collapse d-sm-inline-flex justify-content-end">
+                            <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
+                                <input type="search" class="form-control form-control-dark" placeholder="Search..." aria-label="Search">
+                            </form>
+                            <partial name="_Identity.cshtml" />
+                        </div>
+                    </div>
+                </nav>
+            </header>
             <div class="container-fluid">
-                <a class="navbar-brand" asp-controller="Home" asp-action="Index">Home</a>
-                @if (User.Identity.IsAuthenticated)
-                {
-                    <a class="navbar-brand" asp-controller="Items" asp-action="Index">Items</a>
-                    <a class="navbar-brand" asp-controller="Tags" asp-action="Index">Tags</a>
-                }
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                    </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-end">
-                    <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
-                        <input type="search" class="form-control form-control-dark" placeholder="Search..." aria-label="Search">
-                    </form>
-                    <partial name="_Identity.cshtml" />
-                </div>
+                <main role="main" class="pb-3">
+                    @RenderBody()
+                </main>
+            
             </div>
-        </nav>
-    </header>
-    <div class="container-fluid">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-
-    </div>
-
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2022 - CourseProject - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
-    </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-
-    @await RenderSectionAsync("Scripts", required: false)
-</body>
+            
+            <footer class="border-top footer text-muted">
+                <div class="container">
+                    &copy; 2022 - CourseProject - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                </div>
+            </footer>
+            <script src="~/lib/jquery/dist/jquery.min.js"></script>
+            <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+            <script src="~/js/site.js" asp-append-version="true"></script>
+            
+            @await RenderSectionAsync("Scripts", required: false)
+    </body>
+}
+else
+{
+    @foreach(var user in await _unitOfWork.Users.GetParticularUser(TempData["userId"].ToString()))
+    {
+        @if(user.Theme == "White")
+        {
+            {
+                TempData["userId"] = user.Id;
+            }
+            <body>
+                <header>
+                    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+                        <div class="container-fluid">
+                            <a class="navbar-brand" asp-controller="Home" asp-action="Index">Home</a>
+                                <a class="navbar-brand" asp-controller="Items" asp-action="Index">Items</a>
+                                <a class="navbar-brand" asp-controller="Tags" asp-action="Index">Tags</a>
+                            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                                    aria-expanded="false" aria-label="Toggle navigation">
+                                <span class="navbar-toggler-icon"></span>
+                                </button>
+                            <div class="navbar-collapse collapse d-sm-inline-flex justify-content-end">
+                                <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
+                                    <input type="search" class="form-control form-control-dark" placeholder="Search..." aria-label="Search">
+                                </form>
+                                <partial name="_Identity.cshtml" />
+                            </div>
+                        </div>
+                    </nav>
+                </header>
+                <div class="container-fluid">
+                    <main role="main" class="pb-3">
+                        @RenderBody()
+                    </main>
+                
+                </div>
+                
+                <footer class="border-top footer text-muted">
+                    <div class="container">
+                        &copy; 2022 - CourseProject - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                    </div>
+                </footer>
+                <script src="~/lib/jquery/dist/jquery.min.js"></script>
+                <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+                <script src="~/js/site.js" asp-append-version="true"></script>
+                
+                @await RenderSectionAsync("Scripts", required: false)
+            </body>
+        }
+        else
+        {
+            {
+                TempData["userId"] = user.Id;
+            }
+            <body class="dark-theme">
+                <header>
+                    <nav class="navbar navbar-dark bg-dark navbar-expand-sm navbar-toggleable-sm border-bottom box-shadow mb-3">
+                        <div class="container-fluid">
+                            <a class="navbar-brand" asp-controller="Home" asp-action="Index">Home</a>
+                                <a class="navbar-brand" asp-controller="Items" asp-action="Index">Items</a>
+                                <a class="navbar-brand" asp-controller="Tags" asp-action="Index">Tags</a>
+                            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                                    aria-expanded="false" aria-label="Toggle navigation">
+                                <span class="navbar-toggler-icon"></span>
+                                </button>
+                            <div class="navbar-collapse collapse d-sm-inline-flex justify-content-end">
+                                <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
+                                    <input type="search" class="form-control form-control-dark" placeholder="Search..." aria-label="Search">
+                                </form>
+                                <partial name="_Identity.cshtml" />
+                            </div>
+                        </div>
+                    </nav>
+                </header>
+                <div class="container-fluid">
+                    <main role="main" class="pb-3">
+                        @RenderBody()
+                    </main>
+                
+                </div>
+                
+                <footer class="border-top footer text-muted">
+                    <div class="container">
+                        &copy; 2022 - CourseProject - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                    </div>
+                </footer>
+                <script src="~/lib/jquery/dist/jquery.min.js"></script>
+                <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+                <script src="~/js/site.js" asp-append-version="true"></script>
+                
+                @await RenderSectionAsync("Scripts", required: false)
+            </body>
+        }
+    }
+}
 </html>

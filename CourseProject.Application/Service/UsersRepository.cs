@@ -23,6 +23,11 @@ namespace CourseProject.Application.Service
             _context = context;
         }
 
+        public async Task<List<ApplicationUser>> GetAll()
+        {
+            return await _context.Users.ToListAsync();
+        }
+
         public async Task<AuthResult> DeleteUser(string userToDelete)
         {
             var user = await _userManager.FindByIdAsync(userToDelete);
@@ -114,6 +119,15 @@ namespace CourseProject.Application.Service
                 Result = false,
                 Error = "Something wrong in change role"
             };
+        }
+
+        public async Task<List<ApplicationUser>> GetParticularUser(string id)
+        {
+            return await _context.Users
+                .Where(u => u.Id
+                .Equals(id))
+                .ToListAsync();
+
         }
     }
 }

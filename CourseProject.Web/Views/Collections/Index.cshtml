@@ -4,6 +4,13 @@
 @inject IUnitOfWork _unitOfWork
 
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="~/css/dark-theme.css" />
+</head>
 
 <div class="card-buttons-group">
     <div class="text-end">
@@ -14,8 +21,12 @@
 </div>
 
 
-<div style="padding: 10px;"></div>
-    <div class="row">
+@foreach(var user in await _unitOfWork.Users.GetParticularUser(TempData["userId"].ToString()))
+{
+    if(user.Theme == "White")
+    {
+        <div style="padding: 10px;"></div>
+        <div class="row">
         @foreach (var collection in await _unitOfWork.Collections.GetCollectionsForParticularUser(Model))
         {
             <div class="row row-cols-0 col-md-4 text-center">
@@ -28,8 +39,8 @@
                          }
                          else
                          {
-                             <img src="/images/Collections/Empty.png" class="card-img-top" alt="" 
-                             style="width:400px; height:300px; margin-left:auto; margin-right:auto;">
+                             <img src="/images/Collections/Empty.png" sizes="(max-width: 320px) 280px, (max-width: 480px) 440px" class="card-img-top" alt="" 
+                             style="width:auto; height:auto; margin-left:auto; margin-right:auto; max-width:300px">
                          }
                         <div class="card-body">
                             <h5 class="card-title">@collection.Name</h5>
@@ -52,4 +63,48 @@
             </div>
         }
     </div>
- 
+
+    }
+    else
+    {
+        <div style="padding: 10px;"></div>
+        <div class="row">
+        @foreach (var collection in await _unitOfWork.Collections.GetCollectionsForParticularUser(Model))
+        {
+            <div class="row row-cols-0 col-md-4 text-center">
+                <div class="col__dark-theme" style="padding: 10px;">
+                    <div class="card__dark-theme">
+                        @if(collection.ImageData != null)
+                         {
+                             <img style="width:400px; height:300px; margin-left:auto; margin-right:auto;"
+                             src="data:image/jpeg;base64,@(Convert.ToBase64String(collection.ImageData))" />
+                         }
+                         else
+                         {
+                             <img src="/images/Collections/Empty.png" sizes="(max-width: 320px) 280px, (max-width: 480px) 440px" class="card-img-top" alt="" 
+                             style="width:auto; height:auto; margin-left:auto; margin-right:auto; max-width:300px">
+                         }
+                        <div class="card-body__dark-theme">
+                            <h5 class="card-title">@collection.Name</h5>
+                        </div>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item__dark-theme">Theme: @collection.Theme</li>
+                            <li class="list-group-item__dark-theme">Description: @collection.Description</li>
+                            <li class="list-group-item__dark-theme">Owner: @collection.Owner</li>
+                        </ul>
+                        <div class="card-body">
+                            <a asp-controller="Collections" asp-action="Get" asp-route-id="@collection.CollectionId"
+                            class="btn btn-primary mx-2"> <i class="bi bi-folder2-open"></i> Open</a>
+                            <a asp-controller="Collections" asp-action="Edit" asp-route-id="@collection.CollectionId"
+                            class="btn btn-primary mx-2"> <i class="bi bi-pencil-square"></i> Edit</a>
+                            <a asp-controller="Collections" asp-action="Delete" asp-route-id="@collection.CollectionId"
+                            class="btn btn-danger mx-2"> <i class="bi bi-trash-fill"></i> Delete</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+        </div>
+
+    }
+} 

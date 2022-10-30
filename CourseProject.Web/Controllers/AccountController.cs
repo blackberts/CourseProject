@@ -9,10 +9,12 @@ namespace CourseProject.Controllers
     {
         private readonly IMediator Mediator;
 
+
         public AccountController(IMediator mediator)
         {
             Mediator = mediator;
         }
+
 
         [HttpGet]
         public IActionResult Login() => View(new AccountLoginDto());
@@ -49,6 +51,15 @@ namespace CourseProject.Controllers
         public async Task<IActionResult> LogOut(AccountLogOutCommand command)
         {
             await Mediator.Send(command);
+            return RedirectToAction("Index", "Home");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ChangeTheme(string name)
+        {
+            AccountChangeThemeCommand command = new() { Name = name };
+            var result = await Mediator.Send(command);
+            TempData["userId"] = result.UserId;
             return RedirectToAction("Index", "Home");
         }
 

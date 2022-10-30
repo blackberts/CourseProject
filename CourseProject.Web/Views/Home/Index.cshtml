@@ -1,11 +1,23 @@
 ﻿@model List<Collection>
 @inject UserManager<ApplicationUser> UserManager;
+@using CourseProject.DataContext.Repositories
+@inject IUnitOfWork _unitOfWork
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="~/css/dark-theme.css" />
+</head>
 
 <div class="text-center">
     <h1 class="display-4">The biggest collections of users!</h1>
 </div>
 
-<div style="padding: 10px;"></div>
+@if (!User.Identity.IsAuthenticated)
+{
+    <div style="padding: 10px;"></div>
     <div class="row">
         @foreach (var obj in Model)
         {
@@ -52,3 +64,110 @@
             </div>
         }
     </div>
+}
+else
+{
+    @foreach(var user in await _unitOfWork.Users.GetParticularUser(TempData["userId"].ToString()))
+    {
+        @if(user.Theme == "White")
+        {
+            <div style="padding: 10px;"></div>
+            <div class="row">
+                @foreach (var obj in Model)
+                {
+                    <div class="row row-cols-0 col-md-4 text-center">
+                        <div class="col" style="padding: 10px;">
+                            <div class="card">
+                                @if(obj.ImageData != null)
+                                 {
+                                     <img style="width:400px; height:300px; margin-left:auto; margin-right:auto;"
+                                     src="data:image/jpeg;base64,@(Convert.ToBase64String(obj.ImageData))" />
+                                 }
+                                 else
+                                 {
+                                     <img src="/images/Collections/Empty.png" class="card-img-top" alt="" 
+                                     style="width:400px; height:300px; margin-left:auto; margin-right:auto;">
+                                 }
+                                <div class="card-body">
+                                    <h5 class="card-title">@obj.Name</h5>
+                                </div>
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item">Theme: @obj.Theme</li>
+                                    <li class="list-group-item">Description: @obj.Description</li>
+                                    <li class="list-group-item">Owner: @obj.Owner</li>
+                                    <li class="list-group-item">Count items: @obj.Items.Count()</li>
+                                </ul>
+                                <div class="card-body">
+                                    @if (User.IsInRole("Admin"))
+                                    {
+                                        <a asp-controller="Collections" asp-action="Get" asp-route-id="@obj.CollectionId"
+                                        class="btn btn-primary mx-2"> <i class="bi bi-folder2-open"></i> Open</a>
+                                        <a asp-controller="Collections" asp-action="Edit" asp-route-id="@obj.CollectionId"
+                                        class="btn btn-primary mx-2"> <i class="bi bi-pencil-square"></i> Edit</a>
+                                        <a asp-controller="Collections" asp-action="Delete" asp-route-id="@obj.CollectionId"
+                                        class="btn btn-danger mx-2"> <i class="bi bi-trash-fill"></i> Delete</a>
+                                    }
+                                    else
+                                    {
+                                        <a asp-controller="Collections" asp-action="Get" asp-route-id="@obj.CollectionId"
+                                        class="btn btn-primary col-md-12"> <i class="bi bi-folder2-open"></i> Open</a>
+                                    }
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+        else
+        {
+            <div style="padding: 10px;"></div>
+            <div class="row">
+                @foreach (var obj in Model)
+                {
+                    <div class="row row-cols-0 col-md-4 text-center">
+                        <div class="col__dark-theme" style="padding: 10px;">
+                            <div class="card__dark-theme">
+                                @if(obj.ImageData != null)
+                                 {
+                                     <img style="width:400px; height:300px; margin-left:auto; margin-right:auto;"
+                                     src="data:image/jpeg;base64,@(Convert.ToBase64String(obj.ImageData))" />
+                                 }
+                                 else
+                                 {
+                                     <img src="/images/Collections/Empty.png" class="card-img-top" alt="" 
+                                     style="width:400px; height:300px; margin-left:auto; margin-right:auto;">
+                                 }
+                                <div class="card-body">
+                                    <h5 class="card-title">@obj.Name</h5>
+                                </div>
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item__dark-theme">Theme: @obj.Theme</li>
+                                    <li class="list-group-item__dark-theme">Description: @obj.Description</li>
+                                    <li class="list-group-item__dark-theme">Owner: @obj.Owner</li>
+                                    <li class="list-group-item__dark-theme">Count items: @obj.Items.Count()</li>
+                                </ul>
+                                <div class="card-body">
+                                    @if (User.IsInRole("Admin"))
+                                    {
+                                        <a asp-controller="Collections" asp-action="Get" asp-route-id="@obj.CollectionId"
+                                        class="btn btn-primary mx-2"> <i class="bi bi-folder2-open"></i> Open</a>
+                                        <a asp-controller="Collections" asp-action="Edit" asp-route-id="@obj.CollectionId"
+                                        class="btn btn-primary mx-2"> <i class="bi bi-pencil-square"></i> Edit</a>
+                                        <a asp-controller="Collections" asp-action="Delete" asp-route-id="@obj.CollectionId"
+                                        class="btn btn-danger mx-2"> <i class="bi bi-trash-fill"></i> Delete</a>
+                                    }
+                                    else
+                                    {
+                                        <a asp-controller="Collections" asp-action="Get" asp-route-id="@obj.CollectionId"
+                                        class="btn btn-primary col-md-12"> <i class="bi bi-folder2-open"></i> Open</a>
+                                    }
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+    } 
+}

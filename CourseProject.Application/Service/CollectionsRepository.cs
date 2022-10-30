@@ -147,11 +147,11 @@ namespace CourseProject.Application.Service
 
         public async Task<List<Collection>> GetTheBiggestCollections()
         {
-            var collections = _context.Collections
+            var collections = await _context.Collections
                 .Include(c => c.Items)
                 .OrderByDescending(c => c.Items.Count())
                 .Take(6)
-                .ToList();
+                .ToListAsync();
             return collections;
         }
 

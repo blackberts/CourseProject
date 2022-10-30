@@ -13,6 +13,7 @@ namespace CourseProject.DataContext.Repositories
     {
         Task<AuthResult> Register(AccountRegisterDto registerRequest);
         Task<AuthResult> Login(AccountLoginDto loginRequest);
+        Task<AuthResult> ChangeTheme(string name);
         Task<AuthResult> LogOut();
         //Task<AuthResult> Profile();
     }

@@ -160,5 +160,32 @@ namespace CourseProject.Application.Service
                 Error = "Something wrong"
             };
         }
+
+        public async Task<AuthResult> ChangeTheme(string name)
+        {
+            var user = await _userManager.FindByNameAsync(name);
+ 
+            if(user.Theme == "White")
+            {
+                user.Theme = "Dark";
+                await _userManager.UpdateAsync(user);
+            }
+            else if(user.Theme == "Dark")
+            {
+                user.Theme = "White";
+                await _userManager.UpdateAsync(user);
+            }
+            else
+            {
+                user.Theme = "White";
+                await _userManager.UpdateAsync(user);
+            }
+
+            return new AuthResult()
+            {
+                Result = true,
+                UserId = user.Id
+            };
+        }
     }
 }
