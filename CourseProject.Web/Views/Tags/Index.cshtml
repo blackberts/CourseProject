@@ -1,58 +1,129 @@
 ﻿@model IEnumerable<Tag>
+@using CourseProject.DataContext.Repositories
+@using Microsoft.EntityFrameworkCore
+@inject IUnitOfWork _unitOfWork
+@inject UserManager<ApplicationUser> UserManager;
+
 @{
     ViewData["Title"] = "Index";
 }
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="~/css/dark-theme.css" />
+</head>
 
-<div class="container p-3">
-    <div class="row pt-4">
-        <div class="col-6">
-            <h2 class="text-primary">Tags List</h2>
-		</div>
-        <div class="col-6 text-end">
-            <a asp-controller="Tags" asp-action="Create" class="btn btn-primary">
-               <i class="bi bi-plus-circle"></i> &nbsp; Create New Tag
-			</a>
-		</div>
-	</div>
-    <br /><br />
-
-<table class="table table-bordered table-striped sortable" style="width:100%">
-    <thead>
-        <tr>
-            <th>
-                Tag id
-			</th>
-            <th>
-                Tag name
-			</th>
-            <th></th>
-		</tr>
-	</thead>
-    <tbody>
-        @foreach(var obj in Model)
-        {
-            <tr>
-                <td width="50%">
-                    @obj.TagId
-				</td>
-                <td width="30%">
-                    @obj.Name
-				</td>
-                <td>
-                    <div class="w-75 btn-group" role="group">
-                        <a asp-controller="Tags" asp-action="Edit" asp-route-id="@obj.TagId"
-                        class="btn btn-primary mx-2"> <i class="bi bi-pencil-square"></i> Edit</a>
-                        <a asp-controller="Tags" asp-action="Delete" asp-route-id="@obj.TagId"
-                        class="btn btn-danger mx-2"> <i class="bi bi-trash-fill"></i> Delete</a>
-					</div>
-				</td>
-			</tr>
-        }
-    </tbody>
-
-</table>
-</div>
+@foreach(var user in await _unitOfWork.Users.GetParticularUser(TempData["userId"].ToString()))
+{
+    @if(user.Theme == "White")
+    {
+        <div class="container p-3">
+            <div class="row pt-4">
+                <div class="col-6">
+                    <h2 class="text-primary">Tags List</h2>
+        		</div>
+                <div class="col-6 text-end">
+                    <a asp-controller="Tags" asp-action="Create" class="btn btn-primary">
+                       <i class="bi bi-plus-circle"></i> &nbsp; Create New Tag
+        			</a>
+        		</div>
+        	</div>
+            <br /><br />
+        
+        <table class="table table-bordered table-striped sortable" style="width:100%">
+            <thead>
+                <tr>
+                    <th>
+                        Tag id
+        			</th>
+                    <th>
+                        Tag name
+        			</th>
+                    <th></th>
+        		</tr>
+        	</thead>
+            <tbody>
+                @foreach(var obj in Model)
+                {
+                    <tr>
+                        <td width="50%">
+                            @obj.TagId
+        				</td>
+                        <td width="30%">
+                            @obj.Name
+        				</td>
+                        <td>
+                            <div class="w-75 btn-group" role="group">
+                                <a asp-controller="Tags" asp-action="Edit" asp-route-id="@obj.TagId"
+                                class="btn btn-primary mx-2"> <i class="bi bi-pencil-square"></i> Edit</a>
+                                <a asp-controller="Tags" asp-action="Delete" asp-route-id="@obj.TagId"
+                                class="btn btn-danger mx-2"> <i class="bi bi-trash-fill"></i> Delete</a>
+        					</div>
+        				</td>
+        			</tr>
+                }
+            </tbody>
+        
+        </table>
+        </div>
+    }
+    else
+    {
+        <div class="container p-3">
+            <div class="row pt-4">
+                <div class="col-6">
+                    <h2 class="text-primary__dark-theme ">Tags List</h2>
+        		</div>
+                <div class="col-6 text-end">
+                    <a asp-controller="Tags" asp-action="Create" class="btn btn-primary">
+                       <i class="bi bi-plus-circle"></i> &nbsp; Create New Tag
+        			</a>
+        		</div>
+        	</div>
+            <br /><br />
+        
+        <table class="table__dark-theme table-bordered sortable" style="width:100%">
+            <thead>
+                <tr>
+                    <th>
+                        Tag id
+        			</th>
+                    <th>
+                        Tag name
+        			</th>
+                    <th></th>
+        		</tr>
+        	</thead>
+            <tbody>
+                @foreach(var obj in Model)
+                {
+                    <tr>
+                        <td width="50%">
+                            @obj.TagId
+        				</td>
+                        <td width="30%">
+                            @obj.Name
+        				</td>
+                        <td>
+                            <div class="w-75 btn-group" role="group">
+                                <a asp-controller="Tags" asp-action="Edit" asp-route-id="@obj.TagId"
+                                class="btn btn-primary mx-2"> <i class="bi bi-pencil-square"></i> Edit</a>
+                                <a asp-controller="Tags" asp-action="Delete" asp-route-id="@obj.TagId"
+                                class="btn btn-danger mx-2"> <i class="bi bi-trash-fill"></i> Delete</a>
+        					</div>
+        				</td>
+        			</tr>
+                }
+            </tbody>
+        
+        </table>
+        </div>
+    }
+}
+</html>
 
 @section Scripts{
 	@{
