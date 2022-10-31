@@ -1,21 +1,23 @@
 ﻿@model Tag
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
 
 <form method="post" asp-action="Delete">
 	<input asp-for="TagId" hidden />
 	<div class="row">
         <div class="col-md-5 offset-4">
-			<h2 class="text-primary">Delete Tag</h2>
+			<h2 class="text-primary">@Localizer["DeleteTag"]</h2>
 			<hr />
 		</div>
 		@*<div asp-validation-summary="All"></div>*@
 		<div class="col-md-5 offset-4">
-			<label asp-for="Name"></label>
+			<label asp-for="Name">@Localizer["Name"]</label>
 			<input asp-for="Name" disabled class="form-control" />
 		</div>
 		<div class="col-md-5 offset-4">
-		    <button type="submit" class="btn btn-danger" style="width:150px">Delete</button>
+		    <button type="submit" class="btn btn-danger" style="width:150px">@Localizer["Delete"]</button>
 		    <a asp-controller="Tags" asp-action="Index" class="btn btn-secondary" style="width:150px">
-		    	Back to List
+		    	@Localizer["Back"]
 		    </a>
 		</div>
 	</div>

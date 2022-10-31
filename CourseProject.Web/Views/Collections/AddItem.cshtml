@@ -1,22 +1,24 @@
 ﻿@model Collection
 @using CourseProject.DataContext.Repositories
 @using Microsoft.EntityFrameworkCore
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
 @inject IUnitOfWork _unitOfWork
 
 <form method="post" asp-action="AddItem" asp-controller="Collections">
 <input asp-for="CollectionId" hidden />
 <div class="row">
     <div class="col-md-5 offset-4">
-			<h2 class="text-primary">Add Item</h2>
+			<h2 class="text-primary">@Localizer["AddItem"]</h2>
 			<hr />
 		</div>
 		<div class="col-md-5 offset-4">
-			<label asp-for="Name"></label>
+			<label asp-for="Name">@Localizer["Name"]</label>
 			<input asp-for="Name" class="form-control" value=""/>
 			<span asp-validation-for="Name" class="text-danger"></span>
 		</div>
 		<div class="col-md-5 offset-4">
-			<label asp-for="Tags"></label>
+			<label asp-for="Tags">@Localizer["Tags"]</label>
             <select asp-for="Tags" class="form-select" multiple>
 				@foreach(var tags in await _unitOfWork.Tags.GetTagsForParticularCollection(Model))
 				{
@@ -27,9 +29,9 @@
 			<span asp-validation-for="Tags" class="text-danger"></span>
 		</div>
 		<div class="col-md-5 offset-4">
-		<button type="submit" class="btn btn-primary" style="width:150px">Create</button>
+		<button type="submit" class="btn btn-primary" style="width:150px">@Localizer["Add"]</button>
 		<a asp-controller="Collections" asp-action="Get" asp-route-id="@Model.CollectionId" class="btn btn-secondary" style="width:150px">
-			Back to List
+			@Localizer["BackToList"]
 		</a>
 		</div>
 	</div>

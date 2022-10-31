@@ -9,6 +9,8 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using CourseProject.Application.UoW;
 using CourseProject.Application.CQRS.Commands.Tags;
 using System.Reflection;
+using System.Globalization;
+using Microsoft.AspNetCore.Localization;
 
 var webApplication = WebApplication.CreateBuilder(args);
 
@@ -28,6 +30,22 @@ builder.AddEntityFrameworkStores<ApplicationDbContext>();
 builder.AddRoleManager<RoleManager<IdentityRole>>();
 
 // Add services to the container.
+builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
+builder.Services.AddMvc()
+    .AddDataAnnotationsLocalization()
+    .AddViewLocalization();
+builder.Services.Configure<RequestLocalizationOptions>(options =>
+{
+    var supportedCultures = new[]
+    {
+        new CultureInfo("en"),
+        new CultureInfo("ru")
+    };
+
+    options.DefaultRequestCulture = new RequestCulture("ru");
+    options.SupportedCultures = supportedCultures;
+    options.SupportedUICultures = supportedCultures;
+});
 builder.Services.AddControllersWithViews();
 
 // add database
@@ -68,6 +86,8 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+
+app.UseRequestLocalization();
 
 app.UseAuthentication();
 app.UseAuthorization();

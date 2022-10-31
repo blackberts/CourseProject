@@ -1,6 +1,8 @@
 ﻿@model Item
 @using CourseProject.DataContext.Repositories
 @using Microsoft.EntityFrameworkCore
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
 @inject IUnitOfWork _unitOfWork
 @inject UserManager<ApplicationUser> UserManager;
 
@@ -22,8 +24,8 @@
                     <div class="col" style="padding: 10px;">
                         <div class="card">
                             <ul class="list-group list-group-flush">
-                                <li class="list-group-item">Name: @Model.Name</li>
-                                <li class="list-group-item">Tags: 
+                                <li class="list-group-item">@Localizer["Name"]: @Model.Name</li>
+                                <li class="list-group-item">@Localizer["Tags"]: 
                                 @foreach(var tag in await _unitOfWork.Tags.GetTagsForParticularItem(Model))
                                 {
                                     @tag.Name<a>,</a>
@@ -41,7 +43,7 @@
                 <div class="center row-cols-0 col-md-4 text-center">
                     <div class="form-outline mb-4">
                         <button type="submit" class="btn btn-primary" style="width:150px">
-                        <i class="bi bi-heart-fill"></i> Like: @Model.Likes</button>                  
+                        <i class="bi bi-heart-fill"></i> @Localizer["Like"]: @Model.Likes</button>                  
                     </div>
                 </div>
             </center>
@@ -53,10 +55,9 @@
                 <div class="card shadow-0 border" style="background-color: #f0f2f5;">
                     <div class="card-body">
                         <div class="form-outline mb-4"> 
-                            <label asp-for="Name"></label>
-    		                <input asp-for="Name" class="form-control" value="" placeholder="Type comment..."/>
+    		                <input asp-for="Name" class="form-control" value="" placeholder="@Localizer["Placeholder"]"/>
     		                <span asp-validation-for="Name" class="text-danger"></span>
-                            <button type="submit" class="btn btn-primary" style="width:150px">Add comment</button>
+                            <button type="submit" class="btn btn-primary" style="width:150px">@Localizer["AddComment"]</button>
                         </div>
                     </div>
                 </div>
@@ -82,7 +83,7 @@
                                             <span asp-validation-for="@comment.CommentId"></span>
                                             <button type="submit" class="btn btn-danger" value="@comment.CommentId" name="id" id="id"
                                                 style="width:100px; margin-bottom: -25px; margin-right: 0px;">
-                                                Delete
+                                                @Localizer["DeleteComment"]
                                             </button>
                                         </div>
                                         <div class="d-flex justify-content-between">
@@ -115,8 +116,8 @@ else
                             <div class="col" style="padding: 10px;">
                                 <div class="card">
                                     <ul class="list-group list-group-flush">
-                                        <li class="list-group-item">Name: @Model.Name</li>
-                                        <li class="list-group-item">Tags: 
+                                        <li class="list-group-item">@Localizer["Name"]: @Model.Name</li>
+                                        <li class="list-group-item">@Localizer["Tags"]: 
                                         @foreach(var tag in await _unitOfWork.Tags.GetTagsForParticularItem(Model))
                                         {
                                             @tag.Name<a>,</a>
@@ -134,7 +135,7 @@ else
                         <div class="center row-cols-0 col-md-4 text-center">
                             <div class="form-outline mb-4">
                                 <button type="submit" class="btn btn-primary" style="width:150px">
-                                <i class="bi bi-heart-fill"></i> Like: @Model.Likes</button>                  
+                                <i class="bi bi-heart-fill"></i> @Localizer["Like"]: @Model.Likes</button>                  
                             </div>
                         </div>
                     </center>
@@ -146,10 +147,9 @@ else
                         <div class="card shadow-0 border" style="background-color: #f0f2f5;">
                             <div class="card-body">
                                 <div class="form-outline mb-4"> 
-                                    <label asp-for="Name"></label>
-            		                <input asp-for="Name" class="form-control" value="" placeholder="Type comment..."/>
+            		                <input asp-for="Name" class="form-control" value="" placeholder="@Localizer["Placeholder"]"/>
             		                <span asp-validation-for="Name" class="text-danger"></span>
-                                    <button type="submit" class="btn btn-primary" style="width:150px">Add comment</button>
+                                    <button type="submit" class="btn btn-primary" style="width:150px">@Localizer["AddComment"]</button>
                                 </div>
                             </div>
                         </div>
@@ -175,7 +175,7 @@ else
                                                     <span asp-validation-for="@comment.CommentId"></span>
                                                     <button type="submit" class="btn btn-danger" value="@comment.CommentId" name="id" id="id"
                                                         style="width:100px;">
-                                                        Delete
+                                                        @Localizer["DeleteComment"]
                                                     </button>
                                                 </div>
                                                 <div class="d-flex justify-content-between">
@@ -204,8 +204,8 @@ else
                             <div class="col__dark-theme" style="padding: 10px;">
                                 <div class="card__dark-theme">
                                     <ul class="list-group list-group-flush">
-                                        <li class="list-group-item__dark-theme">Name: @Model.Name</li>
-                                        <li class="list-group-item__dark-theme">Tags: 
+                                        <li class="list-group-item__dark-theme">@Localizer["Name"]: @Model.Name</li>
+                                        <li class="list-group-item__dark-theme">@Localizer["Tags"]: 
                                         @foreach(var tag in await _unitOfWork.Tags.GetTagsForParticularItem(Model))
                                         {
                                             @tag.Name<a>,</a>
@@ -223,7 +223,7 @@ else
                         <div class="center row-cols-0 col-md-4 text-center">
                             <div class="form-outline mb-4">
                                 <button type="submit" class="btn btn-primary" style="width:150px">
-                                <i class="bi bi-heart-fill"></i> Like: @Model.Likes</button>                  
+                                <i class="bi bi-heart-fill"></i> @Localizer["Like"]: @Model.Likes</button>                  
                             </div>
                         </div>
                     </center>
@@ -235,10 +235,9 @@ else
                         <div class="card shadow-0 border" style="background-color: #f0f2f5;">
                             <div class="card-body__dark-theme ">
                                 <div class="form-outline mb-4"> 
-                                    <label asp-for="Name"></label>
-            		                <input asp-for="Name" class="form-control" value="" placeholder="Type comment..."/>
+            		                <input asp-for="Name" class="form-control" value="" placeholder="@Localizer["Placeholder"]"/>
             		                <span asp-validation-for="Name" class="text-danger"></span>
-                                    <button type="submit" class="btn btn-primary" style="width:150px">Add comment</button>
+                                    <button type="submit" class="btn btn-primary" style="width:150px">@Localizer["AddComment"]</button>
                                 </div>
                             </div>
                         </div>
@@ -264,7 +263,7 @@ else
                                                     <span asp-validation-for="@comment.CommentId"></span>
                                                     <button type="submit" class="btn btn-danger" value="@comment.CommentId" name="id" id="id"
                                                         style="width:100px; margin-bottom: -25px; margin-right: 0px;">
-                                                        Delete
+                                                        @Localizer["DeleteComment"]
                                                     </button>
                                                 </div>
                                                 <div class="d-flex justify-content-between">

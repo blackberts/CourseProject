@@ -117,7 +117,33 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="CountItems" xml:space="preserve">
+    <value>Количество вещей</value>
+    <comment>sd</comment>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Удалить</value>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>Описание</value>
+    <comment>sd</comment>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>Изменить</value>
+  </data>
   <data name="Header" xml:space="preserve">
-    <value />
+    <value>Самые большие коллекции пользователей!</value>
+    <comment>Заголовок на главной странице</comment>
+  </data>
+  <data name="Open" xml:space="preserve">
+    <value>Открыть</value>
+  </data>
+  <data name="Owner" xml:space="preserve">
+    <value>Владелец</value>
+    <comment>sd</comment>
+  </data>
+  <data name="Theme" xml:space="preserve">
+    <value>Тема</value>
+    <comment>sd</comment>
   </data>
 </root>

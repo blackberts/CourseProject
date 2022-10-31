@@ -1,26 +1,28 @@
 ﻿@model Item
 @using CourseProject.DataContext.Repositories
 @using Microsoft.EntityFrameworkCore
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
 @inject IUnitOfWork _unitOfWork
 
 <form method="post" asp-action="RemoveItem" asp-controller="Collections">
 <input asp-for="ItemId" hidden />
 <div class="row">
     <div class="col-md-5 offset-4">
-			<h2 class="text-primary">Remove Item</h2>
+			<h2 class="text-primary">@Localizer["RemoveItem"]</h2>
 			<hr />
 		</div>
 		<div class="col-md-5 offset-4">
-		    <label asp-for="Name"></label>
+		    <label asp-for="Name">@Localizer["Name"]</label>
 		    <input asp-for="Name" disabled class="form-control" />
 		</div>
 		<div class="col-md-5 offset-4">
 		@foreach(var collection in await _unitOfWork.Collections.GetCollectionForParticularItem(Model))
         {
-			<button type="submit" class="btn btn-primary" style="width:150px">Remove</button>
+			<button type="submit" class="btn btn-primary" style="width:150px">@Localizer["Remove"]</button>
 		     <a asp-controller="Collections" asp-action="Get" class="btn btn-secondary"
 			 asp-route-id="@collection.CollectionId" style="width:150px">
-		     	  Back to Collection
+		     	  @Localizer["Back"]
 		     </a>
 		}
 		</div>

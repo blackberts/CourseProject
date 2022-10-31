@@ -1,6 +1,8 @@
 ﻿@model IEnumerable<ApplicationUser>
 @using CourseProject.DataContext.Repositories
 @using Microsoft.EntityFrameworkCore
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
 @inject IUnitOfWork _unitOfWork
 @inject UserManager<ApplicationUser> UserManager;
 
@@ -19,20 +21,20 @@
             <div class="row">
             <div class="col-md-6 offset-3">
                 <p>
-                    <h4>List of all users</h4>
+                    <h4>@Localizer["Header"]</h4>
                 </p>
                 
                     <table class="table sortable" >
                     <thead>
                         <tr>
-                            <th>Id</th>
-                            <th>Username</th>
-                            <th>Email</th>
-                            <th>Created at</th>
-                            <th>Last login</th>
-                            <th>Status</th>
-                            <th>Role</th>
-                            <th>Action</th>
+                            <th>@Localizer["Id"]</th>
+                            <th>@Localizer["Username"]</th>
+                            <th>@Localizer["Email"]</th>
+                            <th>@Localizer["CreatedAt"]</th>
+                            <th>@Localizer["LastLogin"]</th>
+                            <th>@Localizer["Status"]</th>
+                            <th>@Localizer["Role"]</th>
+                            <th>@Localizer["Action"]</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -56,7 +58,7 @@
                                             <button class="btn btn-success btn-sm mx-1" type="submit" name="userId" id="userId" value="@user.Id"
                                             style="width:75px; height:50px">
                                                 <i class="bi bi-pencil-square"></i>
-                                                Unban
+                                                @Localizer["Unban"]
                                             </button>
                                         </form>
                                         
@@ -67,7 +69,7 @@
                                             <button class="btn btn-primary btn-sm mx-1" type="submit" name="userId" id="userId" value="@user.Id"
                                             style="width:75px; height:50px">
                                                 <i class="bi bi-pencil-square"></i>
-                                                Ban
+                                                @Localizer["Ban"]
                                             </button>
                                         </form>
                                     }
@@ -75,21 +77,21 @@
                                         <button class="btn btn-danger btn-sm mx-1" type="submit" name="userId" id="userId" value="@user.Id"
                                         style="width:75px; height:50px">
                                             <i class="bi bi-trash-fill"></i>
-                                            Delete
+                                            @Localizer["Delete"]
                                         </button>
                                     </form>
                                     <form method="post" asp-action="ChangeRole" asp-controller="Users">
                                         <button class="btn btn-primary btn-sm mx-1" type="submit" name="userId" id="userId" value="@user.Id"
                                         style="width:100px; height:50px">
                                             <i class="bi bi-file-person"></i>
-                                            Change Role
+                                            @Localizer["ChangeRole"]
                                         </button>
                                     </form>
                                     <form method="get" asp-action="Index" asp-controller="Collections">
                                         <button class="btn btn-primary btn-sm mx-1" type="submit" name="name" id="name" value="@user.UserName"
                                         style="width:100px; height:50px">
                                             <i class="bi bi-collection"></i>
-                                            Open collections
+                                            @Localizer["Open"]
                                         </button>
                                     </form>
                                 </div>
@@ -106,20 +108,20 @@
             <div class="row">
             <div class="col__dark-theme col-md-6 offset-3">
                 <p>
-                    <h4>List of all users</h4>
+                    <h4>@Localizer["Header"]</h4>
                 </p>
                 
                     <table class="table__dark-theme table-bordered sortable" >
                     <thead>
                         <tr>
-                            <th>Id</th>
-                            <th>Username</th>
-                            <th>Email</th>
-                            <th>Created at</th>
-                            <th>Last login</th>
-                            <th>Status</th>
-                            <th>Role</th>
-                            <th>Action</th>
+                            <th>@Localizer["Id"]</th>
+                            <th>@Localizer["Username"]</th>
+                            <th>@Localizer["Email"]</th>
+                            <th>@Localizer["CreatedAt"]</th>
+                            <th>@Localizer["LastLogin"]</th>
+                            <th>@Localizer["Status"]</th>
+                            <th>@Localizer["Role"]</th>
+                            <th>@Localizer["Action"]</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -143,7 +145,7 @@
                                             <button class="btn btn-success btn-sm mx-1" type="submit" name="userId" id="userId" value="@user.Id"
                                             style="width:75px; height:50px">
                                                 <i class="bi bi-pencil-square"></i>
-                                                Unban
+                                                @Localizer["Unban"]
                                             </button>
                                         </form>
                                         
@@ -154,7 +156,7 @@
                                             <button class="btn btn-primary btn-sm mx-1" type="submit" name="userId" id="userId" value="@user.Id"
                                             style="width:75px; height:50px">
                                                 <i class="bi bi-pencil-square"></i>
-                                                Ban
+                                                @Localizer["Ban"]
                                             </button>
                                         </form>
                                     }
@@ -162,21 +164,21 @@
                                         <button class="btn btn-danger btn-sm mx-1" type="submit" name="userId" id="userId" value="@user.Id"
                                         style="width:75px; height:50px">
                                             <i class="bi bi-trash-fill"></i>
-                                            Delete
+                                            @Localizer["Delete"]
                                         </button>
                                     </form>
                                     <form method="post" asp-action="ChangeRole" asp-controller="Users">
                                         <button class="btn btn-primary btn-sm mx-1" type="submit" name="userId" id="userId" value="@user.Id"
                                         style="width:100px; height:50px">
                                             <i class="bi bi-file-person"></i>
-                                            Change Role
+                                            @Localizer["ChangeRole"]
                                         </button>
                                     </form>
                                     <form method="get" asp-action="Index" asp-controller="Collections">
                                         <button class="btn btn-primary btn-sm mx-1" type="submit" name="name" id="name" value="@user.UserName"
                                         style="width:100px; height:50px">
                                             <i class="bi bi-collection"></i>
-                                            Open collections
+                                            @Localizer["Open"]
                                         </button>
                                     </form>
                                 </div>
@@ -192,6 +194,6 @@
 
 @section Scripts{
 	@{
-		<partial name="_ValidationScriptsPartial" />
+    <partial name="_ValidationScriptsPartial" />
 	}
 }

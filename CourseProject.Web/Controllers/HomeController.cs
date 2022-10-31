@@ -1,6 +1,7 @@
 ﻿using CourseProject.Application.CQRS.Queries.Home;
 using CourseProject.Models;
 using MediatR;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -22,6 +23,18 @@ namespace CourseProject.Controllers
         {
             var result = await Mediator.Send(query);
             return View(result);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> SetLanguage(string culture, string returnUrl)
+        {
+            Response.Cookies.Append(
+                CookieRequestCultureProvider.DefaultCookieName,
+                CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(culture)),
+                new CookieOptions { Expires = DateTimeOffset.UtcNow.AddYears(1) }
+                );
+
+            return RedirectToAction("Index");
         }
 
         public IActionResult Privacy()

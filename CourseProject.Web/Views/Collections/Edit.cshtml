@@ -1,19 +1,21 @@
 ﻿@model Collection
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
 
 <form method="post" asp-action="Edit" asp-controller="Collections" enctype="multipart/form-data">
 	<input asp-for="CollectionId" hidden />
 	<div class="row">
         <div class="col-md-5 offset-4">
-			<h2 class="text-primary">Edit Item</h2>
+			<h2 class="text-primary">@Localizer["EditCollection"]</h2>
 			<hr />
 		</div>
 		<div class="col-md-5 offset-4">
-		    <label asp-for="Name"></label>
+		    <label asp-for="Name">@Localizer["Name"]</label>
 		    <input asp-for="Name" class="form-control" />
 		    <span asp-validation-for="Name" class="text-danger"></span>
 	    </div>
 	    <div class="col-md-5 offset-4">
-		    <label asp-for="Theme"></label>
+		    <label asp-for="Theme">@Localizer["Theme"]</label>
 		    <select asp-for="Theme" class="form-control">
 			    <option value="Books">Books</option>
 			    <option value="Alcohol">Alcohol</option>
@@ -23,20 +25,20 @@
 		    </select>
 	    </div>
 	    <div class="col-md-5 offset-4">
-		    <label asp-for="Description"></label>
+		    <label asp-for="Description">@Localizer["Description"]</label>
 		    <textarea class="form-control" rows="3" asp-for="Description"></textarea>
 		    <span asp-validation-for="Description"></span>
 	    </div>
 	    <div class="col-md-5 offset-4">
-		    <label asp-for="Image" class="control-label"></label>
+		    <label asp-for="Image" class="control-label">@Localizer["Image"]</label>
 		    <input type="file" asp-for="Image" class="form-control"/>
 		    <span asp-validation-for="Image" class="text-danger"></span>
 	    </div>
 		<div class="col-md-5 offset-4">
-		    <button type="submit" class="btn btn-primary" style="width:150px">Edit</button>
+		    <button type="submit" class="btn btn-primary" style="width:150px">@Localizer["Edit"]</button>
 		    <a asp-controller="Collections" asp-action="Get" asp-route-id="@Model.CollectionId"
 			class="btn btn-secondary" style="width:150px">
-		    	Back to List
+		    	@Localizer["BackToCollections"]
 		    </a>
 	    </div>
 	</div>

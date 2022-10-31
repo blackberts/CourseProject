@@ -1,6 +1,8 @@
 ﻿@model Collection
 @using CourseProject.DataContext.Repositories
 @using Microsoft.EntityFrameworkCore
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
 @inject IUnitOfWork _unitOfWork
 @inject UserManager<ApplicationUser> UserManager;
 
@@ -17,10 +19,10 @@
     <div class="card-buttons-group">
         <div class="text-end">
             <a asp-controller="Collections" asp-action="AddItem" class="btn btn-primary" asp-route-id="@Model.CollectionId">
-                <i class="bi bi-plus-circle"></i> &nbsp; Add new item
+                <i class="bi bi-plus-circle"></i> &nbsp; @Localizer["AddItem"]
             </a>
             <a asp-controller="Collections" asp-action="Edit" class="btn btn-primary mx-2" asp-route-id="@Model.CollectionId"> 
-                <i class="bi bi-pencil-square"></i> Edit collection</a>
+                <i class="bi bi-pencil-square"></i> @Localizer["EditCollection"]</a>
         </div>
     </div>
 }
@@ -48,9 +50,9 @@
                             <h5 class="card-title">@Model.Name</h5>
                         </div>
                         <ul class="list-group list-group-flush">
-                            <li class="list-group-item">Theme: @Model.Theme</li>
-                            <li class="list-group-item">Description: @Model.Description</li>
-                            <li class="list-group-item">Owner: @Model.Owner</li>
+                            <li class="list-group-item">@Localizer["Theme"]: @Model.Theme</li>
+                            <li class="list-group-item">@Localizer["Description"]: @Model.Description</li>
+                            <li class="list-group-item">@Localizer["Owner"]: @Model.Owner</li>
                         </ul>
                     </div>
                 </div>
@@ -64,15 +66,15 @@
                 #
 			</th>
             <th>
-                Item name
+                @Localizer["ItemName"]
 			</th>
             <th>
-                Tags
+                @Localizer["Tags"]
             </th>
                 @if (User.IsInRole("Admin") || User.Identity.Name == Model.Owner)
                 {
                     <th>
-                        Action
+                        @Localizer["Action"]
                     </th>
                 }
         </tr>
@@ -98,11 +100,11 @@
                     <td width="20%">
                         <div class="w-75 btn-group" role="group">
                             <a asp-controller="Items" asp-action="Edit" asp-route-id="@items.ItemId"
-                            class="btn btn-primary mx-2"> <i class="bi bi-pencil-square"></i> Edit</a>
+                            class="btn btn-primary mx-2"> <i class="bi bi-pencil-square"></i> @Localizer["EditItem"]</a>
                             <a asp-controller="Collections" asp-action="RemoveItem" asp-route-id="@items.ItemId"
-                            class="btn btn-danger mx-2"> <i class="bi bi-trash-fill"></i> Delete</a>
+                            class="btn btn-danger mx-2"> <i class="bi bi-trash-fill"></i> @Localizer["DeleteItem"]</a>
                             <a asp-controller="Items" asp-action="Get" asp-route-id="@items.ItemId"
-                            class="btn btn-primary mx-2"> <i class="bi bi-box-arrow-in-up-left"></i> Open</a>
+                            class="btn btn-primary mx-2"> <i class="bi bi-box-arrow-in-up-left"></i> @Localizer["OpenItem"]</a>
 					    </div>
 				    </td>
                 }
@@ -140,9 +142,9 @@ else
                                         <h5 class="card-title">@Model.Name</h5>
                                     </div>
                                     <ul class="list-group list-group-flush">
-                                        <li class="list-group-item">Theme: @Model.Theme</li>
-                                        <li class="list-group-item">Description: @Model.Description</li>
-                                        <li class="list-group-item">Owner: @Model.Owner</li>
+                                        <li class="list-group-item">@Localizer["Theme"]: @Model.Theme</li>
+                                        <li class="list-group-item">@Localizer["Description"]: @Model.Description</li>
+                                        <li class="list-group-item">@Localizer["Owner"]: @Model.Owner</li>
                                     </ul>
                                 </div>
                             </div>
@@ -156,15 +158,15 @@ else
                             #
             			</th>
                         <th>
-                            Item name
+                            @Localizer["ItemName"]
             			</th>
                         <th>
-                            Tags
+                            @Localizer["Tags"]
                         </th>
                             @if (User.IsInRole("Admin") || User.Identity.Name == Model.Owner)
                             {
                                 <th>
-                                    Action
+                                    @Localizer["Action"]
                                 </th>
                             }
                     </tr>
@@ -190,11 +192,11 @@ else
                                 <td width="20%">
                                     <div class="w-75 btn-group" role="group">
                                         <a asp-controller="Items" asp-action="Edit" asp-route-id="@items.ItemId"
-                                        class="btn btn-primary mx-2"> <i class="bi bi-pencil-square"></i> Edit</a>
+                                        class="btn btn-primary mx-2"> <i class="bi bi-pencil-square"></i> @Localizer["EditItem"]</a>
                                         <a asp-controller="Collections" asp-action="RemoveItem" asp-route-id="@items.ItemId"
-                                        class="btn btn-danger mx-2"> <i class="bi bi-trash-fill"></i> Delete</a>
+                                        class="btn btn-danger mx-2"> <i class="bi bi-trash-fill"></i> @Localizer["DeleteItem"]</a>
                                         <a asp-controller="Items" asp-action="Get" asp-route-id="@items.ItemId"
-                                        class="btn btn-primary mx-2"> <i class="bi bi-box-arrow-in-up-left"></i> Open</a>
+                                        class="btn btn-primary mx-2"> <i class="bi bi-box-arrow-in-up-left"></i> @Localizer["OpenItem"]</a>
             					    </div>
             				    </td>
                             }
@@ -228,9 +230,9 @@ else
                                         <h5 class="card-title">@Model.Name</h5>
                                     </div>
                                     <ul class="list-group list-group-flush">
-                                        <li class="list-group-item__dark-theme">Theme: @Model.Theme</li>
-                                        <li class="list-group-item__dark-theme">Description: @Model.Description</li>
-                                        <li class="list-group-item__dark-theme">Owner: @Model.Owner</li>
+                                        <li class="list-group-item__dark-theme">@Localizer["Theme"]: @Model.Theme</li>
+                                        <li class="list-group-item__dark-theme">@Localizer["Description"]: @Model.Description</li>
+                                        <li class="list-group-item__dark-theme">@Localizer["Owner"]: @Model.Owner</li>
                                     </ul>
                                 </div>
                             </div>
@@ -244,15 +246,15 @@ else
                             #
             			</th>
                         <th>
-                            Item name
+                            @Localizer["ItemName"]
             			</th>
                         <th>
-                            Tags
+                            @Localizer["Tags"]
                         </th>
                             @if (User.IsInRole("Admin") || User.Identity.Name == Model.Owner)
                             {
                                 <th>
-                                    Action
+                                    @Localizer["Action"]
                                 </th>
                             }
                         </tr>
@@ -278,11 +280,11 @@ else
                                 <td width="20%">
                                     <div class="w-75 btn-group" role="group">
                                         <a asp-controller="Items" asp-action="Edit" asp-route-id="@items.ItemId"
-                                        class="btn btn-primary mx-2"> <i class="bi bi-pencil-square"></i> Edit</a>
+                                        class="btn btn-primary mx-2"> <i class="bi bi-pencil-square"></i> @Localizer["EditItem"]</a>
                                         <a asp-controller="Collections" asp-action="RemoveItem" asp-route-id="@items.ItemId"
-                                        class="btn btn-danger mx-2"> <i class="bi bi-trash-fill"></i> Delete</a>
+                                        class="btn btn-danger mx-2"> <i class="bi bi-trash-fill"></i> @Localizer["DeleteItem"]</a>
                                         <a asp-controller="Items" asp-action="Get" asp-route-id="@items.ItemId"
-                                        class="btn btn-primary mx-2"> <i class="bi bi-box-arrow-in-up-left"></i> Open</a>
+                                        class="btn btn-primary mx-2"> <i class="bi bi-box-arrow-in-up-left"></i> @Localizer["OpenItem"]</a>
             					    </div>
             				    </td>
                             }

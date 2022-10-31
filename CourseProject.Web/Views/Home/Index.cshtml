@@ -1,6 +1,8 @@
 ﻿@model List<Collection>
-@inject UserManager<ApplicationUser> UserManager;
 @using CourseProject.DataContext.Repositories
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject UserManager<ApplicationUser> UserManager
+@inject IViewLocalizer Localizer
 @inject IUnitOfWork _unitOfWork
 
 <!DOCTYPE html>
@@ -12,7 +14,7 @@
 </head>
 
 <div class="text-center">
-    <h1 class="display-4">The biggest collections of users!</h1>
+    <h1 class="display-4">@Localizer["Header"]</h1>
 </div>
 
 @if (!User.Identity.IsAuthenticated)
@@ -38,25 +40,25 @@
                             <h5 class="card-title">@obj.Name</h5>
                         </div>
                         <ul class="list-group list-group-flush">
-                            <li class="list-group-item">Theme: @obj.Theme</li>
-                            <li class="list-group-item">Description: @obj.Description</li>
-                            <li class="list-group-item">Owner: @obj.Owner</li>
-                            <li class="list-group-item">Count items: @obj.Items.Count()</li>
+                            <li class="list-group-item">@Localizer["Theme"]: @obj.Theme</li>
+                            <li class="list-group-item">@Localizer["Description"]: @obj.Description</li>
+                            <li class="list-group-item">@Localizer["Owner"]: @obj.Owner</li>
+                            <li class="list-group-item">@Localizer["CountItems"]: @obj.Items.Count()</li>
                         </ul>
                         <div class="card-body">
                             @if (User.IsInRole("Admin"))
                             {
                                 <a asp-controller="Collections" asp-action="Get" asp-route-id="@obj.CollectionId"
-                                class="btn btn-primary mx-2"> <i class="bi bi-folder2-open"></i> Open</a>
+                                class="btn btn-primary mx-2"> <i class="bi bi-folder2-open"></i> @Localizer["Open"]</a>
                                 <a asp-controller="Collections" asp-action="Edit" asp-route-id="@obj.CollectionId"
-                                class="btn btn-primary mx-2"> <i class="bi bi-pencil-square"></i> Edit</a>
+                                class="btn btn-primary mx-2"> <i class="bi bi-pencil-square"></i> @Localizer["Edit"]</a>
                                 <a asp-controller="Collections" asp-action="Delete" asp-route-id="@obj.CollectionId"
-                                class="btn btn-danger mx-2"> <i class="bi bi-trash-fill"></i> Delete</a>
+                                class="btn btn-danger mx-2"> <i class="bi bi-trash-fill"></i> @Localizer["Delete"]</a>
                             }
                             else
                             {
                                 <a asp-controller="Collections" asp-action="Get" asp-route-id="@obj.CollectionId"
-                                class="btn btn-primary col-md-12"> <i class="bi bi-folder2-open"></i> Open</a>
+                                class="btn btn-primary col-md-12"> <i class="bi bi-folder2-open"></i> @Localizer["Open"]</a>
                             }
                     </div>
                     </div>
@@ -92,25 +94,25 @@ else
                                     <h5 class="card-title">@obj.Name</h5>
                                 </div>
                                 <ul class="list-group list-group-flush">
-                                    <li class="list-group-item">Theme: @obj.Theme</li>
-                                    <li class="list-group-item">Description: @obj.Description</li>
-                                    <li class="list-group-item">Owner: @obj.Owner</li>
-                                    <li class="list-group-item">Count items: @obj.Items.Count()</li>
+                                    <li class="list-group-item">@Localizer["Theme"]: @obj.Theme</li>
+                                    <li class="list-group-item">@Localizer["Description"]: @obj.Description</li>
+                                    <li class="list-group-item">@Localizer["Owner"]: @obj.Owner</li>
+                                    <li class="list-group-item">@Localizer["CountItems"]: @obj.Items.Count()</li>
                                 </ul>
                                 <div class="card-body">
                                     @if (User.IsInRole("Admin"))
                                     {
                                         <a asp-controller="Collections" asp-action="Get" asp-route-id="@obj.CollectionId"
-                                        class="btn btn-primary mx-2"> <i class="bi bi-folder2-open"></i> Open</a>
+                                        class="btn btn-primary mx-2"> <i class="bi bi-folder2-open"></i> @Localizer["Open"]</a>
                                         <a asp-controller="Collections" asp-action="Edit" asp-route-id="@obj.CollectionId"
-                                        class="btn btn-primary mx-2"> <i class="bi bi-pencil-square"></i> Edit</a>
+                                        class="btn btn-primary mx-2"> <i class="bi bi-pencil-square"></i> @Localizer["Edit"]</a>
                                         <a asp-controller="Collections" asp-action="Delete" asp-route-id="@obj.CollectionId"
-                                        class="btn btn-danger mx-2"> <i class="bi bi-trash-fill"></i> Delete</a>
+                                        class="btn btn-danger mx-2"> <i class="bi bi-trash-fill"></i> @Localizer["Delete"]</a>
                                     }
                                     else
                                     {
                                         <a asp-controller="Collections" asp-action="Get" asp-route-id="@obj.CollectionId"
-                                        class="btn btn-primary col-md-12"> <i class="bi bi-folder2-open"></i> Open</a>
+                                        class="btn btn-primary col-md-12"> <i class="bi bi-folder2-open"></i> @Localizer["Open"]</a>
                                     }
                             </div>
                             </div>
@@ -142,25 +144,25 @@ else
                                     <h5 class="card-title">@obj.Name</h5>
                                 </div>
                                 <ul class="list-group list-group-flush">
-                                    <li class="list-group-item__dark-theme">Theme: @obj.Theme</li>
-                                    <li class="list-group-item__dark-theme">Description: @obj.Description</li>
-                                    <li class="list-group-item__dark-theme">Owner: @obj.Owner</li>
-                                    <li class="list-group-item__dark-theme">Count items: @obj.Items.Count()</li>
+                                    <li class="list-group-item__dark-theme">@Localizer["Theme"]: @obj.Theme</li>
+                                    <li class="list-group-item__dark-theme">@Localizer["Description"]: @obj.Description</li>
+                                    <li class="list-group-item__dark-theme">@Localizer["Owner"]: @obj.Owner</li>
+                                    <li class="list-group-item__dark-theme">@Localizer["CountItems"]: @obj.Items.Count()</li>
                                 </ul>
                                 <div class="card-body">
                                     @if (User.IsInRole("Admin"))
                                     {
                                         <a asp-controller="Collections" asp-action="Get" asp-route-id="@obj.CollectionId"
-                                        class="btn btn-primary mx-2"> <i class="bi bi-folder2-open"></i> Open</a>
+                                        class="btn btn-primary mx-2"> <i class="bi bi-folder2-open"></i> @Localizer["Open"]</a>
                                         <a asp-controller="Collections" asp-action="Edit" asp-route-id="@obj.CollectionId"
-                                        class="btn btn-primary mx-2"> <i class="bi bi-pencil-square"></i> Edit</a>
+                                        class="btn btn-primary mx-2"> <i class="bi bi-pencil-square"></i> @Localizer["Edit"]</a>
                                         <a asp-controller="Collections" asp-action="Delete" asp-route-id="@obj.CollectionId"
-                                        class="btn btn-danger mx-2"> <i class="bi bi-trash-fill"></i> Delete</a>
+                                        class="btn btn-danger mx-2"> <i class="bi bi-trash-fill"></i> @Localizer["Delete"]</a>
                                     }
                                     else
                                     {
                                         <a asp-controller="Collections" asp-action="Get" asp-route-id="@obj.CollectionId"
-                                        class="btn btn-primary col-md-12"> <i class="bi bi-folder2-open"></i> Open</a>
+                                        class="btn btn-primary col-md-12"> <i class="bi bi-folder2-open"></i> @Localizer["Open"]</a>
                                     }
                             </div>
                             </div>

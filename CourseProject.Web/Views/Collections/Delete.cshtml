@@ -1,29 +1,31 @@
 ﻿@model Collection
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
 
 <form method="post" asp-action="Delete">
 	<input asp-for="CollectionId" hidden />
 	<div class="row">
         <div class="col-md-5 offset-4">
-			<h2 class="text-primary">Delete Item</h2>
+			<h2 class="text-primary">@Localizer["DeleteCollection"]</h2>
 			<hr />
 		</div>
 		@*<div asp-validation-summary="All"></div>*@
 		<div class="col-md-5 offset-4">
-			<label asp-for="Name"></label>
+			<label asp-for="Name">@Localizer["Name"]</label>
 			<input asp-for="Name" disabled class="form-control" />
 		</div>
 		<div class="col-md-5 offset-4">
-			<label asp-for="Theme"></label>
+			<label asp-for="Theme">@Localizer["Theme"]</label>
 			<input asp-for="Theme" disabled class="form-control" />
 		</div>
 		<div class="col-md-5 offset-4">
-			<label asp-for="Description"></label>
+			<label asp-for="Description">@Localizer["Description"]</label>
 			<input asp-for="Description" disabled class="form-control" />
 		</div>
 		<div class="col-md-5 offset-4">
-		    <button type="submit" class="btn btn-danger" style="width:150px">Delete</button>
+		    <button type="submit" class="btn btn-danger" style="width:150px">@Localizer["Delete"]</button>
 		    <a asp-controller="Collections" asp-action="Index" class="btn btn-secondary" style="width:150px">
-		    	Back to List
+		    	@Localizer["BackToCollections"]
 		    </a>
 		</div>
 	</div>
