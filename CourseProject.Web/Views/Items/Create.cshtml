@@ -1,5 +1,7 @@
 ﻿@model Item
+@using CourseProject.DataContext.Repositories
 @using Microsoft.AspNetCore.Mvc.Localization
+@inject IUnitOfWork _unitOfWork
 @inject IViewLocalizer Localizer
 
 <form method="post">
@@ -16,7 +18,13 @@
 		</div>
 		<div class="col-md-5 offset-4">
 			<label asp-for="Tags">@Localizer["Tags"]</label>
-			<input asp-for="Tags" class="form-control" />
+            <select asp-for="Tags" class="form-select" multiple>
+				@foreach(var tags in await _unitOfWork.Tags.GetAll())
+				{
+
+						<option value="@tags.Name">@tags.Name</option>
+				}
+		    </select>
 			<span asp-validation-for="Tags" class="text-danger"></span>
 		</div>
 		<div class="col-md-5 offset-4">
