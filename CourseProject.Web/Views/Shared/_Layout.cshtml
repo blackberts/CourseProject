@@ -1,6 +1,7 @@
 ﻿@using CourseProject.DataContext.Repositories
 @using Microsoft.AspNetCore.Mvc.Localization
 @inject IUnitOfWork _unitOfWork
+@inject IHttpContextAccessor _httpContext
 @inject IViewLocalizer Localizer
 
 <!DOCTYPE html>
@@ -54,7 +55,7 @@
 }
 else
 {
-    @foreach(var user in await _unitOfWork.Users.GetParticularUser(TempData["userId"].ToString()))
+    @foreach(var user in await _unitOfWork.Users.GetParticularUser(_httpContext.HttpContext.Request.Cookies["userId"]))
     {
         @if(user.Theme == "White")
         {

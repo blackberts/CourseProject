@@ -16,7 +16,7 @@ namespace CourseProject.DataContext.Repositories
         Task<Item> EditItem(Item item);
         Task<Item> AddComment(ApplicationUser user, Item item, Comment comment);
         Task<Item> DeleteComment(Guid id);
-        Task<Item> AddLike(Guid itemId, Guid userId);
+        Task<Item> AddLike(Guid itemId, string userId);
         void DeleteItemById(Guid id);
     }
 }

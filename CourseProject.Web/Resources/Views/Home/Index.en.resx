@@ -117,8 +117,15 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="BiggestHeader" xml:space="preserve">
+    <value>The biggest collections of users!</value>
+    <comment>Заголовок на главной странице</comment>
+  </data>
   <data name="CountItems" xml:space="preserve">
     <value>Count items</value>
+  </data>
+  <data name="CreatedTime" xml:space="preserve">
+    <value>Created at</value>
   </data>
   <data name="Delete" xml:space="preserve">
     <value>Delete</value>
@@ -129,9 +136,8 @@
   <data name="Edit" xml:space="preserve">
     <value>Edit</value>
   </data>
-  <data name="Header" xml:space="preserve">
-    <value>The biggest collections of users!</value>
-    <comment>Заголовок на главной странице</comment>
+  <data name="LastHeader" xml:space="preserve">
+    <value>Last added collections from users!</value>
   </data>
   <data name="Open" xml:space="preserve">
     <value>Open</value>

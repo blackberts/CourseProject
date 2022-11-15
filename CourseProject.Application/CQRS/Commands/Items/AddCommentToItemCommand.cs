@@ -10,7 +10,7 @@ namespace CourseProject.Application.CQRS.Commands.Items
 {
     public class AddCommentToItemCommand : IRequest<Item>
     {
-        public Guid UserId { get; set; }
+        public string UserId { get; set; }
         public Guid ItemId { get; set; }
         public string? Name { get; set; }
     }

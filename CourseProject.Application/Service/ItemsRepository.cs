@@ -137,7 +137,7 @@ namespace CourseProject.Application.Service
             return itemFromDb;
         }
 
-        public async Task<Item> AddLike(Guid itemId, Guid userId)
+        public async Task<Item> AddLike(Guid itemId, string userId)
         {
             var item = await _context.Items.FindAsync(itemId);
             if(item.Likes == null && item.UsersWhoLiked == null)
@@ -147,7 +147,7 @@ namespace CourseProject.Application.Service
                 _context.Items.Update(item);
                 await _context.SaveChangesAsync();
             }
-            var user = await _context.Users.FindAsync(userId.ToString());
+            var user = await _context.Users.FindAsync(userId);
 
             if (item.UsersWhoLiked.Contains(user.Id))
             {

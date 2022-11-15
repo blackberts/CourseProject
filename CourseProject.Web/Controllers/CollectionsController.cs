@@ -21,9 +21,9 @@ namespace CourseProject.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> Index(GetAllCollectionsQuery query)
         {
-            if(query.Name == null)
+            if(query.Name is null)
             {
-                query.Name = (string)TempData["user"];
+                query.Name = Request.Cookies["userName"];
                 var resultQuery = await Mediator.Send(query);
 
                 return View(resultQuery);
@@ -41,41 +41,27 @@ namespace CourseProject.Web.Controllers
                 GetCollectionByIdQuery newQuery = new() { Id = (Guid)TempData["collection"] };
                 var resultQuery = await Mediator.Send(newQuery);
 
-                var user1 = _context.Users
-                .Where(c => c.Collections
-                .Contains(resultQuery))
-                .FirstOrDefault();
-                TempData["user"] = user1.UserName;
-
                 return View(resultQuery);
             }
 
             var result = await Mediator.Send(query);
 
-            var user = _context.Users
-                .Where(c => c.Collections
-                .Contains(result))
-                .FirstOrDefault();
-            TempData["user"] = user.UserName;
             return View(result);
         }
 
         [HttpGet]
         public IActionResult Create(string id)
         {
-            var user = _context.Users.Find(id);
-            TempData["owner"] = user.UserName;
-            TempData["user"] = user.UserName;
+            _context.Users.Find(id);
             return View();
         }
 
         [HttpPost]
         public async Task<IActionResult> Create(CreateCollectionCommand command)
         {
-            command.Owner = (string)TempData["owner"];
+            command.Owner = Request.Cookies["userName"];
+            await Mediator.Send(command);
 
-            var collection = await Mediator.Send(command);
-            TempData["user"] = collection.Owner;
             return RedirectToAction("Index", "Collections");
         }
 
@@ -88,11 +74,6 @@ namespace CourseProject.Web.Controllers
             }
 
             var collectionFromDb = _context.Collections.Find(id);
-            var user = _context.Users
-                .Where(c => c.Collections
-                .Contains(collectionFromDb))
-                .FirstOrDefault();
-            TempData["user"] = user.UserName;
             TempData["collection"] = collectionFromDb.CollectionId;
 
             if (collectionFromDb == null)
@@ -107,11 +88,6 @@ namespace CourseProject.Web.Controllers
         public async Task<IActionResult> Edit(EditCollectionCommand command)
         {
             var collection = await Mediator.Send(command);
-            var user = _context.Users
-                .Where(c => c.Collections
-                .Contains(collection))
-                .FirstOrDefault();
-            TempData["user"] = user.UserName;
             TempData["collection"] = collection.CollectionId;
             return RedirectToAction("Index", "Collections");
         }
@@ -125,18 +101,6 @@ namespace CourseProject.Web.Controllers
             }
 
             var collectionFromDb = _context.Collections.Find(id);
-            var user = _context.Users
-                .Where(c => c.Collections
-                .Contains(collectionFromDb))
-                .FirstOrDefault();
-            if(user == null)
-            {
-                TempData["user"] = collectionFromDb.Owner;
-            }
-            else
-            {
-                TempData["user"] = user.UserName;
-            }
             TempData["collection"] = collectionFromDb.CollectionId;
 
             if (collectionFromDb == null)
@@ -150,21 +114,9 @@ namespace CourseProject.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Delete(DeleteCollectionCommand command)
         {
-            var collection = await _context.Collections.FindAsync(command.Id);
-            var user = _context.Users
-                .Where(c => c.Collections
-                .Contains(collection))
-                .FirstOrDefault();
-            if(user == null)
-            {
-                TempData["user"] = collection.Owner;
-            }
-            else
-            {
-                TempData["user"] = user.UserName;
-            }
-
+            await _context.Collections.FindAsync(command.Id);
             await Mediator.Send(command);
+
             return RedirectToAction("Index", "Collections");
         }
 

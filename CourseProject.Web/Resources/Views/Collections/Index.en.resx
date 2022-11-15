@@ -120,6 +120,9 @@
   <data name="AddCollection" xml:space="preserve">
     <value>Add new collection</value>
   </data>
+  <data name="CreatedTime" xml:space="preserve">
+    <value>Created at</value>
+  </data>
   <data name="DeleteCollection" xml:space="preserve">
     <value>Delete</value>
   </data>

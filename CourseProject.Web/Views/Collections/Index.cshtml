@@ -51,6 +51,7 @@
                             <li class="list-group-item">@Localizer["Theme"]: @collection.Theme</li>
                             <li class="list-group-item">@Localizer["Description"]: @collection.Description</li>
                             <li class="list-group-item">@Localizer["Owner"]: @collection.Owner</li>
+                            <li class="list-group-item">@Localizer["CreatedTime"]: @collection.CreatedTime</li>
                         </ul>
                         <div class="card-body">
                             <a asp-controller="Collections" asp-action="Get" asp-route-id="@collection.CollectionId"
@@ -93,6 +94,7 @@
                             <li class="list-group-item__dark-theme">@Localizer["Theme"]: @collection.Theme</li>
                             <li class="list-group-item__dark-theme">@Localizer["Description"]: @collection.Description</li>
                             <li class="list-group-item__dark-theme">@Localizer["Owner"]: @collection.Owner</li>
+                            <li class="list-group-item__dark-theme">@Localizer["CreatedTime"]: @collection.CreatedTime</li>
                         </ul>
                         <div class="card-body">
                             <a asp-controller="Collections" asp-action="Get" asp-route-id="@collection.CollectionId"

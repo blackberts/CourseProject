@@ -15,6 +15,7 @@ namespace CourseProject.DataContext.Repositories
         Task<List<Collection>> GetCollectionsForParticularUser(ApplicationUser user);
         Task<List<Collection>> GetCollectionForParticularItem(Item item);
         Task<List<Collection>> GetTheBiggestCollections();
+        Task<List<Collection>> GetLastAddedCollections();
         Task<Collection> AddCollection(Collection collection);
         Task<Collection> EditCollection(Collection collection);
         Task<Collection> AddItemToCollection(Collection collection, Item item, List<string> tags);

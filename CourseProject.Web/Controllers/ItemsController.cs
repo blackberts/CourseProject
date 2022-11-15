@@ -124,7 +124,7 @@ namespace CourseProject.Web.Controllers
         public async Task<IActionResult> AddComment(AddCommentToItemCommand command)
         {
             command.ItemId = (Guid)TempData["itemId"];
-            command.UserId = (Guid)TempData["userId"];
+            command.UserId = Request.Cookies["userId"];
             await Mediator.Send(command);
             return RedirectToAction("Get", "Items");
         }
@@ -138,11 +138,16 @@ namespace CourseProject.Web.Controllers
             return RedirectToAction("Get", "Items");
         }
 
+        public HttpRequest GetRequest()
+        {
+            return Request;
+        }
+
         [HttpPost]
-        public async Task<IActionResult> AddLike(AddLikeToItemCommand command)
+        public async Task<IActionResult> AddLike(AddLikeToItemCommand command, HttpRequest request)
         {
             command.ItemId = (Guid)TempData["itemId"];
-            command.UserId = (Guid)TempData["userId"];
+            command.UserId = Request.Cookies["userId"];
             var item = await Mediator.Send(command);
             return RedirectToAction("Get", "Items");
         }

@@ -23,7 +23,13 @@ namespace CourseProject.Controllers
         public async Task<IActionResult> Login(AccountLoginCommand command)
         {
             var result = await Mediator.Send(command);
-            TempData["userId"] = result.UserId;
+            // think about how to add cookie logic instead of Tempdata
+            if (result.Result)
+            {
+                Response.Cookies.Append("userId", result.UserId);
+                Response.Cookies.Append("userName", result.UserName);
+            }
+            //TempData["userId"] = result.UserId;
             if (!result.Result)
             {
                 TempData["Error"] = result.Error;
@@ -58,8 +64,7 @@ namespace CourseProject.Controllers
         public async Task<IActionResult> ChangeTheme(string name)
         {
             AccountChangeThemeCommand command = new() { Name = name };
-            var result = await Mediator.Send(command);
-            TempData["userId"] = result.UserId;
+            await Mediator.Send(command);
             return RedirectToAction("Index", "Home");
         }
 

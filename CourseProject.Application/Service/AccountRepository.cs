@@ -2,6 +2,7 @@
 using CourseProject.DataContext.Repositories;
 using CourseProject.Domain.Entities;
 using CourseProject.Domain.Entities.DTOs;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -32,58 +33,62 @@ namespace CourseProject.Application.Service
         public async Task<AuthResult> Login(AccountLoginDto loginRequest)
         {
             var existingUser = await _userManager.FindByEmailAsync(loginRequest.Email);
-            if (existingUser != null)
+            if (existingUser is null)
             {
-                var isCorrect = await _userManager.CheckPasswordAsync(existingUser, loginRequest.Password);
-                if (isCorrect)
-                {
-                    if (existingUser.Status == "Active")
-                    {
-                        existingUser.Status = "Unactive";
-
-                        await _userManager.UpdateAsync(existingUser);
-                        return new AuthResult()
-                        {
-                            Result = false,
-                            Error = "You are already active, please login one more time"
-                        };
-                    }
-                    if (existingUser.Status == "Banned")
-                    {
-                        return new AuthResult()
-                        {
-                            Result = false,
-                            Error = "You are banned"
-                        };
-                    }
-
-                    var result = await _signInManager.PasswordSignInAsync(existingUser, loginRequest.Password, false, false);
-                    if (result.Succeeded)
-                    {
-                        if (existingUser.Status == "Unactive")
-                        {
-                            existingUser.Last_login = DateTime.Now;
-                            existingUser.Status = "Active";
-
-                            await _userManager.UpdateAsync(existingUser);
-                            return new AuthResult()
-                            {
-                                Result = true,
-                                UserId = existingUser.Id.ToString(),
-                            };
-                        }
-                    }
-                    return new AuthResult()
-                    {
-                        Result = false,
-                        Error = "Wrong credentials. Please, try again!"
-                    };
-                }
                 return new AuthResult()
                 {
                     Result = false,
                     Error = "Wrong credentials. Please, try again!"
                 };
+            }
+             
+            var isCorrect = await _userManager.CheckPasswordAsync(existingUser, loginRequest.Password);
+            if (!isCorrect)
+            {
+                return new AuthResult()
+                {
+                    Result = false,
+                    Error = "Wrong credentials. Please, try again!"
+                };
+            }
+
+            if (existingUser.Status == "Active")
+            {
+                existingUser.Status = "Unactive";
+
+                await _userManager.UpdateAsync(existingUser);
+                return new AuthResult()
+                {
+                    Result = false,
+                    Error = "You are already active, please login one more time"
+                };
+            }
+
+            if (existingUser.Status == "Banned")
+            {
+                return new AuthResult()
+                {
+                    Result = false,
+                    Error = "You are banned"
+                };
+            }
+
+            var result = await _signInManager.PasswordSignInAsync(existingUser, loginRequest.Password, false, false);
+            if (result.Succeeded)
+            {
+                if (existingUser.Status == "Unactive")
+                {
+                    existingUser.Last_login = DateTime.Now;
+                    existingUser.Status = "Active";
+
+                    await _userManager.UpdateAsync(existingUser);
+                    return new AuthResult()
+                    {
+                        Result = true,
+                        UserId = existingUser.Id.ToString(),
+                        UserName = existingUser.UserName,
+                    };
+                }
             }
             return new AuthResult()
             {

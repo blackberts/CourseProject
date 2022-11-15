@@ -26,7 +26,7 @@ namespace CourseProject.Application.CQRS.Commands.Items
                 Text = request.Name,
                 CreatedDate = DateTime.Now
             };
-            var user = new ApplicationUser() { Id = request.UserId.ToString() };
+            var user = new ApplicationUser() { Id = request.UserId };
             var item = new Item() { ItemId = request.ItemId };
             var itemWithComment = await _unitOfWork.Items.AddComment(user, item, comment);
             _unitOfWork.Save();

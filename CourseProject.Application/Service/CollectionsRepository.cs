@@ -47,6 +47,7 @@ namespace CourseProject.Application.Service
                     ImageData = collection.ImageData,
                     Tags = _context.Tags.ToList(),
                     Users = new List<ApplicationUser>(),
+                    CreatedTime = DateTime.Now,
                 };       
 
                 await _context.Collections.AddAsync(newCollection);
@@ -93,6 +94,7 @@ namespace CourseProject.Application.Service
                     ImagePath = path,
                     Tags = _context.Tags.ToList(),
                     Users = new List<ApplicationUser>(),
+                    CreatedTime = DateTime.Now,
                 };
                 await _context.Collections.AddAsync(newCollection);
                 await _context.SaveChangesAsync();
@@ -330,6 +332,17 @@ namespace CourseProject.Application.Service
             await _context.SaveChangesAsync();
 
             return collectionFromDb;
+        }
+
+        public async Task<List<Collection>> GetLastAddedCollections()
+        {
+            var collections = await _context.Collections
+                .Include(c => c.Items)
+                .OrderByDescending(c => c.CreatedTime)
+                .Take(6)
+                .ToListAsync();
+
+            return collections;
         }
     }
 }

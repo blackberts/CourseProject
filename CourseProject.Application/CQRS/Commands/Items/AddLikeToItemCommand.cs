@@ -11,6 +11,6 @@ namespace CourseProject.Application.CQRS.Commands.Items
     public class AddLikeToItemCommand : IRequest<Item>
     {
         public Guid ItemId { get; set; }
-        public Guid UserId { get; set; }
+        public string UserId { get; set; }
     }
 }
