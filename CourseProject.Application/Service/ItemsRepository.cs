@@ -71,6 +71,16 @@ namespace CourseProject.Application.Service
                 .ToListAsync();
         }
 
+        public async Task<List<Item>> GetItemsForParticularTag(Tag tag)
+        {
+            return await _context.Items
+                .Where(c => c.Tags
+                .Contains(tag))
+                .Include(i => i.Collections)
+                .Include(i => i.Tags)
+                .ToListAsync();
+        }
+
         public async Task<Item> EditItem(Item item)
         {
             var updateItem = await _context.Items.FindAsync(item.ItemId);

@@ -148,6 +148,9 @@
     <value>Владелец</value>
     <comment>sd</comment>
   </data>
+  <data name="TagsHeader" xml:space="preserve">
+    <value>Самые популярные теги!</value>
+  </data>
   <data name="Theme" xml:space="preserve">
     <value>Тема</value>
     <comment>sd</comment>

@@ -18,17 +18,15 @@ namespace CourseProject.Web.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(GetAllTagsQuery query)
         {
-            var query = new GetAllTagsQuery();
             var result = await Mediator.Send(query);
             return View(result);
         }
 
-        [HttpPost]
-        public async Task<IActionResult> GetById(Guid id)
+        [HttpGet]
+        public async Task<IActionResult> Get(GetTagByIdQuery query)
         {
-            var query = new GetTagByIdQuery(id);
             var result = await Mediator.Send(query);
             return View(result);
         }

@@ -1,0 +1,187 @@
+﻿@model Tag
+@using CourseProject.DataContext.Repositories
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+@inject IUnitOfWork _unitOfWork
+@inject IHttpContextAccessor _httpContext
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="~/css/dark-theme.css" />
+</head>
+
+@if (!User.Identity.IsAuthenticated)
+{
+    <form method="get" asp-action="Get" asp-controller="Tags">
+        <div style="padding: 10px;"></div>
+        <div class="row">
+            <center>
+                <div class="center row-cols-0 col-md-4 text-center">
+                    <div class="col" style="padding: 10px;">
+                        <div class="card">
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">@Localizer["Name"]: @Model.Name</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </center>
+        </div>
+        <table class="table table-bordered table-striped sortable" id="dtBasicExample" style="width:100%">
+            <thead>
+                <tr>
+                    <th>
+                        #
+                    </th>
+                    <th>
+                        @Localizer["ItemName"]
+                    </th>
+                    <th>
+                        @Localizer["Action"]
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var items in await _unitOfWork.Items.GetItemsForParticularTag(Model))
+                {
+                    <tr>
+                        <td width="10%">
+                            @Model.Items.IndexOf(items)
+                        </td>
+                        <td width="30%">
+                            @items.Name
+                        </td>
+                        <td width="30%">
+                            <div class="w-75 btn-group" role="group">
+                                <a asp-controller="Items" asp-action="Get" asp-route-id="@items.ItemId"
+                                class="btn btn-primary mx-2"> <i class="bi bi-box-arrow-in-up-left"></i> @Localizer["OpenItem"]</a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </form>
+}
+else
+{
+    @foreach (var user in await _unitOfWork.Users.GetParticularUser(_httpContext.HttpContext.Request.Cookies["userId"]))
+    {
+        if (user.Theme == "White")
+        {
+            <form method="get" asp-action="Get" asp-controller="Tags">
+                <div style="padding: 10px;"></div>
+                <div class="row">
+                    <center>
+                        <div class="center row-cols-0 col-md-4 text-center">
+                            <div class="col" style="padding: 10px;">
+                                <div class="card">
+                                    <ul class="list-group list-group-flush">
+                                        <li class="list-group-item">@Localizer["Name"]: @Model.Name</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </center>
+                </div>
+                <table class="table table-bordered table-striped sortable" id="dtBasicExample" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th>
+                                #
+                            </th>
+                            <th>
+                                @Localizer["ItemName"]
+                            </th>
+                            <th>
+                                @Localizer["Action"]
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var items in await _unitOfWork.Items.GetItemsForParticularTag(Model))
+                        {
+                            <tr>
+                                <td width="10%">
+                                    @Model.Items.IndexOf(items)
+                                </td>
+                                <td width="30%">
+                                    @items.Name
+                                </td>
+                                <td width="30%">
+                                    <div class="w-75 btn-group" role="group">
+                                        <a asp-controller="Items" asp-action="Get" asp-route-id="@items.ItemId"
+                                        class="btn btn-primary mx-2"> <i class="bi bi-box-arrow-in-up-left"></i> @Localizer["OpenItem"]</a>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </form>
+        }
+        else
+        {
+            <form method="get" asp-action="Get" asp-controller="Tags">
+                <div style="padding: 10px;"></div>
+                <div class="row">
+                    <center>
+                        <div class="center row-cols-0 col-md-4 text-center">
+                            <div class="col__dark-theme" style="padding: 10px;">
+                                <div class="card__dark-theme">
+                                    <ul class="list-group list-group-flush">
+                                        <li class="list-group-item__dark-theme">@Localizer["Name"]: @Model.Name</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </center>
+                </div>
+                <table class="table__dark-theme table-bordered sortable" id="dtBasicExample" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th>
+                                #
+                            </th>
+                            <th>
+                                @Localizer["ItemName"]
+                            </th>
+                            <th>
+                                @Localizer["Action"]
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var items in await _unitOfWork.Items.GetItemsForParticularTag(Model))
+                        {
+                            <tr>
+                                <td width="10%">
+                                    @Model.Items.IndexOf(items)
+                                </td>
+                                <td width="30%">
+                                    @items.Name
+                                </td>
+                                <td width="30%">
+                                    <div class="w-75 btn-group" role="group">
+                                        <a asp-controller="Items" asp-action="Get" asp-route-id="@items.ItemId"
+                                        class="btn btn-primary mx-2"> <i class="bi bi-box-arrow-in-up-left"></i> @Localizer["OpenItem"]</a>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </form>
+        }
+    }
+}
+
+@section Scripts{
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+}

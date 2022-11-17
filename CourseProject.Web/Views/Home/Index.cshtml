@@ -15,6 +15,17 @@
 </head>
 
 <div class="text-center">
+    <h1 class="display-4">@Localizer["TagsHeader"]</h1>
+</div>
+    <div class="row">
+        <div class="text-center" style="margin-bottom: 50px;">
+            @foreach(var obj in await _unitOfWork.Tags.GetAllTagsFromMostPopular())
+            {
+                <a asp-controller="Tags" asp-action="Get" asp-route-id="@obj.TagId"> @obj.Name,</a>
+            }
+        </div>
+    </div>
+<div class="text-center">
     <h1 class="display-4">@Localizer["LastHeader"]</h1>
 </div>
 
@@ -24,7 +35,7 @@
     <div class="row">
         @foreach (var obj in await _unitOfWork.Collections.GetLastAddedCollections())
         {
-            <div class="row row-cols-0 col-md-4 text-center">
+            <div class="row row-cols-0 col-md-4 text-center" style="margin-bottom: 50px;">
                 <div class="col" style="padding: 10px;">
                     <div class="card">
                         @if(obj.ImageData != null)
@@ -79,7 +90,7 @@ else
             <div class="row">
                 @foreach (var obj in await _unitOfWork.Collections.GetLastAddedCollections())
                 {
-                    <div class="row row-cols-0 col-md-4 text-center">
+                    <div class="row row-cols-0 col-md-4 text-center" style="margin-bottom: 50px;">
                         <div class="col" style="padding: 10px;">
                             <div class="card">
                                 @if (obj.ImageData != null)
@@ -131,7 +142,7 @@ else
                 @foreach (var obj in await _unitOfWork.Collections.GetLastAddedCollections())
                 {
                     <div class="row row-cols-0 col-md-4 text-center">
-                        <div class="col__dark-theme" style="padding: 10px;">
+                        <div class="col__dark-theme" style="margin-bottom: 50px;">
                             <div class="card__dark-theme">
                                 @if (obj.ImageData != null)
                                 {
@@ -188,7 +199,7 @@ else
     <div class="row">
         @foreach (var obj in Model)
         {
-            <div class="row row-cols-0 col-md-4 text-center">
+            <div class="row row-cols-0 col-md-4 text-center" style="margin-bottom: 50px;">
                 <div class="col" style="padding: 10px;">
                     <div class="card">
                         @if(obj.ImageData != null)
@@ -243,7 +254,7 @@ else
             <div class="row">
                 @foreach (var obj in Model)
                 {
-                    <div class="row row-cols-0 col-md-4 text-center">
+                    <div class="row row-cols-0 col-md-4 text-center" style="margin-bottom: 50px;">
                         <div class="col" style="padding: 10px;">
                             <div class="card">
                                 @if(obj.ImageData != null)
@@ -294,7 +305,7 @@ else
             <div class="row">
                 @foreach (var obj in Model)
                 {
-                    <div class="row row-cols-0 col-md-4 text-center">
+                    <div class="row row-cols-0 col-md-4 text-center" style="margin-bottom: 50px;">
                         <div class="col__dark-theme" style="padding: 10px;">
                             <div class="card__dark-theme">
                                 @if(obj.ImageData != null)

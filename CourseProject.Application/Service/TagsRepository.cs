@@ -65,6 +65,14 @@ namespace CourseProject.Application.Service
                 .ToListAsync();
         }
 
+        public async Task<List<Tag>> GetAllTagsFromMostPopular()
+        {
+            return await _context.Tags
+                .Include(t => t.Items)
+                .OrderByDescending(t => t.Items.Count())
+                .ToListAsync();
+        }
+
         public async Task<Tag> GetTagById(Guid id)
         {
             var tag = await _context.Tags.FindAsync(id);

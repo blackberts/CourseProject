@@ -12,6 +12,7 @@ namespace CourseProject.DataContext.Repositories
         Task<List<Item>> GetAll();
         Task<Item> GetItemById(Guid id);
         Task<List<Item>> GetItemsForParticularCollection(Collection collection);
+        Task<List<Item>> GetItemsForParticularTag(Tag tag);
         Task<Item> AddItem(Item item);
         Task<Item> EditItem(Item item);
         Task<Item> AddComment(ApplicationUser user, Item item, Comment comment);

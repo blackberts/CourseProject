@@ -117,38 +117,16 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="BiggestHeader" xml:space="preserve">
-    <value>The biggest collections of users!</value>
-    <comment>Заголовок на главной странице</comment>
+  <data name="Action" xml:space="preserve">
+    <value>Действие</value>
   </data>
-  <data name="CountItems" xml:space="preserve">
-    <value>Count items</value>
+  <data name="ItemName" xml:space="preserve">
+    <value>Имя</value>
   </data>
-  <data name="CreatedTime" xml:space="preserve">
-    <value>Created at</value>
+  <data name="Name" xml:space="preserve">
+    <value>Название</value>
   </data>
-  <data name="Delete" xml:space="preserve">
-    <value>Delete</value>
-  </data>
-  <data name="Description" xml:space="preserve">
-    <value>Description</value>
-  </data>
-  <data name="Edit" xml:space="preserve">
-    <value>Edit</value>
-  </data>
-  <data name="LastHeader" xml:space="preserve">
-    <value>Last added collections from users!</value>
-  </data>
-  <data name="Open" xml:space="preserve">
-    <value>Open</value>
-  </data>
-  <data name="Owner" xml:space="preserve">
-    <value>Owner</value>
-  </data>
-  <data name="TagsHeader" xml:space="preserve">
-    <value>Most popular tags!</value>
-  </data>
-  <data name="Theme" xml:space="preserve">
-    <value>Theme</value>
+  <data name="OpenItem" xml:space="preserve">
+    <value>Открыть</value>
   </data>
 </root>
